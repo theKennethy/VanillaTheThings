@@ -953,10 +953,8 @@ EventHandlers["CHAT_MSG_LOOT"] = function(msg)
                 name = itemName
             end
             
-            -- Check if it's a tracked collectible (rare drop, special item)
-            if DB.Items and DB.Items[itemID] then
-                VTT.MarkItemCollected(itemID, name or "Unknown")
-            end
+            -- Track ALL looted items (not just database items)
+            VTT.MarkItemCollected(itemID, name or "Unknown")
             
             -- Always log in debug mode
             PrintDebug("Looted: " .. (name or "ID:" .. itemID))
