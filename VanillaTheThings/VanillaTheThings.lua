@@ -647,10 +647,7 @@ local function RefreshAllData()
     GetReputationData()
     Print(L.MSG_DATA_REFRESHED)
     
-    -- Trigger UI refresh if windows are open
-    if VTT.MainFrame and VTT.MainFrame:IsVisible() then
-        VTT:RefreshMainWindow()
-    end
+    -- Trigger UI refresh if window is open
     if VTT.MiniFrame and VTT.MiniFrame:IsVisible() then
         VTT:RefreshMiniWindow()
     end
@@ -861,10 +858,6 @@ SlashCmdList["VTT"] = function(msg)
         RefreshAllData()
         VTT:RefreshTracker()
     elseif cmd == "reset" then
-        if VTT.MainFrame then
-            VTT.MainFrame:ClearAllPoints()
-            VTT.MainFrame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
-        end
         if VTT.MiniFrame then
             VTT.MiniFrame:ClearAllPoints()
             VTT.MiniFrame:SetPoint("CENTER", UIParent, "CENTER", 200, 0)

@@ -181,15 +181,8 @@ local function CreateRow(parent, name, template, index, width)
 end
 
 local function InitializeRows()
-    local mainContent = getglobal("ATTMainFrameContent")
     local miniContent = getglobal("ATTMiniFrameContent")
     local raidContent = getglobal("ATTRaidFrameContent")
-    
-    if mainContent then
-        for i = 1, MAX_MAIN_ROWS do
-            mainRows[i] = CreateRow(mainContent, "ATTMainRow" .. i, nil, i, 260)
-        end
-    end
     
     if miniContent then
         for i = 1, MAX_MINI_ROWS do
@@ -217,44 +210,11 @@ function VTT:ToggleCategory(category)
         self.ExpandedCategories[category] = true
     end
     
-    self:RefreshMainWindow()
+    self:RefreshMiniWindow()
 end
 
 function VTT:IsCategoryExpanded(category)
     return self.ExpandedCategories[category]
-end
-
---------------------------------------------------------------------------------
--- View Mode Management
---------------------------------------------------------------------------------
-
-function VTT:SetViewMode(mode)
-    self.CurrentViewMode = mode or "all"
-    
-    -- Update tab appearances
-    local tabs = {
-        { name = "ATTMainFrameTabAll", mode = "all" },
-        { name = "ATTMainFrameTabCharacter", mode = "character" },
-        { name = "ATTMainFrameTabWorld", mode = "world" },
-        { name = "ATTMainFrameTabPvP", mode = "pvp" },
-        { name = "ATTMainFrameTabStats", mode = "stats" },
-    }
-    
-    for _, tab in ipairs(tabs) do
-        local btn = getglobal(tab.name)
-        if btn then
-            local bg = getglobal(tab.name .. "BG")
-            if bg then
-                if tab.mode == mode then
-                    bg:SetTexture(0.15, 0.4, 0.6, 0.9)
-                else
-                    bg:SetTexture(0.2, 0.2, 0.2, 0.8)
-                end
-            end
-        end
-    end
-    
-    self:RefreshMainWindow()
 end
 
 --------------------------------------------------------------------------------
@@ -497,7 +457,7 @@ function VTT:BuildMainListData()
                                     onClick = function()
                                         if not collected then
                                             VTT.MarkItemCollected(itemID, itemName)
-                                            VTT:RefreshMainWindow()
+                                            VTT:RefreshMiniWindow()
                                         end
                                     end,
                                     tooltip = function(tip)
@@ -816,7 +776,7 @@ function VTT:BuildMainListData()
                                                 -- Toggle collected status
                                                 if not collected then
                                                     VTT.MarkItemCollected(itemID, itemName)
-                                                    VTT:RefreshMainWindow()
+                                                    VTT:RefreshMiniWindow()
                                                 end
                                             end,
                                             tooltip = function(tip)
@@ -934,7 +894,7 @@ function VTT:BuildMainListData()
                                             onClick = function(itemData)
                                                 if not collected then
                                                     VTT.MarkItemCollected(itemID, itemName)
-                                                    VTT:RefreshMainWindow()
+                                                    VTT:RefreshMiniWindow()
                                                 end
                                             end,
                                             tooltip = function(tip)
@@ -1726,128 +1686,8 @@ function VTT:BuildMiniListData()
 end
 
 --------------------------------------------------------------------------------
--- Update List Display
---------------------------------------------------------------------------------
-
-function VTT.UpdateMainList()
-    local offset = FauxScrollFrame_GetOffset(getglobal("ATTMainFrameScrollFrame"))
-    local data = VTT.MainListData
-    local total = tlen(data)
-    
-    for i = 1, MAX_MAIN_ROWS do
-        local row = mainRows[i]
-        if row then
-            local index = offset + i
-            if index <= total then
-                local item = data[index]
-                row.data = item
-                
-                -- Set appearance based on header vs item
-                if item.isHeader then
-                    row.bg:SetTexture(0.1, 0.3, 0.5, 0.6)
-                    row.label:SetText((VTT:IsCategoryExpanded(item.category) and "- " or "+ ") .. item.label)
-                else
-                    row.bg:SetTexture(0.1, 0.1, 0.1, 0.3)
-                    row.label:SetText(item.label)
-                end
-                
-                row.count:SetText(item.count or "")
-                
-                -- Icon (placeholder)
-                row.icon:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
-                
-                row:Show()
-            else
-                row:Hide()
-            end
-        end
-    end
-    
-    FauxScrollFrame_Update(getglobal("ATTMainFrameScrollFrame"), total, MAX_MAIN_ROWS, 20)
-end
-
-function VTT.UpdateMiniList()
-    local offset = FauxScrollFrame_GetOffset(getglobal("ATTMiniFrameScrollFrame"))
-    local data = VTT.MiniListData
-    local total = tlen(data)
-    
-    for i = 1, MAX_MINI_ROWS do
-        local row = miniRows[i]
-        if row then
-            local index = offset + i
-            if index <= total then
-                local item = data[index]
-                row.data = item
-                
-                if item.isHeader then
-                    row.bg:SetTexture(0.1, 0.3, 0.5, 0.6)
-                else
-                    row.bg:SetTexture(0.1, 0.1, 0.1, 0.3)
-                end
-                
-                row.label:SetText(item.label or "")
-                row.count:SetText(item.count or "")
-                row.icon:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
-                
-                row:Show()
-            else
-                row:Hide()
-            end
-        end
-    end
-    
-    FauxScrollFrame_Update(getglobal("ATTMiniFrameScrollFrame"), total, MAX_MINI_ROWS, 18)
-end
-
---------------------------------------------------------------------------------
 -- Window Management
 --------------------------------------------------------------------------------
-
-function VTT:RefreshMainWindow()
-    self:BuildMainListData()
-    VTT.UpdateMainList()
-    
-    -- Update progress bar
-    local progressBar = getglobal("ATTMainFrameProgressBar")
-    if progressBar then
-        local stats = self.GetStatistics()
-        local total = (stats.questsCompleted or 0) + (stats.reputationsMaxed or 0) + 
-                      (stats.recipesLearned or 0) + (stats.itemsCollected or 0) +
-                      (stats.flightPathsKnown or 0) + (stats.areasExplored or 0)
-        -- For vanilla, we estimate a "total" based on known content
-        local estimated = 3000  -- Rough estimate of collectibles
-        UpdateProgressBar(progressBar, total, estimated, 
-            string.format("%d collected (%.1f%%)", total, (total/estimated)*100))
-    end
-    
-    -- Update subtitle with stats
-    local stats = self.GetStatistics()
-    local subtitle = getglobal("ATTMainFrameSubtitle")
-    if subtitle then
-        subtitle:SetText(string.format("Q:%d | Rep:%d | E:%d | FP:%d | R:%d",
-            stats.questsCompleted, stats.reputationsMaxed,
-            stats.areasExplored, stats.flightPathsKnown, stats.recipesLearned))
-    end
-    
-    -- Update status text
-    local status = getglobal("ATTMainFrameStatusText")
-    if status then
-        local char = VTT.PlayerName or "Unknown"
-        local level = VTT.PlayerLevel or 1
-        local class = VTT.PlayerClass or "Unknown"
-        local color = L.CLASS_COLORS[class] or "FFFFFFFF"
-        status:SetText("|c" .. color .. char .. "|r - Level " .. level .. " " .. class)
-    end
-    
-    -- Update right status (money/time)
-    local statusRight = getglobal("ATTMainFrameStatusRight")
-    if statusRight then
-        local money = GetMoney() or 0
-        local gold = math.floor(money / 10000)
-        local silver = math.floor(math.mod(money, 10000) / 100)
-        statusRight:SetText(string.format("|cFFFFD700%d|rg |cFFC0C0C0%d|rs", gold, silver))
-    end
-end
 
 function VTT:RefreshMiniWindow()
     self:BuildMiniListData()
@@ -1887,22 +1727,6 @@ function VTT:RefreshMiniWindow()
     if status then
         local quests = VTT.GetQuestLogData()
         status:SetText(tlen(quests) .. " active quests in log")
-    end
-end
-
-function VTT:ToggleMainWindow()
-    if not self.MainFrame then
-        self.MainFrame = getglobal("ATTMainFrame")
-    end
-    
-    if self.MainFrame then
-        if self.MainFrame:IsVisible() then
-            self.MainFrame:Hide()
-        else
-            self.MainFrame:Show()
-        end
-    else
-        VTT.Print("Main window not found!")
     end
 end
 
@@ -2279,7 +2103,7 @@ function VTT:ToggleFilterDropdown()
         dropdown:Hide()
     else
         -- Position near filter button
-        local filterBtn = getglobal("ATTMainFrameFilterButton")
+        local filterBtn = getglobal("ATTMiniFrameFilterButton")
         if filterBtn then
             dropdown:ClearAllPoints()
             dropdown:SetPoint("TOPRIGHT", filterBtn, "BOTTOMRIGHT", 0, -2)
@@ -2315,7 +2139,7 @@ function VTT:InitFilterDropdown()
         cb:SetChecked(self.settings.filters[filter.key])
         cb:SetScript("OnClick", function()
             self.settings.filters[filter.key] = this:GetChecked()
-            self:RefreshMainWindow()
+            self:RefreshMiniWindow()
         end)
         
         yOffset = yOffset - 24
@@ -2359,16 +2183,11 @@ function VTT:OnWindowResize(windowType, frame)
         self.settings.windows[windowType].width = width
         self.settings.windows[windowType].height = height
     end
-    
-    -- Refresh to adapt to new size
-    if windowType == "main" then
-        self:RefreshMainWindow()
-    end
 end
 
 function VTT:ApplySettings()
     self:CreateMinimapButton()
-    self:RefreshMainWindow()
+    self:RefreshMiniWindow()
     self.Print("Settings applied!")
 end
 
@@ -2535,7 +2354,7 @@ VTT.CurrentSearchQuery = nil
 function VTT:OnSearch(query)
     if not query or query == "" then
         self.CurrentSearchQuery = nil
-        self:RefreshMainWindow()
+        self:RefreshMiniWindow()
         return
     end
     
@@ -3038,7 +2857,6 @@ initFrame:SetScript("OnEvent", function()
             this:SetScript("OnUpdate", nil)
             
             -- Initialize all frames
-            VTT.MainFrame = getglobal("ATTMainFrame")
             VTT.MiniFrame = getglobal("ATTMiniFrame")
             VTT.SettingsFrame = getglobal("ATTSettingsFrame")
             VTT.RaidFrame = getglobal("ATTRaidFrame")
