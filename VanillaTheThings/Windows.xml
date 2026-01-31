@@ -1413,28 +1413,12 @@
         </OnLoad>
         <OnClick>
             if arg1 == "LeftButton" then
-                if IsShiftKeyDown() then
-                    if VanillaTheThings and VanillaTheThings.RefreshAllData then
-                        VanillaTheThings:RefreshAllData()
-                    end
-                else
-                    if VanillaTheThings and VanillaTheThings.ToggleMiniWindow then
-                        VanillaTheThings:ToggleMiniWindow()
-                    end
+                if VanillaTheThings and VanillaTheThings.ToggleTracker then
+                    VanillaTheThings:ToggleTracker()
                 end
             elseif arg1 == "RightButton" then
-                if IsShiftKeyDown() then
-                    if VanillaTheThings and VanillaTheThings.ToggleSettingsWindow then
-                        VanillaTheThings:ToggleSettingsWindow()
-                    end
-                else
-                    if VanillaTheThings and VanillaTheThings.ToggleMiniWindow then
-                        VanillaTheThings:ToggleMiniWindow()
-                    end
-                end
-            elseif arg1 == "MiddleButton" then
-                if VanillaTheThings and VanillaTheThings.ToggleRaidWindow then
-                    VanillaTheThings:ToggleRaidWindow()
+                if VanillaTheThings and VanillaTheThings.ToggleSettingsWindow then
+                    VanillaTheThings:ToggleSettingsWindow()
                 end
             end
         </OnClick>
@@ -1445,11 +1429,8 @@
             GameTooltip:SetOwner(this, "ANCHOR_LEFT")
             GameTooltip:AddLine("|cFF15ABFFVanillaTheThings|r", 1, 1, 1)
             GameTooltip:AddLine(" ")
-            GameTooltip:AddLine("|cFFFFFFFFLeft-Click:|r Toggle Main Window", 0.8, 0.8, 0.8)
-            GameTooltip:AddLine("|cFFFFFFFFShift+Left:|r Refresh Data", 0.8, 0.8, 0.8)
-            GameTooltip:AddLine("|cFFFFFFFFRight-Click:|r Toggle Mini List", 0.8, 0.8, 0.8)
-            GameTooltip:AddLine("|cFFFFFFFFShift+Right:|r Open Settings", 0.8, 0.8, 0.8)
-            GameTooltip:AddLine("|cFFFFFFFFMiddle-Click:|r Raid Assistant", 0.8, 0.8, 0.8)
+            GameTooltip:AddLine("|cFFFFFFFFLeft-Click:|r Toggle Tracker", 0.8, 0.8, 0.8)
+            GameTooltip:AddLine("|cFFFFFFFFRight-Click:|r Settings", 0.8, 0.8, 0.8)
             GameTooltip:AddLine("|cFFFFFFFFDrag:|r Move Button", 0.8, 0.8, 0.8)
             
             -- Show quick stats if available
