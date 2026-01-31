@@ -160,7 +160,7 @@ local function CreateRow(parent, name, template, index, width)
     
     row:SetScript("OnLeave", function()
         GameTooltip:Hide()
-        if row.indicator and not row.data.isHeader then
+        if row.indicator and row.data and not row.data.isHeader then
             row.indicator:SetTexture(0.1, 0.6, 1, 0)
         end
     end)
