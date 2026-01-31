@@ -2366,17 +2366,65 @@ end
 
 function VTT:InitTracker()
     local tracker = getglobal("ATTTrackerFrame")
-    if not tracker then return end
+    if not tracker then 
+        VTT.Print("|cFFFF0000Tracker frame not found!|r")
+        return 
+    end
     
     self.TrackerFrame = tracker
     local content = getglobal("ATTTrackerFrameContent")
-    if not content then return end
+    if not content then 
+        VTT.Print("|cFFFF0000Tracker content frame not found!|r")
+        return 
+    end
     
-    -- Create tracker rows
+    -- Create tracker rows PROGRAMMATICALLY (not using template)
     for i = 1, MAX_TRACKER_ROWS do
-        local row = CreateFrame("Button", "ATTTrackerRow" .. i, content, "ATTTrackerRowTemplate")
-        row:SetPoint("TOPLEFT", content, "TOPLEFT", 0, -((i-1) * 14))
+        local rowName = "ATTTrackerRow" .. i
+        local row = CreateFrame("Button", rowName, content)
+        row:SetHeight(14)
         row:SetWidth(216)
+        row:SetPoint("TOPLEFT", content, "TOPLEFT", 0, -((i-1) * 14))
+        
+        -- Create icon texture
+        local icon = row:CreateTexture(rowName .. "Icon", "ARTWORK")
+        icon:SetWidth(12)
+        icon:SetHeight(12)
+        icon:SetPoint("LEFT", row, "LEFT", 2, 0)
+        row.icon = icon
+        
+        -- Create text fontstring
+        local text = row:CreateFontString(rowName .. "Text", "ARTWORK", "GameFontNormalSmall")
+        text:SetPoint("LEFT", row, "LEFT", 16, 0)
+        text:SetPoint("RIGHT", row, "RIGHT", -4, 0)
+        text:SetJustifyH("LEFT")
+        text:SetTextColor(1, 1, 1)
+        row.text = text
+        
+        -- Highlight on hover
+        row:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
+        
+        -- Scripts for tooltip
+        row:SetScript("OnEnter", function()
+            if this.tooltip then
+                GameTooltip:SetOwner(this, "ANCHOR_LEFT")
+                if type(this.tooltip) == "function" then
+                    this.tooltip(GameTooltip)
+                else
+                    GameTooltip:SetText(this.tooltip)
+                end
+                GameTooltip:Show()
+            end
+        end)
+        row:SetScript("OnLeave", function()
+            GameTooltip:Hide()
+        end)
+        row:SetScript("OnClick", function()
+            if this.onClick then
+                this.onClick()
+            end
+        end)
+        
         row:Hide()
         self.TrackerRows[i] = row
     end
@@ -2397,7 +2445,6 @@ function VTT:InitTracker()
     -- Initial refresh
     self:RefreshTracker()
 end
-
 function VTT:SaveTrackerPosition()
     local tracker = self.TrackerFrame
     if not tracker then return end
@@ -2652,25 +2699,23 @@ function VTT:RefreshTracker()
         zoneText:SetText(zone)
     end
     
-    -- Update rows
+    -- Update rows using direct references (not getglobal)
     for i = 1, MAX_TRACKER_ROWS do
         local row = self.TrackerRows[i]
         if row then
             local item = data[i]
             if item then
-                local text = getglobal("ATTTrackerRow" .. i .. "Text")
-                local icon = getglobal("ATTTrackerRow" .. i .. "Icon")
-                
-                if text then
-                    text:SetText(item.text or "")
+                -- Use direct row properties set during creation
+                if row.text then
+                    row.text:SetText(item.text or "")
                 end
                 
-                if icon then
+                if row.icon then
                     if item.icon then
-                        icon:SetTexture(item.icon)
-                        icon:Show()
+                        row.icon:SetTexture(item.icon)
+                        row.icon:Show()
                     else
-                        icon:Hide()
+                        row.icon:Hide()
                     end
                 end
                 
