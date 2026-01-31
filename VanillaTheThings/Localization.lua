@@ -150,8 +150,7 @@ VanillaTheThings_L = {
     
     -- Slash Commands
     SLASH_HELP = {
-        "/vtt - Toggle main window",
-        "/vtt mini - Toggle mini list for current zone",
+        "/vtt - Toggle collection window",
         "/vtt tracker - Toggle always-visible tracker",
         "/vtt settings - Open settings",
         "/vtt refresh - Refresh data",

@@ -847,9 +847,7 @@ SlashCmdList["VTT"] = function(msg)
     local cmd, arg = strsplit(" ", msg)
     
     if cmd == "" or cmd == nil then
-        VTT:ToggleMainWindow()  -- Main collection window
-    elseif cmd == "mini" then
-        VTT:ToggleMiniWindow()  -- Zone-based mini list
+        VTT:ToggleMiniWindow()  -- Collection window
     elseif cmd == "help" then
         Print("Commands:")
         for _, line in ipairs(L.SLASH_HELP) do
