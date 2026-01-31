@@ -148,15 +148,6 @@ VanillaTheThings_L = {
     MSG_FLIGHT_PATH = "Flight path discovered: %s",
     MSG_UI_READY = "UI Ready.",
     
-    -- Slash Commands
-    SLASH_HELP = {
-        "/vtt tracker - Toggle always-visible tracker",
-        "/vtt settings - Open settings",
-        "/vtt refresh - Refresh data",
-        "/vtt reset - Reset window positions",
-        "/vtt debug - Toggle debug mode",
-    },
-    
     -- Classes (for color coding)
     CLASS_COLORS = {
         WARRIOR = "FFC79C6E",
