@@ -1516,4 +1516,228 @@
     </Scripts>
 </Frame>
 
+<!-- ========================================================================= -->
+<!--                      MOUNT COLLECTION FRAME                               -->
+<!-- ========================================================================= -->
+
+<Frame name="ATTMountFrame" parent="UIParent" toplevel="true" movable="true" enableMouse="true" hidden="true" frameStrata="MEDIUM">
+    <Size>
+        <AbsDimension x="280" y="380"/>
+    </Size>
+    <Anchors>
+        <Anchor point="CENTER">
+            <Offset><AbsDimension x="-200" y="0"/></Offset>
+        </Anchor>
+    </Anchors>
+    <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="" tile="true">
+        <BackgroundInsets>
+            <AbsInset left="0" right="0" top="0" bottom="0"/>
+        </BackgroundInsets>
+        <TileSize><AbsValue val="16"/></TileSize>
+    </Backdrop>
+    <Layers>
+        <Layer level="BACKGROUND">
+            <Texture name="ATTMountFrameBG" setAllPoints="true">
+                <Color r="0" g="0" b="0" a="0.7"/>
+            </Texture>
+        </Layer>
+        <!-- Header -->
+        <Layer level="ARTWORK">
+            <Texture name="ATTMountFrameHeaderBG">
+                <Size>
+                    <AbsDimension x="280" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                </Anchors>
+                <Color r="0.1" g="0.3" b="0.5" a="0.9"/>
+            </Texture>
+            <FontString name="ATTMountFrameTitle" inherits="ATTFontSmall" text="|cFF15ABFFMount Collection|r">
+                <Anchors>
+                    <Anchor point="TOPLEFT">
+                        <Offset><AbsDimension x="8" y="-3"/></Offset>
+                    </Anchor>
+                </Anchors>
+            </FontString>
+            <FontString name="ATTMountFrameHeader" inherits="ATTFontTiny" text="0 / 0 (0%)">
+                <Size>
+                    <AbsDimension x="100" y="12"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPRIGHT">
+                        <Offset><AbsDimension x="-24" y="-4"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <Color r="1" g="0.8" b="0"/>
+            </FontString>
+        </Layer>
+    </Layers>
+    <Frames>
+        <!-- Close Button -->
+        <Button name="ATTMountFrameCloseButton">
+            <Size>
+                <AbsDimension x="16" y="16"/>
+            </Size>
+            <Anchors>
+                <Anchor point="TOPRIGHT">
+                    <Offset><AbsDimension x="-2" y="-2"/></Offset>
+                </Anchor>
+            </Anchors>
+            <NormalTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Up"/>
+            <PushedTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Down"/>
+            <HighlightTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD"/>
+            <Scripts>
+                <OnClick>
+                    ATTMountFrame:Hide()
+                </OnClick>
+            </Scripts>
+        </Button>
+        <!-- Content Frame -->
+        <Frame name="ATTMountFrameContent">
+            <Size>
+                <AbsDimension x="276" y="355"/>
+            </Size>
+            <Anchors>
+                <Anchor point="TOPLEFT">
+                    <Offset><AbsDimension x="2" y="-22"/></Offset>
+                </Anchor>
+            </Anchors>
+        </Frame>
+    </Frames>
+    <Scripts>
+        <OnLoad>
+            this:SetBackdropColor(0, 0, 0, 0.7)
+            this:RegisterForDrag("LeftButton")
+            tinsert(UISpecialFrames, "ATTMountFrame")
+        </OnLoad>
+        <OnDragStart>
+            this:StartMoving()
+        </OnDragStart>
+        <OnDragStop>
+            this:StopMovingOrSizing()
+        </OnDragStop>
+        <OnShow>
+            PlaySound("igMainMenuOpen")
+            if VanillaTheThings and VanillaTheThings.RefreshMountWindow then
+                VanillaTheThings:RefreshMountWindow()
+            end
+        </OnShow>
+        <OnHide>
+            PlaySound("igMainMenuClose")
+        </OnHide>
+    </Scripts>
+</Frame>
+
+<!-- ========================================================================= -->
+<!--                       PET COLLECTION FRAME                                -->
+<!-- ========================================================================= -->
+
+<Frame name="ATTPetFrame" parent="UIParent" toplevel="true" movable="true" enableMouse="true" hidden="true" frameStrata="MEDIUM">
+    <Size>
+        <AbsDimension x="280" y="380"/>
+    </Size>
+    <Anchors>
+        <Anchor point="CENTER">
+            <Offset><AbsDimension x="200" y="0"/></Offset>
+        </Anchor>
+    </Anchors>
+    <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="" tile="true">
+        <BackgroundInsets>
+            <AbsInset left="0" right="0" top="0" bottom="0"/>
+        </BackgroundInsets>
+        <TileSize><AbsValue val="16"/></TileSize>
+    </Backdrop>
+    <Layers>
+        <Layer level="BACKGROUND">
+            <Texture name="ATTPetFrameBG" setAllPoints="true">
+                <Color r="0" g="0" b="0" a="0.7"/>
+            </Texture>
+        </Layer>
+        <!-- Header -->
+        <Layer level="ARTWORK">
+            <Texture name="ATTPetFrameHeaderBG">
+                <Size>
+                    <AbsDimension x="280" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                </Anchors>
+                <Color r="0.3" g="0.2" b="0.4" a="0.9"/>
+            </Texture>
+            <FontString name="ATTPetFrameTitle" inherits="ATTFontSmall" text="|cFFAA55FFPet Collection|r">
+                <Anchors>
+                    <Anchor point="TOPLEFT">
+                        <Offset><AbsDimension x="8" y="-3"/></Offset>
+                    </Anchor>
+                </Anchors>
+            </FontString>
+            <FontString name="ATTPetFrameHeader" inherits="ATTFontTiny" text="0 / 0 (0%)">
+                <Size>
+                    <AbsDimension x="100" y="12"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPRIGHT">
+                        <Offset><AbsDimension x="-24" y="-4"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <Color r="1" g="0.8" b="0"/>
+            </FontString>
+        </Layer>
+    </Layers>
+    <Frames>
+        <!-- Close Button -->
+        <Button name="ATTPetFrameCloseButton">
+            <Size>
+                <AbsDimension x="16" y="16"/>
+            </Size>
+            <Anchors>
+                <Anchor point="TOPRIGHT">
+                    <Offset><AbsDimension x="-2" y="-2"/></Offset>
+                </Anchor>
+            </Anchors>
+            <NormalTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Up"/>
+            <PushedTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Down"/>
+            <HighlightTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD"/>
+            <Scripts>
+                <OnClick>
+                    ATTPetFrame:Hide()
+                </OnClick>
+            </Scripts>
+        </Button>
+        <!-- Content Frame -->
+        <Frame name="ATTPetFrameContent">
+            <Size>
+                <AbsDimension x="276" y="355"/>
+            </Size>
+            <Anchors>
+                <Anchor point="TOPLEFT">
+                    <Offset><AbsDimension x="2" y="-22"/></Offset>
+                </Anchor>
+            </Anchors>
+        </Frame>
+    </Frames>
+    <Scripts>
+        <OnLoad>
+            this:SetBackdropColor(0, 0, 0, 0.7)
+            this:RegisterForDrag("LeftButton")
+            tinsert(UISpecialFrames, "ATTPetFrame")
+        </OnLoad>
+        <OnDragStart>
+            this:StartMoving()
+        </OnDragStart>
+        <OnDragStop>
+            this:StopMovingOrSizing()
+        </OnDragStop>
+        <OnShow>
+            PlaySound("igMainMenuOpen")
+            if VanillaTheThings and VanillaTheThings.RefreshPetWindow then
+                VanillaTheThings:RefreshPetWindow()
+            end
+        </OnShow>
+        <OnHide>
+            PlaySound("igMainMenuClose")
+        </OnHide>
+    </Scripts>
+</Frame>
+
 </Ui>

@@ -138,6 +138,8 @@ The always-visible tracker shows:
 | `/vtt` | Toggle main window |
 | `/vtt mini` | Toggle mini list for current zone |
 | `/vtt tracker` | Toggle always-visible tracker |
+| `/vtt mounts` | Toggle mount collection window |
+| `/vtt pets` | Toggle pet collection window |
 | `/vtt settings` | Open settings panel |
 | `/vtt refresh` | Refresh all collection data |
 | `/vtt reset` | Reset window positions to default |
@@ -146,6 +148,51 @@ The always-visible tracker shows:
 | `/vtt debug` | Toggle debug mode |
 
 **Alternative command:** `/vanillathethings`
+
+---
+
+## 🐎 Mount & Pet Collections (NEW!)
+
+### Mount Collection
+- Dedicated window showing all available mounts
+- Tracks collected/missing status per character
+- Shows cost information (gold, reputation requirements)
+- Includes all racial mounts (60% and 100% speed)
+- PvP mounts with rank requirements
+- Special mounts (ZG tiger/raptor, Baron's mount, AQ mounts)
+- Class mounts (Paladin/Warlock)
+
+### Pet Collection
+- Dedicated window for companion pets
+- Vendor pets with costs and locations
+- Quest reward pets
+- Drop pets with locations and rates
+- Holiday event pets
+- Rare/special pets (Collector's Edition, etc.)
+
+---
+
+## 💰 Cost & Currency Tracking (NEW!)
+
+Items now show detailed cost information in tooltips:
+- **Gold costs** for vendor items
+- **Honor points** for PvP gear
+- **Battleground marks** (AB, AV, WSG)
+- **Reputation tokens** (Zandalar, Argent Dawn, Cenarion)
+- **Reputation requirements** with standing needed
+- **PvP rank requirements** for rank 11-14 gear
+
+---
+
+## 🔗 Source Chain System (NEW!)
+
+Track the complete origin chain for items:
+- **Drop information:** "Drops from Ragnaros in Molten Core (10% drop rate)"
+- **Crafting chains:** Shows all materials and where to get them
+- **Quest chains:** Full quest line requirements
+- **Material sources:** Where to farm components
+
+Works for legendary items (Thunderfury, Sulfuras), raid gear, dungeon epics, and crafted items.
 
 ---
 

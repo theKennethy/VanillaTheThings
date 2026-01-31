@@ -1990,6 +1990,8 @@ flight paths, and items across all your characters.
 |cFFFFD700SLASH COMMANDS|r
 |cFF00FF00/att|r - Toggle main window
 |cFF00FF00/att mini|r - Toggle mini list
+|cFF00FF00/att mounts|r - Toggle mount collection
+|cFF00FF00/att pets|r - Toggle pet collection
 |cFF00FF00/att settings|r - Open settings
 |cFF00FF00/att refresh|r - Refresh all data
 |cFF00FF00/att reset|r - Reset window positions
@@ -2012,6 +2014,16 @@ flight paths, and items across all your characters.
 |cFF00FF00PvP:|r PvP rankings and battlegrounds
 |cFF00FF00Stats:|r Collection statistics
 
+|cFFFFD700NEW FEATURES|r
+|cFF00FF00Mount Collection:|r Track all mounts with 
+  costs, reputation requirements, and sources.
+|cFF00FF00Pet Collection:|r Track companion pets from
+  vendors, quests, drops, and events.
+|cFF00FF00Cost Tracking:|r Items now show gold, honor,
+  and token costs in tooltips.
+|cFF00FF00Source Chains:|r See where items drop and
+  the full chain of requirements.
+
 |cFFFFD700FEATURES|r
 - Quest completion tracking
 - Reputation standings
@@ -2019,6 +2031,10 @@ flight paths, and items across all your characters.
 - Exploration tracking
 - Flight path discovery
 - Item collection
+- Mount collection tracking
+- Pet collection tracking
+- Cost/currency tracking
+- Source chain information
 - Account-wide tracking
 - Per-character tracking
 - Searchable database
@@ -2030,6 +2046,7 @@ flight paths, and items across all your characters.
 - Use the search box to find specific items
 - Hover over items for detailed tooltips
 - Right-click items for additional options
+- Click mounts/pets to mark as collected
 ]]
     
     text:SetText(helpText)
@@ -2623,6 +2640,579 @@ function VTT:RefreshTracker()
 end
 
 --------------------------------------------------------------------------------
+-- MOUNT & PET COLLECTION WINDOWS
+--------------------------------------------------------------------------------
+
+-- Collection State
+VTT.MountCollectionData = {}
+VTT.PetCollectionData = {}
+VTT.CollectionFilter = "all"  -- "all", "collected", "missing", "faction"
+VTT.CollectionSort = "name"   -- "name", "source", "speed"
+
+-- Mount Collection Frame
+local MAX_COLLECTION_ROWS = 15
+local mountRows = {}
+local petRows = {}
+
+function VTT:CreateCollectionRow(parent, name, index, width)
+    local row = CreateFrame("Button", name, parent)
+    row:SetWidth(width or 280)
+    row:SetHeight(22)
+    row:SetPoint("TOPLEFT", parent, "TOPLEFT", 0, -((index - 1) * 22))
+    
+    -- Background
+    row.bg = row:CreateTexture(nil, "BACKGROUND")
+    row.bg:SetAllPoints()
+    row.bg:SetTexture(0.1, 0.1, 0.1, 0.3)
+    
+    -- Icon
+    row.icon = row:CreateTexture(nil, "ARTWORK")
+    row.icon:SetWidth(18)
+    row.icon:SetHeight(18)
+    row.icon:SetPoint("LEFT", row, "LEFT", 4, 0)
+    
+    -- Name
+    row.nameText = row:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+    row.nameText:SetPoint("LEFT", row.icon, "RIGHT", 4, 0)
+    row.nameText:SetWidth(140)
+    row.nameText:SetJustifyH("LEFT")
+    
+    -- Source
+    row.sourceText = row:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+    row.sourceText:SetPoint("LEFT", row.nameText, "RIGHT", 4, 0)
+    row.sourceText:SetWidth(80)
+    row.sourceText:SetJustifyH("LEFT")
+    row.sourceText:SetTextColor(0.7, 0.7, 0.7)
+    
+    -- Collected indicator
+    row.collected = row:CreateTexture(nil, "ARTWORK")
+    row.collected:SetWidth(14)
+    row.collected:SetHeight(14)
+    row.collected:SetPoint("RIGHT", row, "RIGHT", -4, 0)
+    
+    -- Highlight
+    row.highlight = row:CreateTexture(nil, "HIGHLIGHT")
+    row.highlight:SetAllPoints()
+    row.highlight:SetTexture(1, 1, 1, 0.1)
+    row.highlight:SetBlendMode("ADD")
+    
+    row:EnableMouse(true)
+    row:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+    
+    row:SetScript("OnEnter", function()
+        if row.data then
+            GameTooltip:SetOwner(row, "ANCHOR_RIGHT")
+            VTT:ShowCollectionTooltip(row.data)
+            GameTooltip:Show()
+        end
+    end)
+    
+    row:SetScript("OnLeave", function()
+        GameTooltip:Hide()
+    end)
+    
+    row:SetScript("OnClick", function()
+        if row.data and arg1 == "LeftButton" then
+            VTT:ToggleCollectionItem(row.data)
+        end
+    end)
+    
+    return row
+end
+
+function VTT:ShowCollectionTooltip(data)
+    if not data then return end
+    
+    -- Name with quality color
+    local qualityColor = "|cFFFFFFFF"
+    if data.speed == 100 then
+        qualityColor = "|cFFA335EE"  -- Epic
+    elseif data.speed == 60 then
+        qualityColor = "|cFF0070DD"  -- Rare
+    end
+    GameTooltip:SetText(qualityColor .. (data.name or "Unknown") .. "|r")
+    
+    -- Speed
+    if data.speed then
+        GameTooltip:AddLine("Speed: " .. data.speed .. "%", 1, 1, 0.5)
+    end
+    
+    -- Source
+    if data.source then
+        GameTooltip:AddLine("Source: " .. data.source, 0.7, 0.7, 0.7)
+    end
+    
+    -- Vendor info
+    if data.vendor then
+        GameTooltip:AddLine("Vendor: " .. data.vendor, 0.7, 0.7, 0.7)
+    end
+    
+    -- Location
+    if data.location then
+        GameTooltip:AddLine("Location: " .. data.location, 0.7, 0.7, 0.7)
+    end
+    
+    -- Cost
+    if data.cost and data.cost > 0 then
+        local gold = math.floor(data.cost / 10000)
+        local silver = math.floor((data.cost % 10000) / 100)
+        GameTooltip:AddLine(string.format("Cost: %dg %ds", gold, silver), 1, 0.8, 0)
+    end
+    
+    -- Reputation requirement
+    if data.reputation then
+        local standing = DB.ReputationStandings[data.reputation.standing] or "Unknown"
+        GameTooltip:AddLine(string.format("Requires: %s - %s", data.reputation.faction, standing), 0.5, 0.5, 1)
+    end
+    
+    -- PvP Rank requirement
+    if data.rankReq then
+        local rankNames = {
+            [1] = "Private/Scout", [2] = "Corporal/Grunt", [3] = "Sergeant", [4] = "Master Sergeant/Senior Sergeant",
+            [5] = "Sergeant Major/First Sergeant", [6] = "Knight/Stone Guard", [7] = "Knight-Lieutenant/Blood Guard",
+            [8] = "Knight-Captain/Legionnaire", [9] = "Knight-Champion/Centurion", [10] = "Lieutenant Commander/Champion",
+            [11] = "Commander/Lieutenant General", [12] = "Marshal/General", [13] = "Field Marshal/Warlord",
+            [14] = "Grand Marshal/High Warlord"
+        }
+        GameTooltip:AddLine("Requires Rank: " .. (rankNames[data.rankReq] or data.rankReq), 1, 0.3, 0.3)
+    end
+    
+    -- Faction
+    if data.faction and data.faction ~= "Both" then
+        local factionColor = data.faction == "Alliance" and "|cFF0070DD" or "|cFFFF0000"
+        GameTooltip:AddLine(factionColor .. data.faction .. " Only|r")
+    end
+    
+    -- Class restriction
+    if data.class then
+        GameTooltip:AddLine("Class: " .. data.class, 0.3, 1, 0.3)
+    end
+    
+    -- Drop info
+    if data.dropInfo then
+        GameTooltip:AddDoubleLine("Instance:", data.dropInfo.instance or "Unknown", 0.7, 0.7, 0.7, 1, 1, 1)
+        if data.dropInfo.boss then
+            GameTooltip:AddDoubleLine("Boss:", data.dropInfo.boss, 0.7, 0.7, 0.7, 1, 1, 1)
+        end
+        if data.dropInfo.dropRate then
+            GameTooltip:AddDoubleLine("Drop Rate:", data.dropInfo.dropRate .. "%", 0.7, 0.7, 0.7, 1, 1, 0)
+        end
+    end
+    
+    -- Notes
+    if data.note then
+        GameTooltip:AddLine("|cFFFF7700" .. data.note .. "|r")
+    end
+    
+    -- Collection status
+    local charDB = VanillaTheThingsCharDB
+    local isCollected = charDB and charDB.collectedMounts and charDB.collectedMounts[data.itemID]
+    if isCollected then
+        GameTooltip:AddLine("|cFF00FF00✓ Collected|r")
+    else
+        GameTooltip:AddLine("|cFF888888Click to mark as collected|r")
+    end
+end
+
+function VTT:ToggleCollectionItem(data)
+    if not data or not data.itemID then return end
+    
+    local charDB = VanillaTheThingsCharDB
+    if not charDB then return end
+    
+    if data.type == "mount" then
+        if not charDB.collectedMounts then charDB.collectedMounts = {} end
+        if charDB.collectedMounts[data.itemID] then
+            charDB.collectedMounts[data.itemID] = nil
+            VTT.Print("|cFFFF0000Removed:|r " .. (data.name or "Unknown") .. " from mount collection")
+        else
+            charDB.collectedMounts[data.itemID] = true
+            VTT.Print("|cFF00FF00Collected:|r " .. (data.name or "Unknown"))
+        end
+        VTT:RefreshMountWindow()
+    elseif data.type == "pet" then
+        if not charDB.collectedPets then charDB.collectedPets = {} end
+        if charDB.collectedPets[data.itemID] then
+            charDB.collectedPets[data.itemID] = nil
+            VTT.Print("|cFFFF0000Removed:|r " .. (data.name or "Unknown") .. " from pet collection")
+        else
+            charDB.collectedPets[data.itemID] = true
+            VTT.Print("|cFF00FF00Collected:|r " .. (data.name or "Unknown"))
+        end
+        VTT:RefreshPetWindow()
+    end
+end
+
+function VTT:BuildMountCollectionData()
+    local data = {}
+    local charDB = VanillaTheThingsCharDB
+    local playerFaction = UnitFactionGroup("player") or "Alliance"
+    
+    -- Helper to add mounts from a category
+    local function addMounts(category, source)
+        for itemID, mount in pairs(category or {}) do
+            -- Filter by faction
+            local factionOK = not mount.faction or mount.faction == "Both" or mount.faction == playerFaction
+            
+            if factionOK then
+                local isCollected = charDB and charDB.collectedMounts and charDB.collectedMounts[itemID]
+                
+                -- Apply filter
+                local showItem = true
+                if VTT.CollectionFilter == "collected" and not isCollected then
+                    showItem = false
+                elseif VTT.CollectionFilter == "missing" and isCollected then
+                    showItem = false
+                end
+                
+                if showItem then
+                    table.insert(data, {
+                        type = "mount",
+                        itemID = itemID,
+                        name = mount.name,
+                        speed = mount.speed,
+                        source = source or mount.source or "Vendor",
+                        vendor = mount.vendor,
+                        location = mount.location,
+                        cost = mount.cost,
+                        reputation = mount.reputation,
+                        rankReq = mount.rankReq,
+                        faction = mount.faction,
+                        class = mount.class,
+                        dropInfo = mount.dropInfo,
+                        note = mount.note,
+                        collected = isCollected,
+                    })
+                end
+            end
+        end
+    end
+    
+    -- Add all mount categories
+    if DB.Mounts then
+        addMounts(DB.Mounts.Epic60Alliance, "Vendor (60%)")
+        addMounts(DB.Mounts.Epic100Alliance, "Vendor (100%)")
+        addMounts(DB.Mounts.Epic60Horde, "Vendor (60%)")
+        addMounts(DB.Mounts.Epic100Horde, "Vendor (100%)")
+        addMounts(DB.Mounts.Special, "Special")
+    end
+    
+    -- Sort
+    if VTT.CollectionSort == "name" then
+        table.sort(data, function(a, b) return (a.name or "") < (b.name or "") end)
+    elseif VTT.CollectionSort == "speed" then
+        table.sort(data, function(a, b) return (a.speed or 0) > (b.speed or 0) end)
+    elseif VTT.CollectionSort == "source" then
+        table.sort(data, function(a, b) return (a.source or "") < (b.source or "") end)
+    end
+    
+    VTT.MountCollectionData = data
+    return data
+end
+
+function VTT:BuildPetCollectionData()
+    local data = {}
+    local charDB = VanillaTheThingsCharDB
+    local playerFaction = UnitFactionGroup("player") or "Alliance"
+    
+    local function addPets(category, source)
+        for itemID, pet in pairs(category or {}) do
+            local factionOK = not pet.faction or pet.faction == "Both" or pet.faction == playerFaction
+            
+            if factionOK then
+                local isCollected = charDB and charDB.collectedPets and charDB.collectedPets[itemID]
+                
+                local showItem = true
+                if VTT.CollectionFilter == "collected" and not isCollected then
+                    showItem = false
+                elseif VTT.CollectionFilter == "missing" and isCollected then
+                    showItem = false
+                end
+                
+                if showItem then
+                    table.insert(data, {
+                        type = "pet",
+                        itemID = itemID,
+                        name = pet.name,
+                        source = source or pet.source or "Unknown",
+                        cost = pet.cost,
+                        vendor = pet.vendor,
+                        location = pet.location,
+                        faction = pet.faction,
+                        dropInfo = pet.dropInfo,
+                        questName = pet.questName,
+                        zone = pet.zone,
+                        profession = pet.profession,
+                        skillReq = pet.skillReq,
+                        event = pet.event,
+                        note = pet.note,
+                        collected = isCollected,
+                    })
+                end
+            end
+        end
+    end
+    
+    if DB.Pets then
+        addPets(DB.Pets.Vendor, "Vendor")
+        addPets(DB.Pets.Quest, "Quest")
+        addPets(DB.Pets.Drop, "Drop")
+        addPets(DB.Pets.Event, "Event")
+        addPets(DB.Pets.Rare, "Rare/Special")
+    end
+    
+    table.sort(data, function(a, b) return (a.name or "") < (b.name or "") end)
+    
+    VTT.PetCollectionData = data
+    return data
+end
+
+function VTT:ToggleMountWindow()
+    if not self.MountFrame then
+        self.MountFrame = getglobal("ATTMountFrame")
+    end
+    
+    if self.MountFrame then
+        if self.MountFrame:IsVisible() then
+            self.MountFrame:Hide()
+        else
+            self:RefreshMountWindow()
+            self.MountFrame:Show()
+        end
+    else
+        VTT.Print("|cFFFF0000Mount Collection window not found!|r")
+    end
+end
+
+function VTT:TogglePetWindow()
+    if not self.PetFrame then
+        self.PetFrame = getglobal("ATTPetFrame")
+    end
+    
+    if self.PetFrame then
+        if self.PetFrame:IsVisible() then
+            self.PetFrame:Hide()
+        else
+            self:RefreshPetWindow()
+            self.PetFrame:Show()
+        end
+    else
+        VTT.Print("|cFFFF0000Pet Collection window not found!|r")
+    end
+end
+
+function VTT:RefreshMountWindow()
+    local content = getglobal("ATTMountFrameContent")
+    if not content then return end
+    
+    -- Build data
+    local data = self:BuildMountCollectionData()
+    local charDB = VanillaTheThingsCharDB
+    
+    -- Update header stats
+    local totalMounts = 0
+    local collectedMounts = 0
+    
+    -- Count all mounts regardless of filter
+    VTT.CollectionFilter = "all"
+    local allData = self:BuildMountCollectionData()
+    for _, mount in ipairs(allData) do
+        totalMounts = totalMounts + 1
+        if charDB and charDB.collectedMounts and charDB.collectedMounts[mount.itemID] then
+            collectedMounts = collectedMounts + 1
+        end
+    end
+    
+    local headerText = getglobal("ATTMountFrameHeader")
+    if headerText then
+        headerText:SetText(string.format("Mounts: %d / %d (%.1f%%)", collectedMounts, totalMounts, totalMounts > 0 and (collectedMounts / totalMounts * 100) or 0))
+    end
+    
+    -- Create rows if needed
+    if not mountRows[1] then
+        for i = 1, MAX_COLLECTION_ROWS do
+            mountRows[i] = VTT:CreateCollectionRow(content, "ATTMountRow" .. i, i, 280)
+        end
+    end
+    
+    -- Populate rows
+    for i = 1, MAX_COLLECTION_ROWS do
+        local row = mountRows[i]
+        local item = data[i]
+        
+        if item and row then
+            row.data = item
+            
+            -- Icon
+            row.icon:SetTexture("Interface\\Icons\\Ability_Mount_RidingHorse")
+            
+            -- Name with color based on speed
+            local nameColor = item.speed == 100 and "|cFFA335EE" or "|cFF0070DD"
+            row.nameText:SetText(nameColor .. (item.name or "Unknown") .. "|r")
+            
+            -- Source
+            row.sourceText:SetText(item.source or "")
+            
+            -- Collected indicator
+            if item.collected then
+                row.collected:SetTexture("Interface\\RaidFrame\\ReadyCheck-Ready")
+                row.bg:SetTexture(0.1, 0.3, 0.1, 0.4)
+            else
+                row.collected:SetTexture("Interface\\RaidFrame\\ReadyCheck-NotReady")
+                row.bg:SetTexture(0.1, 0.1, 0.1, 0.3)
+            end
+            
+            row:Show()
+        elseif row then
+            row:Hide()
+        end
+    end
+end
+
+function VTT:RefreshPetWindow()
+    local content = getglobal("ATTPetFrameContent")
+    if not content then return end
+    
+    local data = self:BuildPetCollectionData()
+    local charDB = VanillaTheThingsCharDB
+    
+    -- Count stats
+    local totalPets = 0
+    local collectedPets = 0
+    
+    VTT.CollectionFilter = "all"
+    local allData = self:BuildPetCollectionData()
+    for _, pet in ipairs(allData) do
+        totalPets = totalPets + 1
+        if charDB and charDB.collectedPets and charDB.collectedPets[pet.itemID] then
+            collectedPets = collectedPets + 1
+        end
+    end
+    
+    local headerText = getglobal("ATTPetFrameHeader")
+    if headerText then
+        headerText:SetText(string.format("Pets: %d / %d (%.1f%%)", collectedPets, totalPets, totalPets > 0 and (collectedPets / totalPets * 100) or 0))
+    end
+    
+    -- Create rows if needed
+    if not petRows[1] then
+        for i = 1, MAX_COLLECTION_ROWS do
+            petRows[i] = VTT:CreateCollectionRow(content, "ATTPetRow" .. i, i, 280)
+        end
+    end
+    
+    -- Populate rows
+    for i = 1, MAX_COLLECTION_ROWS do
+        local row = petRows[i]
+        local item = data[i]
+        
+        if item and row then
+            row.data = item
+            
+            -- Icon based on source
+            if item.source == "Event" then
+                row.icon:SetTexture("Interface\\Icons\\INV_Misc_Gift_05")
+            elseif item.source == "Drop" then
+                row.icon:SetTexture("Interface\\Icons\\INV_Box_PetCarrier_01")
+            elseif item.source == "Quest" then
+                row.icon:SetTexture("Interface\\Icons\\INV_Misc_Note_01")
+            else
+                row.icon:SetTexture("Interface\\Icons\\INV_Crate_02")
+            end
+            
+            -- Name
+            local nameColor = item.source == "Rare/Special" and "|cFFA335EE" or "|cFF1EFF00"
+            row.nameText:SetText(nameColor .. (item.name or "Unknown") .. "|r")
+            
+            -- Source
+            row.sourceText:SetText(item.source or "")
+            
+            -- Collected indicator
+            if item.collected then
+                row.collected:SetTexture("Interface\\RaidFrame\\ReadyCheck-Ready")
+                row.bg:SetTexture(0.1, 0.3, 0.1, 0.4)
+            else
+                row.collected:SetTexture("Interface\\RaidFrame\\ReadyCheck-NotReady")
+                row.bg:SetTexture(0.1, 0.1, 0.1, 0.3)
+            end
+            
+            row:Show()
+        elseif row then
+            row:Hide()
+        end
+    end
+end
+
+--------------------------------------------------------------------------------
+-- COST TRACKING INTEGRATION
+--------------------------------------------------------------------------------
+
+function VTT:GetItemCostInfo(itemID)
+    if not DB.ItemCosts then return nil end
+    return DB.ItemCosts[itemID]
+end
+
+function VTT:GetSourceChain(itemID)
+    if not DB.SourceChains then return nil end
+    return DB.SourceChains[itemID]
+end
+
+function VTT:FormatItemCosts(itemID)
+    local costInfo = self:GetItemCostInfo(itemID)
+    if not costInfo then return nil end
+    
+    return DB.FormatCost(costInfo.costs)
+end
+
+function VTT:GetSourceChainText(itemID)
+    return DB.GetSourceChainText(itemID)
+end
+
+-- Enhance tooltip with cost and source chain info
+local origTooltipSetItem = GameTooltip.SetHyperlink
+if origTooltipSetItem then
+    GameTooltip.SetHyperlink = function(self, link)
+        origTooltipSetItem(self, link)
+        
+        -- Extract item ID from link
+        local _, _, itemID = string.find(link, "item:(%d+)")
+        if itemID then
+            itemID = tonumber(itemID)
+            
+            -- Add cost info
+            local costInfo = VTT:GetItemCostInfo(itemID)
+            if costInfo then
+                GameTooltip:AddLine(" ")
+                GameTooltip:AddLine("|cFFFFD700Cost Information:|r")
+                local costText = DB.FormatCost(costInfo.costs)
+                if costText then
+                    GameTooltip:AddLine(costText, 1, 0.8, 0)
+                end
+                if costInfo.reputation then
+                    local standing = DB.ReputationStandings and DB.ReputationStandings[costInfo.reputation.standing] or "Unknown"
+                    GameTooltip:AddLine(string.format("Requires: %s - %s", costInfo.reputation.faction, standing), 0.5, 0.5, 1)
+                end
+                if costInfo.rankReq then
+                    GameTooltip:AddLine(string.format("Requires PvP Rank: %d", costInfo.rankReq), 1, 0.3, 0.3)
+                end
+            end
+            
+            -- Add source chain info
+            local sourceText = VTT:GetSourceChainText(itemID)
+            if sourceText then
+                GameTooltip:AddLine(" ")
+                GameTooltip:AddLine("|cFF00FF00Source Chain:|r")
+                for line in string.gfind(sourceText, "[^\n]+") do
+                    GameTooltip:AddLine(line, 0.8, 0.8, 0.8)
+                end
+            end
+            
+            GameTooltip:Show()
+        end
+    end
+end
+
+--------------------------------------------------------------------------------
 -- Initialize UI on Load
 --------------------------------------------------------------------------------
 
@@ -2644,6 +3234,8 @@ initFrame:SetScript("OnEvent", function()
             VTT.HelpFrame = getglobal("ATTHelpFrame")
             VTT.FilterDropdown = getglobal("ATTFilterDropdown")
             VTT.TrackerFrame = getglobal("ATTTrackerFrame")
+            VTT.MountFrame = getglobal("ATTMountFrame")
+            VTT.PetFrame = getglobal("ATTPetFrame")
             
             -- Create rows for all list windows
             InitializeRows()
