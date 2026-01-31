@@ -725,6 +725,65 @@ local function SearchDatabase(query)
         end
     end
     
+    -- Search all items in database (not just collected)
+    if DB.Items then
+        for itemID, itemInfo in pairs(DB.Items) do
+            if itemInfo.name and string.find(string.lower(itemInfo.name), query) then
+                local collected = VTT.IsItemCollected(itemID)
+                tinsert(results, {
+                    type = "dbitem",
+                    id = itemID,
+                    name = itemInfo.name,
+                    data = itemInfo,
+                    collected = collected,
+                    quality = itemInfo.quality,
+                    source = itemInfo.source,
+                    sourceDetail = itemInfo.sourceDetail,
+                })
+            end
+        end
+    end
+    
+    -- Search boss names
+    if DB.BossLoot then
+        for bossName, bossData in pairs(DB.BossLoot) do
+            if string.find(string.lower(bossName), query) then
+                tinsert(results, {
+                    type = "boss",
+                    name = bossName,
+                    data = bossData,
+                    instance = bossData.instance,
+                })
+            end
+        end
+    end
+    
+    -- Search factions
+    if DB.Factions then
+        for _, faction in ipairs(DB.Factions) do
+            if string.find(string.lower(faction.name), query) then
+                tinsert(results, {
+                    type = "faction",
+                    name = faction.name,
+                    data = faction,
+                })
+            end
+        end
+    end
+    
+    -- Search world bosses
+    if DB.WorldBosses then
+        for _, boss in ipairs(DB.WorldBosses) do
+            if string.find(string.lower(boss.name), query) then
+                tinsert(results, {
+                    type = "worldboss",
+                    name = boss.name,
+                    data = boss,
+                })
+            end
+        end
+    end
+    
     return results
 end
 
@@ -787,8 +846,10 @@ SlashCmdList["VTT"] = function(msg)
     msg = string.lower(msg or "")
     local cmd, arg = strsplit(" ", msg)
     
-    if cmd == "" or cmd == nil or cmd == "mini" then
-        VTT:ToggleMiniWindow()  -- Zone-based mini list (like modern ATT)
+    if cmd == "" or cmd == nil then
+        VTT:ToggleMainWindow()  -- Main collection window
+    elseif cmd == "mini" then
+        VTT:ToggleMiniWindow()  -- Zone-based mini list
     elseif cmd == "help" then
         Print("Commands:")
         for _, line in ipairs(L.SLASH_HELP) do

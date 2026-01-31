@@ -754,7 +754,10 @@
                 <OnEscapePressed>
                     this:SetText("")
                     this:ClearFocus()
-                    if VanillaTheThings then VanillaTheThings:RefreshMainWindow() end
+                    if VanillaTheThings then 
+                        VanillaTheThings.CurrentSearchQuery = nil
+                        VanillaTheThings:RefreshMainWindow() 
+                    end
                 </OnEscapePressed>
                 <OnEnterPressed>
                     if VanillaTheThings and VanillaTheThings.OnSearch then
@@ -763,7 +766,18 @@
                     this:ClearFocus()
                 </OnEnterPressed>
                 <OnTextChanged>
-                    -- Real-time search (optional)
+                    -- Real-time search after 2+ characters
+                    local text = this:GetText()
+                    if text and string.len(text) >= 2 then
+                        if VanillaTheThings and VanillaTheThings.OnSearch then
+                            VanillaTheThings:OnSearch(text)
+                        end
+                    elseif text == "" or text == nil then
+                        if VanillaTheThings then
+                            VanillaTheThings.CurrentSearchQuery = nil
+                            VanillaTheThings:RefreshMainWindow()
+                        end
+                    end
                 </OnTextChanged>
             </Scripts>
         </EditBox>

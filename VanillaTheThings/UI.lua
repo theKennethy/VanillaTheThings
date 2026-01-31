@@ -355,8 +355,207 @@ function VTT:BuildMainListData()
     local data = {}
     local stats = VTT.GetStatistics()
     local filters = self.settings and self.settings.filters or {}
+    local zone = GetRealZoneText() or "Unknown"
+    local subzone = GetSubZoneText()
     
-    -- Overview header
+    -- ==================== CURRENT ZONE SECTION (like mini window) ====================
+    local isInInstance = false
+    local instanceData = nil
+    
+    -- Check if zone matches a dungeon name
+    for _, dungeon in ipairs(DB.Dungeons) do
+        if dungeon.name == zone or string.find(zone, dungeon.name) then
+            isInInstance = true
+            instanceData = dungeon
+            break
+        end
+    end
+    
+    -- Check if zone matches a raid name
+    if not isInInstance then
+        for _, raid in ipairs(DB.Raids) do
+            if raid.name == zone or string.find(zone, raid.name) then
+                isInInstance = true
+                instanceData = raid
+                instanceData.isRaid = true
+                break
+            end
+        end
+    end
+    
+    -- Zone Header (always show)
+    local zoneLabel = zone
+    if subzone and subzone ~= "" then
+        zoneLabel = zone .. " - " .. subzone
+    end
+    
+    if isInInstance and instanceData then
+        -- Instance zone header
+        local headerColor = instanceData.isRaid and "FF8800" or "00CCFF"
+        local instanceType = instanceData.isRaid and "Raid" or "Dungeon"
+        table.insert(data, {
+            isHeader = true,
+            category = "currentzone",
+            label = "|cFF" .. headerColor .. instanceData.name .. "|r",
+            count = instanceType .. " (" .. (instanceData.players or "?") .. " players)",
+            indent = 0,
+            icon = instanceData.isRaid and DB.Icons.Raid or DB.Icons.Dungeon,
+            tooltip = function(tip)
+                tip:AddLine(instanceData.name, 1, 0.8, 0)
+                tip:AddLine(instanceType, 1, 1, 1)
+                if instanceData.players then
+                    tip:AddLine(instanceData.players .. " players", 0.8, 0.8, 0.8)
+                end
+                if instanceData.minLevel then
+                    tip:AddLine("Level: " .. instanceData.minLevel .. "-" .. instanceData.maxLevel, 0.8, 0.8, 0.8)
+                end
+            end,
+        })
+        
+        -- Show instance loot when expanded (or always for current zone)
+        if self:IsCategoryExpanded("currentzone") and DB.BossLoot then
+            local totalLoot = 0
+            local collectedLoot = 0
+            
+            -- Count loot progress
+            for bossName, bossData in pairs(DB.BossLoot) do
+                if bossData.instance == instanceData.name then
+                    if bossData.items then
+                        for _, itemID in ipairs(bossData.items) do
+                            totalLoot = totalLoot + 1
+                            if VTT.IsItemCollected(itemID) then
+                                collectedLoot = collectedLoot + 1
+                            end
+                        end
+                    end
+                end
+            end
+            
+            -- Progress summary
+            if totalLoot > 0 then
+                local progressColor = collectedLoot == totalLoot and "00FF00" or 
+                                     (collectedLoot > 0 and "FFFF00" or "FF6666")
+                table.insert(data, {
+                    isHeader = false,
+                    label = "  |cFFFFD700Loot Progress:|r",
+                    count = "|cFF" .. progressColor .. collectedLoot .. "/" .. totalLoot .. "|r",
+                    indent = 1,
+                })
+            end
+            
+            -- Boss list with loot
+            for bossName, bossData in pairs(DB.BossLoot) do
+                if bossData.instance == instanceData.name then
+                    local bossLootCount = bossData.items and tlen(bossData.items) or 0
+                    local bossCollected = 0
+                    
+                    if bossData.items then
+                        for _, itemID in ipairs(bossData.items) do
+                            if VTT.IsItemCollected(itemID) then
+                                bossCollected = bossCollected + 1
+                            end
+                        end
+                    end
+                    
+                    local bossColor = bossCollected == bossLootCount and "00FF00" or 
+                                     (bossCollected > 0 and "FFFF00" or "FFFFFF")
+                    local bossIcon = bossCollected == bossLootCount and "|cFF00FF00✓|r " or ""
+                    
+                    -- Boss header
+                    local bossKey = "boss_" .. bossName
+                    table.insert(data, {
+                        isHeader = true,
+                        category = bossKey,
+                        label = "  " .. bossIcon .. "|cFFFFD700" .. bossName .. "|r",
+                        count = "|cFF" .. bossColor .. bossCollected .. "/" .. bossLootCount .. "|r",
+                        indent = 1,
+                        tooltip = function(tip)
+                            tip:AddLine(bossName, 1, 0.8, 0)
+                            tip:AddLine("Loot: " .. bossCollected .. "/" .. bossLootCount .. " collected", 1, 1, 1)
+                        end,
+                    })
+                    
+                    -- Show loot items when boss is expanded
+                    if self:IsCategoryExpanded(bossKey) and bossData.items then
+                        for _, itemID in ipairs(bossData.items) do
+                            local itemInfo = DB.Items and DB.Items[itemID]
+                            local itemName = itemInfo and itemInfo.name or ("Item " .. itemID)
+                            local quality = itemInfo and itemInfo.quality or 3
+                            local qualityColor = quality >= 5 and "FF8000" or 
+                                                (quality == 4 and "A335EE" or "0070DD")
+                            
+                            local collected = VTT.IsItemCollected(itemID)
+                            local statusIcon = collected and "|cFF00FF00✓|r" or "|cFFFF6666○|r"
+                            
+                            if self:ShouldShowItem(itemID, collected) then
+                                table.insert(data, {
+                                    isHeader = false,
+                                    label = "    " .. statusIcon .. " |cFF" .. qualityColor .. itemName .. "|r",
+                                    count = collected and "|cFF00FF00Got|r" or "",
+                                    indent = 2,
+                                    data = { itemID = itemID, name = itemName },
+                                    onClick = function()
+                                        if not collected then
+                                            VTT.MarkItemCollected(itemID, itemName)
+                                            VTT:RefreshMainWindow()
+                                        end
+                                    end,
+                                    tooltip = function(tip)
+                                        tip:AddLine(itemName, 1, 0.8, 0)
+                                        tip:AddLine("Drops from: " .. bossName, 1, 1, 1)
+                                        if itemInfo and itemInfo.class then
+                                            tip:AddLine("Class: " .. itemInfo.class, 0.8, 0.8, 0.8)
+                                        end
+                                        if collected then
+                                            tip:AddLine("|cFF00FF00Already collected!|r", 0, 1, 0)
+                                        else
+                                            tip:AddLine("|cFFFFFF00Click to mark collected|r", 1, 1, 0)
+                                        end
+                                    end,
+                                })
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    else
+        -- Regular zone header (not in instance)
+        table.insert(data, {
+            isHeader = true,
+            category = "currentzone",
+            label = "|cFF15ABFFCurrent Zone:|r " .. zoneLabel,
+            count = "",
+            indent = 0,
+            icon = DB.Icons.Zone,
+        })
+        
+        -- Show active quests for zone when expanded
+        if self:IsCategoryExpanded("currentzone") then
+            local quests = VTT.GetQuestLogData()
+            if tlen(quests) > 0 then
+                for _, quest in ipairs(quests) do
+                    local status = quest.isComplete and "|cFF00FF00[Complete]|r " or ""
+                    table.insert(data, {
+                        isHeader = false,
+                        label = "  " .. status .. quest.title,
+                        count = quest.level and ("Lv " .. quest.level) or "",
+                        indent = 1,
+                        data = quest,
+                    })
+                end
+            else
+                table.insert(data, {
+                    isHeader = false,
+                    label = "  |cFF888888No active quests|r",
+                    count = "",
+                    indent = 1,
+                })
+            end
+        end
+    end
+    
+    -- ==================== OVERALL PROGRESS HEADER ====================
     table.insert(data, {
         isHeader = true,
         category = "overview",
@@ -2330,33 +2529,201 @@ end
 -- Search Handler
 --------------------------------------------------------------------------------
 
+-- Store current search query
+VTT.CurrentSearchQuery = nil
+
 function VTT:OnSearch(query)
     if not query or query == "" then
+        self.CurrentSearchQuery = nil
         self:RefreshMainWindow()
         return
     end
     
+    self.CurrentSearchQuery = query
     local results = self.SearchDatabase(query)
     VTT.Print("Found " .. tcount(results) .. " results for '" .. query .. "'")
     
-    -- Build search results view
+    -- Build search results view with categories
     local data = {}
     
+    -- Search header
     table.insert(data, {
         isHeader = true,
-        category = "search",
-        label = "|cFF15ABFFSearch: " .. query .. "|r",
+        category = "search_header",
+        label = "|cFF15ABFFSearch Results: \"" .. query .. "\"|r",
         count = tcount(results) .. " found",
+        tooltip = "Press Escape to clear search",
     })
     
+    -- Organize results by type
+    local byType = {}
     for _, result in ipairs(results) do
+        local rtype = result.type
+        if not byType[rtype] then
+            byType[rtype] = {}
+        end
+        table.insert(byType[rtype], result)
+    end
+    
+    -- Type display info
+    local typeInfo = {
+        quest = { label = "Completed Quests", icon = DB.Icons.Quest, color = "FFFF00" },
+        item = { label = "Collected Items", icon = DB.Icons.Item, color = "00FF00" },
+        recipe = { label = "Learned Recipes", icon = DB.Icons.Recipe, color = "00CCFF" },
+        dungeon = { label = "Dungeons", icon = DB.Icons.Dungeon, color = "00CCFF" },
+        raid = { label = "Raids", icon = DB.Icons.Raid, color = "FF8800" },
+        dbitem = { label = "Database Items", icon = DB.Icons.Item, color = "A335EE" },
+        boss = { label = "Bosses", icon = DB.Icons.Boss, color = "FFD700" },
+        faction = { label = "Factions", icon = DB.Icons.Faction, color = "00FF00" },
+        worldboss = { label = "World Bosses", icon = DB.Icons.WorldBoss, color = "FF0000" },
+    }
+    
+    -- Auto-expand first category with results (for better UX)
+    local typeOrder = { "dbitem", "boss", "dungeon", "raid", "worldboss", "faction", "quest", "item", "recipe" }
+    local firstExpanded = false
+    for _, rtype in ipairs(typeOrder) do
+        if byType[rtype] and tlen(byType[rtype]) > 0 and tlen(byType[rtype]) <= 15 then
+            local categoryKey = "search_" .. rtype
+            if not self:IsCategoryExpanded(categoryKey) and not firstExpanded then
+                self.ExpandedCategories[categoryKey] = true
+                firstExpanded = true
+            end
+        end
+    end
+    
+    -- Display results by type
+    for _, rtype in ipairs(typeOrder) do
+        local items = byType[rtype]
+        if items and tlen(items) > 0 then
+            local info = typeInfo[rtype] or { label = rtype, color = "FFFFFF" }
+            local categoryKey = "search_" .. rtype
+            
+            -- Category header (expandable)
+            table.insert(data, {
+                isHeader = true,
+                category = categoryKey,
+                label = "|cFF" .. info.color .. info.label .. "|r",
+                count = tlen(items),
+                indent = 0,
+                icon = info.icon,
+            })
+            
+            -- Show items when expanded
+            if self:IsCategoryExpanded(categoryKey) then
+                for _, result in ipairs(items) do
+                    local itemLabel = result.name
+                    local itemCount = ""
+                    local itemTooltip = nil
+                    
+                    -- Format based on type
+                    if rtype == "dbitem" then
+                        local qualityColor = result.quality and result.quality >= 5 and "FF8000" or
+                                            (result.quality == 4 and "A335EE" or "0070DD")
+                        local statusIcon = result.collected and "|cFF00FF00✓|r " or "|cFFFF6666○|r "
+                        itemLabel = "  " .. statusIcon .. "|cFF" .. qualityColor .. result.name .. "|r"
+                        itemCount = result.collected and "|cFF00FF00Got|r" or ""
+                        itemTooltip = function(tip)
+                            tip:AddLine(result.name, 1, 0.8, 0)
+                            if result.sourceDetail then
+                                tip:AddLine("Source: " .. result.sourceDetail, 1, 1, 1)
+                            end
+                            if result.collected then
+                                tip:AddLine("|cFF00FF00Collected|r", 0, 1, 0)
+                            else
+                                tip:AddLine("|cFFFFFF00Click to mark collected|r", 1, 1, 0)
+                            end
+                        end
+                    elseif rtype == "boss" then
+                        itemLabel = "  |cFFFFD700" .. result.name .. "|r"
+                        itemCount = result.instance or ""
+                        itemTooltip = function(tip)
+                            tip:AddLine(result.name, 1, 0.8, 0)
+                            if result.instance then
+                                tip:AddLine("Instance: " .. result.instance, 1, 1, 1)
+                            end
+                            if result.data and result.data.items then
+                                tip:AddLine("Drops " .. tlen(result.data.items) .. " tracked items", 0.8, 0.8, 0.8)
+                            end
+                        end
+                    elseif rtype == "dungeon" then
+                        local d = result.data
+                        itemLabel = "  |cFF00CCFF" .. result.name .. "|r"
+                        itemCount = d and (d.minLevel .. "-" .. d.maxLevel) or ""
+                        itemTooltip = function(tip)
+                            tip:AddLine(result.name, 1, 0.8, 0)
+                            if d then
+                                tip:AddLine("Level: " .. d.minLevel .. "-" .. d.maxLevel, 1, 1, 1)
+                                tip:AddLine("Players: " .. d.players, 0.8, 0.8, 0.8)
+                                tip:AddLine("Zone: " .. (d.zone or "Unknown"), 0.8, 0.8, 0.8)
+                            end
+                        end
+                    elseif rtype == "raid" then
+                        local r = result.data
+                        itemLabel = "  |cFFFF8800" .. result.name .. "|r"
+                        itemCount = r and (r.players .. " players") or ""
+                        itemTooltip = function(tip)
+                            tip:AddLine(result.name, 1, 0.8, 0)
+                            if r then
+                                tip:AddLine("Players: " .. r.players, 1, 1, 1)
+                                tip:AddLine("Location: " .. (r.location or "Unknown"), 0.8, 0.8, 0.8)
+                            end
+                        end
+                    elseif rtype == "worldboss" then
+                        local wb = result.data
+                        itemLabel = "  |cFFFF0000" .. result.name .. "|r"
+                        itemCount = wb and wb.location or ""
+                    elseif rtype == "faction" then
+                        local f = result.data
+                        itemLabel = "  " .. result.name
+                        itemCount = f and f.faction or ""
+                    elseif rtype == "quest" then
+                        itemLabel = "  |cFFFFFF00" .. result.name .. "|r"
+                        itemCount = "|cFF00FF00Done|r"
+                    elseif rtype == "item" or rtype == "recipe" then
+                        itemLabel = "  |cFF00FF00✓|r " .. result.name
+                        itemCount = "|cFF00FF00Got|r"
+                    else
+                        itemLabel = "  " .. result.name
+                    end
+                    
+                    table.insert(data, {
+                        isHeader = false,
+                        label = itemLabel,
+                        count = itemCount,
+                        indent = 1,
+                        data = result,
+                        tooltip = itemTooltip,
+                        onClick = function()
+                            if rtype == "dbitem" and not result.collected then
+                                VTT.MarkItemCollected(result.id, result.name)
+                                VTT:OnSearch(query) -- Refresh search
+                            end
+                        end,
+                    })
+                end
+            end
+        end
+    end
+    
+    -- Clear search instructions
+    if tcount(results) == 0 then
         table.insert(data, {
             isHeader = false,
-            label = "  [" .. result.type .. "] " .. result.name,
+            label = "  |cFF888888No results found|r",
             count = "",
-            data = result,
         })
     end
+    
+    table.insert(data, {
+        isHeader = false,
+        label = "",
+        count = "",
+    })
+    table.insert(data, {
+        isHeader = false,
+        label = "  |cFF666666Press Escape or clear search box to return|r",
+        count = "",
+    })
     
     self.MainListData = data
     VTT.UpdateMainList()
