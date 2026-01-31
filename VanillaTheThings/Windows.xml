@@ -469,10 +469,11 @@
 <!-- ========================================================================= -->
 <!--                           MAIN WINDOW                                     -->
 <!-- ========================================================================= -->
+<!-- Clean mini-style main window - bigger version of mini list -->
 
 <Frame name="ATTMainFrame" parent="UIParent" toplevel="true" movable="true" enableMouse="true" hidden="true" frameStrata="HIGH">
     <Size>
-        <AbsDimension x="420" y="600"/>
+        <AbsDimension x="320" y="500"/>
     </Size>
     <Anchors>
         <Anchor point="CENTER"/>
@@ -490,10 +491,10 @@
     </Backdrop>
     <Layers>
         <Layer level="BACKGROUND">
-            <!-- Header Gradient -->
+            <!-- Header Gradient (same as mini) -->
             <Texture name="ATTMainFrameHeaderBG">
                 <Size>
-                    <AbsDimension x="396" y="50"/>
+                    <AbsDimension x="296" y="35"/>
                 </Size>
                 <Anchors>
                     <Anchor point="TOP">
@@ -503,36 +504,38 @@
                     </Anchor>
                 </Anchors>
                 <Gradient orientation="VERTICAL">
-                    <MinColor r="0.05" g="0.1" b="0.2" a="1"/>
-                    <MaxColor r="0.1" g="0.3" b="0.5" a="1"/>
+                    <MinColor r="0.05" g="0.1" b="0.15" a="1"/>
+                    <MaxColor r="0.1" g="0.2" b="0.35" a="1"/>
                 </Gradient>
             </Texture>
         </Layer>
         <Layer level="ARTWORK">
-            <!-- Logo Icon -->
+            <!-- Icon -->
             <Texture name="ATTMainFrameLogo" file="Interface\Icons\INV_Misc_Book_09">
                 <Size>
-                    <AbsDimension x="32" y="32"/>
+                    <AbsDimension x="20" y="20"/>
                 </Size>
                 <Anchors>
                     <Anchor point="TOPLEFT">
                         <Offset>
-                            <AbsDimension x="20" y="-18"/>
+                            <AbsDimension x="18" y="-17"/>
                         </Offset>
                     </Anchor>
                 </Anchors>
             </Texture>
-            <FontString name="ATTMainFrameTitle" inherits="ATTFontHeader" text="VanillaTheThings">
+            <!-- Title -->
+            <FontString name="ATTMainFrameTitle" inherits="ATTFontNormal" text="VanillaTheThings">
                 <Anchors>
                     <Anchor point="LEFT" relativeTo="ATTMainFrameLogo" relativePoint="RIGHT">
                         <Offset>
-                            <AbsDimension x="8" y="4"/>
+                            <AbsDimension x="6" y="0"/>
                         </Offset>
                     </Anchor>
                 </Anchors>
                 <Color r="0.08" g="0.67" b="1"/>
             </FontString>
-            <FontString name="ATTMainFrameSubtitle" inherits="ATTFontSmall">
+            <!-- Subtitle (stats summary) -->
+            <FontString name="ATTMainFrameSubtitle" inherits="ATTFontTiny">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="ATTMainFrameTitle" relativePoint="BOTTOMLEFT">
                         <Offset>
@@ -540,18 +543,7 @@
                         </Offset>
                     </Anchor>
                 </Anchors>
-                <Color r="0.8" g="0.8" b="0.8"/>
-            </FontString>
-            <!-- Version -->
-            <FontString name="ATTMainFrameVersion" inherits="ATTFontTiny" text="v1.12.1">
-                <Anchors>
-                    <Anchor point="TOPRIGHT">
-                        <Offset>
-                            <AbsDimension x="-35" y="-15"/>
-                        </Offset>
-                    </Anchor>
-                </Anchors>
-                <Color r="0.5" g="0.5" b="0.5"/>
+                <Color r="0.7" g="0.7" b="0.7"/>
             </FontString>
         </Layer>
     </Layers>
@@ -561,7 +553,7 @@
             <Anchors>
                 <Anchor point="TOPRIGHT">
                     <Offset>
-                        <AbsDimension x="-5" y="-5"/>
+                        <AbsDimension x="-3" y="-3"/>
                     </Offset>
                 </Anchor>
             </Anchors>
@@ -572,151 +564,66 @@
             </Scripts>
         </Button>
         
-        <!-- Overall Progress Bar -->
+        <!-- Settings Button (small) -->
+        <Button name="ATTMainFrameSettingsButton">
+            <Size>
+                <AbsDimension x="16" y="16"/>
+            </Size>
+            <Anchors>
+                <Anchor point="RIGHT" relativeTo="ATTMainFrameCloseButton" relativePoint="LEFT">
+                    <Offset>
+                        <AbsDimension x="0" y="0"/>
+                    </Offset>
+                </Anchor>
+            </Anchors>
+            <NormalTexture file="Interface\Buttons\UI-OptionsButton"/>
+            <HighlightTexture file="Interface\Buttons\UI-OptionsButton" alphaMode="ADD"/>
+            <Scripts>
+                <OnClick>
+                    if VanillaTheThings and VanillaTheThings.ToggleSettingsWindow then
+                        VanillaTheThings:ToggleSettingsWindow()
+                    end
+                </OnClick>
+                <OnEnter>
+                    GameTooltip:SetOwner(this, "ANCHOR_RIGHT")
+                    GameTooltip:AddLine("Settings", 1, 1, 1)
+                    GameTooltip:Show()
+                </OnEnter>
+                <OnLeave>
+                    GameTooltip:Hide()
+                </OnLeave>
+            </Scripts>
+        </Button>
+        
+        <!-- Progress Bar -->
         <StatusBar name="ATTMainFrameProgressBar" inherits="ATTProgressBarTemplate">
             <Size>
-                <AbsDimension x="250" y="14"/>
+                <AbsDimension x="270" y="10"/>
             </Size>
             <Anchors>
                 <Anchor point="TOP">
                     <Offset>
-                        <AbsDimension x="0" y="-60"/>
+                        <AbsDimension x="0" y="-50"/>
                     </Offset>
                 </Anchor>
             </Anchors>
         </StatusBar>
         
-        <!-- Tab Buttons Frame -->
-        <Frame name="ATTMainFrameTabs">
+        <!-- Search Box (simple) -->
+        <EditBox name="ATTMainFrameSearchBox" autoFocus="false">
             <Size>
-                <AbsDimension x="390" y="26"/>
+                <AbsDimension x="270" y="20"/>
             </Size>
             <Anchors>
                 <Anchor point="TOP">
                     <Offset>
-                        <AbsDimension x="0" y="-80"/>
-                    </Offset>
-                </Anchor>
-            </Anchors>
-            <Frames>
-                <Button name="ATTMainFrameTabAll" inherits="ATTTabButtonTemplate">
-                    <Size>
-                        <AbsDimension x="65" y="22"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="LEFT">
-                            <Offset>
-                                <AbsDimension x="0" y="0"/>
-                            </Offset>
-                        </Anchor>
-                    </Anchors>
-                    <Scripts>
-                        <OnLoad>
-                            getglobal(this:GetName() .. "Text"):SetText("All")
-                        </OnLoad>
-                        <OnClick>
-                            if VanillaTheThings then VanillaTheThings:SetViewMode("all") end
-                        </OnClick>
-                    </Scripts>
-                </Button>
-                <Button name="ATTMainFrameTabCharacter" inherits="ATTTabButtonTemplate">
-                    <Size>
-                        <AbsDimension x="65" y="22"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="LEFT" relativeTo="ATTMainFrameTabAll" relativePoint="RIGHT">
-                            <Offset>
-                                <AbsDimension x="2" y="0"/>
-                            </Offset>
-                        </Anchor>
-                    </Anchors>
-                    <Scripts>
-                        <OnLoad>
-                            getglobal(this:GetName() .. "Text"):SetText("Character")
-                        </OnLoad>
-                        <OnClick>
-                            if VanillaTheThings then VanillaTheThings:SetViewMode("character") end
-                        </OnClick>
-                    </Scripts>
-                </Button>
-                <Button name="ATTMainFrameTabWorld" inherits="ATTTabButtonTemplate">
-                    <Size>
-                        <AbsDimension x="65" y="22"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="LEFT" relativeTo="ATTMainFrameTabCharacter" relativePoint="RIGHT">
-                            <Offset>
-                                <AbsDimension x="2" y="0"/>
-                            </Offset>
-                        </Anchor>
-                    </Anchors>
-                    <Scripts>
-                        <OnLoad>
-                            getglobal(this:GetName() .. "Text"):SetText("World")
-                        </OnLoad>
-                        <OnClick>
-                            if VanillaTheThings then VanillaTheThings:SetViewMode("world") end
-                        </OnClick>
-                    </Scripts>
-                </Button>
-                <Button name="ATTMainFrameTabPvP" inherits="ATTTabButtonTemplate">
-                    <Size>
-                        <AbsDimension x="50" y="22"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="LEFT" relativeTo="ATTMainFrameTabWorld" relativePoint="RIGHT">
-                            <Offset>
-                                <AbsDimension x="2" y="0"/>
-                            </Offset>
-                        </Anchor>
-                    </Anchors>
-                    <Scripts>
-                        <OnLoad>
-                            getglobal(this:GetName() .. "Text"):SetText("PvP")
-                        </OnLoad>
-                        <OnClick>
-                            if VanillaTheThings then VanillaTheThings:SetViewMode("pvp") end
-                        </OnClick>
-                    </Scripts>
-                </Button>
-                <Button name="ATTMainFrameTabStats" inherits="ATTTabButtonTemplate">
-                    <Size>
-                        <AbsDimension x="55" y="22"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="LEFT" relativeTo="ATTMainFrameTabPvP" relativePoint="RIGHT">
-                            <Offset>
-                                <AbsDimension x="2" y="0"/>
-                            </Offset>
-                        </Anchor>
-                    </Anchors>
-                    <Scripts>
-                        <OnLoad>
-                            getglobal(this:GetName() .. "Text"):SetText("Stats")
-                        </OnLoad>
-                        <OnClick>
-                            if VanillaTheThings then VanillaTheThings:SetViewMode("stats") end
-                        </OnClick>
-                    </Scripts>
-                </Button>
-            </Frames>
-        </Frame>
-        
-        <!-- Search Box -->
-        <EditBox name="ATTMainFrameSearchBox" autoFocus="false">
-            <Size>
-                <AbsDimension x="180" y="22"/>
-            </Size>
-            <Anchors>
-                <Anchor point="TOPLEFT">
-                    <Offset>
-                        <AbsDimension x="15" y="-108"/>
+                        <AbsDimension x="0" y="-65"/>
                     </Offset>
                 </Anchor>
             </Anchors>
             <Backdrop bgFile="Interface\ChatFrame\ChatFrameBackground" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
                 <EdgeSize>
-                    <AbsValue val="12"/>
+                    <AbsValue val="10"/>
                 </EdgeSize>
                 <TileSize>
                     <AbsValue val="8"/>
@@ -731,26 +638,26 @@
                         <Color r="0" g="0" b="0" a="0.5"/>
                     </Texture>
                 </Layer>
-                <Layer level="ARTWORK">
-                    <Texture name="ATTMainFrameSearchIcon" file="Interface\Common\UI-Searchbox-Icon">
-                        <Size>
-                            <AbsDimension x="14" y="14"/>
-                        </Size>
-                        <Anchors>
-                            <Anchor point="LEFT">
-                                <Offset>
-                                    <AbsDimension x="4" y="0"/>
-                                </Offset>
-                            </Anchor>
-                        </Anchors>
-                    </Texture>
-                </Layer>
             </Layers>
-            <FontString inherits="ChatFontNormal"/>
+            <FontString inherits="ChatFontSmall"/>
             <Scripts>
                 <OnLoad>
-                    this:SetTextInsets(18, 0, 0, 0)
+                    this:SetTextInsets(5, 5, 0, 0)
+                    this:SetText("Search...")
+                    this:SetTextColor(0.5, 0.5, 0.5)
                 </OnLoad>
+                <OnEditFocusGained>
+                    if this:GetText() == "Search..." then
+                        this:SetText("")
+                        this:SetTextColor(1, 1, 1)
+                    end
+                </OnEditFocusGained>
+                <OnEditFocusLost>
+                    if this:GetText() == "" then
+                        this:SetText("Search...")
+                        this:SetTextColor(0.5, 0.5, 0.5)
+                    end
+                </OnEditFocusLost>
                 <OnEscapePressed>
                     this:SetText("")
                     this:ClearFocus()
@@ -760,19 +667,19 @@
                     end
                 </OnEscapePressed>
                 <OnEnterPressed>
-                    if VanillaTheThings and VanillaTheThings.OnSearch then
-                        VanillaTheThings:OnSearch(this:GetText())
+                    local text = this:GetText()
+                    if text ~= "Search..." and VanillaTheThings and VanillaTheThings.OnSearch then
+                        VanillaTheThings:OnSearch(text)
                     end
                     this:ClearFocus()
                 </OnEnterPressed>
                 <OnTextChanged>
-                    -- Real-time search after 2+ characters
                     local text = this:GetText()
-                    if text and string.len(text) >= 2 then
+                    if text and text ~= "Search..." and string.len(text) >= 2 then
                         if VanillaTheThings and VanillaTheThings.OnSearch then
                             VanillaTheThings:OnSearch(text)
                         end
-                    elseif text == "" or text == nil then
+                    elseif text == "" then
                         if VanillaTheThings then
                             VanillaTheThings.CurrentSearchQuery = nil
                             VanillaTheThings:RefreshMainWindow()
@@ -782,304 +689,62 @@
             </Scripts>
         </EditBox>
         
-        <!-- Tool Buttons -->
-        <Button name="ATTMainFrameRefreshButton" inherits="ATTIconButtonTemplate">
-            <Anchors>
-                <Anchor point="LEFT" relativeTo="ATTMainFrameSearchBox" relativePoint="RIGHT">
-                    <Offset>
-                        <AbsDimension x="8" y="0"/>
-                    </Offset>
-                </Anchor>
-            </Anchors>
-            <Scripts>
-                <OnLoad>
-                    getglobal(this:GetName() .. "Icon"):SetTexture("Interface\\Icons\\Spell_Frost_FrostWard")
-                </OnLoad>
-                <OnClick>
-                    if VanillaTheThings and VanillaTheThings.RefreshAllData then
-                        VanillaTheThings:RefreshAllData()
-                    end
-                </OnClick>
-                <OnEnter>
-                    GameTooltip:SetOwner(this, "ANCHOR_RIGHT")
-                    GameTooltip:AddLine("Refresh Data", 1, 1, 1)
-                    GameTooltip:AddLine("Rescan all tracking data", 0.8, 0.8, 0.8)
-                    GameTooltip:Show()
-                </OnEnter>
-                <OnLeave>
-                    GameTooltip:Hide()
-                </OnLeave>
-            </Scripts>
-        </Button>
-        
-        <Button name="ATTMainFrameSettingsButton" inherits="ATTIconButtonTemplate">
-            <Anchors>
-                <Anchor point="LEFT" relativeTo="ATTMainFrameRefreshButton" relativePoint="RIGHT">
-                    <Offset>
-                        <AbsDimension x="4" y="0"/>
-                    </Offset>
-                </Anchor>
-            </Anchors>
-            <Scripts>
-                <OnLoad>
-                    getglobal(this:GetName() .. "Icon"):SetTexture("Interface\\Icons\\Trade_Engineering")
-                </OnLoad>
-                <OnClick>
-                    if VanillaTheThings and VanillaTheThings.ToggleSettingsWindow then
-                        VanillaTheThings:ToggleSettingsWindow()
-                    end
-                </OnClick>
-                <OnEnter>
-                    GameTooltip:SetOwner(this, "ANCHOR_RIGHT")
-                    GameTooltip:AddLine("Settings", 1, 1, 1)
-                    GameTooltip:AddLine("Configure tracking options", 0.8, 0.8, 0.8)
-                    GameTooltip:Show()
-                </OnEnter>
-                <OnLeave>
-                    GameTooltip:Hide()
-                </OnLeave>
-            </Scripts>
-        </Button>
-        
-        <Button name="ATTMainFrameMiniListButton" inherits="ATTIconButtonTemplate">
-            <Anchors>
-                <Anchor point="LEFT" relativeTo="ATTMainFrameSettingsButton" relativePoint="RIGHT">
-                    <Offset>
-                        <AbsDimension x="4" y="0"/>
-                    </Offset>
-                </Anchor>
-            </Anchors>
-            <Scripts>
-                <OnLoad>
-                    getglobal(this:GetName() .. "Icon"):SetTexture("Interface\\Icons\\INV_Misc_Map_01")
-                </OnLoad>
-                <OnClick>
-                    if VanillaTheThings and VanillaTheThings.ToggleMiniWindow then
-                        VanillaTheThings:ToggleMiniWindow()
-                    end
-                </OnClick>
-                <OnEnter>
-                    GameTooltip:SetOwner(this, "ANCHOR_RIGHT")
-                    GameTooltip:AddLine("Mini List", 1, 1, 1)
-                    GameTooltip:AddLine("Show zone-specific mini list", 0.8, 0.8, 0.8)
-                    GameTooltip:Show()
-                </OnEnter>
-                <OnLeave>
-                    GameTooltip:Hide()
-                </OnLeave>
-            </Scripts>
-        </Button>
-        
-        <Button name="ATTMainFrameRaidButton" inherits="ATTIconButtonTemplate">
-            <Anchors>
-                <Anchor point="LEFT" relativeTo="ATTMainFrameMiniListButton" relativePoint="RIGHT">
-                    <Offset>
-                        <AbsDimension x="4" y="0"/>
-                    </Offset>
-                </Anchor>
-            </Anchors>
-            <Scripts>
-                <OnLoad>
-                    getglobal(this:GetName() .. "Icon"):SetTexture("Interface\\Icons\\INV_Helmet_06")
-                </OnLoad>
-                <OnClick>
-                    if VanillaTheThings and VanillaTheThings.ToggleRaidWindow then
-                        VanillaTheThings:ToggleRaidWindow()
-                    end
-                </OnClick>
-                <OnEnter>
-                    GameTooltip:SetOwner(this, "ANCHOR_RIGHT")
-                    GameTooltip:AddLine("Raid Assistant", 1, 1, 1)
-                    GameTooltip:AddLine("Open raid loot tracker", 0.8, 0.8, 0.8)
-                    GameTooltip:Show()
-                </OnEnter>
-                <OnLeave>
-                    GameTooltip:Hide()
-                </OnLeave>
-            </Scripts>
-        </Button>
-        
-        <Button name="ATTMainFrameHelpButton" inherits="ATTIconButtonTemplate">
-            <Anchors>
-                <Anchor point="LEFT" relativeTo="ATTMainFrameRaidButton" relativePoint="RIGHT">
-                    <Offset>
-                        <AbsDimension x="4" y="0"/>
-                    </Offset>
-                </Anchor>
-            </Anchors>
-            <Scripts>
-                <OnLoad>
-                    getglobal(this:GetName() .. "Icon"):SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
-                </OnLoad>
-                <OnClick>
-                    if VanillaTheThings and VanillaTheThings.ShowHelp then
-                        VanillaTheThings:ShowHelp()
-                    end
-                </OnClick>
-                <OnEnter>
-                    GameTooltip:SetOwner(this, "ANCHOR_RIGHT")
-                    GameTooltip:AddLine("Help", 1, 1, 1)
-                    GameTooltip:AddLine("Show help and commands", 0.8, 0.8, 0.8)
-                    GameTooltip:Show()
-                </OnEnter>
-                <OnLeave>
-                    GameTooltip:Hide()
-                </OnLeave>
-            </Scripts>
-        </Button>
-        
-        <!-- Filter Dropdown Button -->
-        <Button name="ATTMainFrameFilterButton">
-            <Size>
-                <AbsDimension x="70" y="22"/>
-            </Size>
-            <Anchors>
-                <Anchor point="TOPRIGHT">
-                    <Offset>
-                        <AbsDimension x="-15" y="-108"/>
-                    </Offset>
-                </Anchor>
-            </Anchors>
-            <Layers>
-                <Layer level="BACKGROUND">
-                    <Texture setAllPoints="true">
-                        <Color r="0.15" g="0.15" b="0.15" a="0.9"/>
-                    </Texture>
-                </Layer>
-                <Layer level="ARTWORK">
-                    <FontString name="ATTMainFrameFilterText" inherits="ATTFontSmall" justifyH="CENTER" text="Filters">
-                        <Anchors>
-                            <Anchor point="CENTER"/>
-                        </Anchors>
-                    </FontString>
-                </Layer>
-                <Layer level="BORDER">
-                    <Texture file="Interface\Buttons\UI-SliderBar-Border">
-                        <Size>
-                            <AbsDimension x="76" y="26"/>
-                        </Size>
-                        <Anchors>
-                            <Anchor point="CENTER"/>
-                        </Anchors>
-                    </Texture>
-                </Layer>
-            </Layers>
-            <HighlightTexture alphaMode="ADD">
-                <Color r="1" g="1" b="1" a="0.2"/>
-            </HighlightTexture>
-            <Scripts>
-                <OnClick>
-                    if VanillaTheThings and VanillaTheThings.ToggleFilterDropdown then
-                        VanillaTheThings:ToggleFilterDropdown()
-                    end
-                </OnClick>
-            </Scripts>
-        </Button>
-        
         <!-- Scroll Frame -->
         <ScrollFrame name="ATTMainFrameScrollFrame" inherits="FauxScrollFrameTemplate">
             <Size>
-                <AbsDimension x="378" y="430"/>
+                <AbsDimension x="278" y="390"/>
             </Size>
             <Anchors>
                 <Anchor point="TOPLEFT">
                     <Offset>
-                        <AbsDimension x="15" y="-138"/>
+                        <AbsDimension x="15" y="-90"/>
                     </Offset>
                 </Anchor>
             </Anchors>
             <Scripts>
                 <OnVerticalScroll>
-                    FauxScrollFrame_OnVerticalScroll(20, VanillaTheThings.UpdateMainList)
+                    FauxScrollFrame_OnVerticalScroll(18, VanillaTheThings.UpdateMainList)
                 </OnVerticalScroll>
             </Scripts>
         </ScrollFrame>
         
-        <!-- Content Frame (inside scroll) -->
+        <!-- Content Frame -->
         <Frame name="ATTMainFrameContent">
             <Size>
-                <AbsDimension x="378" y="430"/>
+                <AbsDimension x="278" y="390"/>
             </Size>
             <Anchors>
                 <Anchor point="TOPLEFT" relativeTo="ATTMainFrameScrollFrame"/>
             </Anchors>
         </Frame>
         
-        <!-- Status Bar -->
+        <!-- Status Bar (bottom) -->
         <Frame name="ATTMainFrameStatusBar">
             <Size>
-                <AbsDimension x="390" y="24"/>
+                <AbsDimension x="290" y="16"/>
             </Size>
             <Anchors>
                 <Anchor point="BOTTOM">
                     <Offset>
-                        <AbsDimension x="0" y="15"/>
+                        <AbsDimension x="0" y="14"/>
                     </Offset>
                 </Anchor>
             </Anchors>
             <Layers>
-                <Layer level="BACKGROUND">
-                    <Texture setAllPoints="true">
-                        <Color r="0.05" g="0.05" b="0.1" a="0.8"/>
-                    </Texture>
-                </Layer>
                 <Layer level="ARTWORK">
-                    <FontString name="ATTMainFrameStatusText" inherits="ATTFontSmall" justifyH="LEFT">
+                    <FontString name="ATTMainFrameStatusText" inherits="ATTFontTiny" justifyH="CENTER">
                         <Anchors>
-                            <Anchor point="LEFT">
-                                <Offset>
-                                    <AbsDimension x="8" y="0"/>
-                                </Offset>
-                            </Anchor>
+                            <Anchor point="CENTER"/>
                         </Anchors>
-                    </FontString>
-                    <FontString name="ATTMainFrameStatusRight" inherits="ATTFontSmall" justifyH="RIGHT">
-                        <Anchors>
-                            <Anchor point="RIGHT">
-                                <Offset>
-                                    <AbsDimension x="-8" y="0"/>
-                                </Offset>
-                            </Anchor>
-                        </Anchors>
+                        <Color r="0.7" g="0.7" b="0.7"/>
                     </FontString>
                 </Layer>
             </Layers>
         </Frame>
-        
-        <!-- Resize Grip -->
-        <Button name="ATTMainFrameResizeGrip" enableMouse="true">
-            <Size>
-                <AbsDimension x="16" y="16"/>
-            </Size>
-            <Anchors>
-                <Anchor point="BOTTOMRIGHT">
-                    <Offset>
-                        <AbsDimension x="-5" y="5"/>
-                    </Offset>
-                </Anchor>
-            </Anchors>
-            <NormalTexture file="Interface\ChatFrame\UI-ChatIM-SizeGrabber-Up"/>
-            <HighlightTexture file="Interface\ChatFrame\UI-ChatIM-SizeGrabber-Highlight"/>
-            <PushedTexture file="Interface\ChatFrame\UI-ChatIM-SizeGrabber-Down"/>
-            <Scripts>
-                <OnMouseDown>
-                    this:GetParent():StartSizing("BOTTOMRIGHT")
-                </OnMouseDown>
-                <OnMouseUp>
-                    this:GetParent():StopMovingOrSizing()
-                    if VanillaTheThings and VanillaTheThings.OnWindowResize then
-                        VanillaTheThings:OnWindowResize("main", this:GetParent())
-                    end
-                </OnMouseUp>
-            </Scripts>
-        </Button>
     </Frames>
     <Scripts>
         <OnLoad>
             this:RegisterForDrag("LeftButton")
-            this:SetResizable(true)
-            this:SetMinResize(350, 400)
-            this:SetMaxResize(600, 800)
             tinsert(UISpecialFrames, "ATTMainFrame")
         </OnLoad>
         <OnDragStart>
@@ -1092,14 +757,10 @@
             end
         </OnDragStop>
         <OnShow>
-            PlaySound("igMainMenuOpen")
             if VanillaTheThings and VanillaTheThings.RefreshMainWindow then
                 VanillaTheThings:RefreshMainWindow()
             end
         </OnShow>
-        <OnHide>
-            PlaySound("igMainMenuClose")
-        </OnHide>
     </Scripts>
 </Frame>
 

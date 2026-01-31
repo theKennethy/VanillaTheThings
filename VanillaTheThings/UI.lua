@@ -187,7 +187,7 @@ local function InitializeRows()
     
     if mainContent then
         for i = 1, MAX_MAIN_ROWS do
-            mainRows[i] = CreateRow(mainContent, "ATTMainRow" .. i, nil, i, 358)
+            mainRows[i] = CreateRow(mainContent, "ATTMainRow" .. i, nil, i, 260)
         end
     end
     
