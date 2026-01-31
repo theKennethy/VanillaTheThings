@@ -2476,6 +2476,13 @@ end
 
 function VTT:BuildTrackerData()
     local data = {}
+    
+    -- Early return if db not loaded yet
+    if not VTT.db then
+        self.TrackerData = data
+        return data
+    end
+    
     local zone = GetRealZoneText() or "Unknown"
     local subzone = GetSubZoneText()
     
@@ -2488,7 +2495,7 @@ function VTT:BuildTrackerData()
     if explorationAreas then
         totalExploration = tlen(explorationAreas)
         for _, area in ipairs(explorationAreas) do
-            if not VTT.db.exploredAreas[area] then
+            if VTT.db.exploredAreas and not VTT.db.exploredAreas[area] then
                 missingExploration = missingExploration + 1
             end
         end
@@ -2502,7 +2509,7 @@ function VTT:BuildTrackerData()
     
     if flightPaths then
         for _, fp in ipairs(flightPaths) do
-            if fp.zone == zone and not VTT.db.knownFlightPaths[fp.name] then
+            if fp.zone == zone and VTT.db.knownFlightPaths and not VTT.db.knownFlightPaths[fp.name] then
                 missingFPs = missingFPs + 1
             end
         end
@@ -2527,7 +2534,7 @@ function VTT:BuildTrackerData()
         
         local shown = 0
         for _, area in ipairs(explorationAreas) do
-            if not VTT.db.exploredAreas[area] then
+            if VTT.db.exploredAreas and not VTT.db.exploredAreas[area] then
                 shown = shown + 1
                 if shown <= 4 then
                     table.insert(data, {
@@ -2556,7 +2563,7 @@ function VTT:BuildTrackerData()
         })
         
         for _, fp in ipairs(flightPaths) do
-            if fp.zone == zone and not VTT.db.knownFlightPaths[fp.name] then
+            if fp.zone == zone and VTT.db.knownFlightPaths and not VTT.db.knownFlightPaths[fp.name] then
                 table.insert(data, {
                     text = "  |cFFFF6666✗|r " .. fp.name,
                 })
@@ -2600,6 +2607,7 @@ end
 
 function VTT:RefreshTracker()
     if self.TrackerMinimized then return end
+    if not VTT.db then return end  -- Not loaded yet
     
     local tracker = self.TrackerFrame or getglobal("ATTTrackerFrame")
     if not tracker or not tracker:IsVisible() then return end
@@ -2607,6 +2615,7 @@ function VTT:RefreshTracker()
     -- Build data
     self:BuildTrackerData()
     local data = self.TrackerData
+    if not data then return end
     
     -- Update zone display
     local zoneText = getglobal("ATTTrackerFrameZone")
@@ -3906,6 +3915,9 @@ zoneFrame:RegisterEvent("ZONE_CHANGED_INDOORS")
 zoneFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 zoneFrame:RegisterEvent("QUEST_LOG_UPDATE")
 zoneFrame:SetScript("OnEvent", function()
+    -- Only update if addon is fully loaded
+    if not VTT.db then return end
+    
     if VTT.MiniFrame and VTT.MiniFrame:IsVisible() then
         VTT:RefreshMiniWindow()
     end
