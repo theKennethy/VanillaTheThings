@@ -1432,6 +1432,635 @@ DB.Items = {
     [21139] = { name = "Green Scepter Shard", quality = 4, source = "Quest", sourceDetail = "Scepter of the Shifting Sands (Green)" },
     [21140] = { name = "Blue Scepter Shard", quality = 4, source = "Quest", sourceDetail = "Scepter of the Shifting Sands (Blue)" },
     [21175] = { name = "Scepter of the Shifting Sands", quality = 4, source = "Quest", sourceDetail = "Scepter of the Shifting Sands (Complete)" },
+    
+    -- ============================================================================
+    --                      WORLD DROP GREENS - "Of the Eagle" Suffix
+    -- ============================================================================
+    [6562] = { name = "Shimmering Boots of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6563] = { name = "Shimmering Bracers of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6564] = { name = "Shimmering Cloak of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6565] = { name = "Shimmering Gloves of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6566] = { name = "Shimmering Armor of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6567] = { name = "Shimmering Trousers of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6568] = { name = "Shimmering Sash of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6604] = { name = "Battleforge Boots of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 20-25" },
+    [6605] = { name = "Battleforge Armor of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 20-25" },
+    [6606] = { name = "Battleforge Gauntlets of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 20-25" },
+    [6607] = { name = "Battleforge Legguards of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 20-25" },
+    [6608] = { name = "Battleforge Girdle of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 20-25" },
+    [6609] = { name = "Battleforge Shoulderguards of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 20-25" },
+    [6610] = { name = "Battleforge Wristguards of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 20-25" },
+    [7414] = { name = "Phalanx Boots of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 25-30" },
+    [7415] = { name = "Phalanx Bracers of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 25-30" },
+    [7416] = { name = "Phalanx Breastplate of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 25-30" },
+    [7417] = { name = "Phalanx Cloak of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 25-30" },
+    [7418] = { name = "Phalanx Gauntlets of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 25-30" },
+    [7419] = { name = "Phalanx Girdle of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 25-30" },
+    [7420] = { name = "Phalanx Headguard of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 25-30" },
+    [7421] = { name = "Phalanx Leggings of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 25-30" },
+    [7422] = { name = "Phalanx Spaulders of the Eagle", quality = 2, source = "World Drop", sourceDetail = "Level 25-30" },
+    
+    -- ============================================================================
+    --                      WORLD DROP GREENS - "Of the Bear" Suffix
+    -- ============================================================================
+    [6570] = { name = "Shimmering Boots of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6571] = { name = "Shimmering Bracers of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6572] = { name = "Shimmering Cloak of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6573] = { name = "Shimmering Gloves of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6574] = { name = "Shimmering Armor of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6575] = { name = "Shimmering Trousers of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6576] = { name = "Shimmering Sash of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6611] = { name = "Battleforge Boots of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 20-25" },
+    [6612] = { name = "Battleforge Armor of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 20-25" },
+    [6613] = { name = "Battleforge Gauntlets of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 20-25" },
+    [6614] = { name = "Battleforge Legguards of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 20-25" },
+    [6615] = { name = "Battleforge Girdle of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 20-25" },
+    [6616] = { name = "Battleforge Shoulderguards of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 20-25" },
+    [6617] = { name = "Battleforge Wristguards of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 20-25" },
+    [7430] = { name = "Phalanx Boots of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 25-30" },
+    [7431] = { name = "Phalanx Bracers of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 25-30" },
+    [7432] = { name = "Phalanx Breastplate of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 25-30" },
+    [7433] = { name = "Phalanx Cloak of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 25-30" },
+    [7434] = { name = "Phalanx Gauntlets of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 25-30" },
+    [7435] = { name = "Phalanx Girdle of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 25-30" },
+    [7436] = { name = "Phalanx Headguard of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 25-30" },
+    [7437] = { name = "Phalanx Leggings of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 25-30" },
+    [7438] = { name = "Phalanx Spaulders of the Bear", quality = 2, source = "World Drop", sourceDetail = "Level 25-30" },
+    
+    -- ============================================================================
+    --                      WORLD DROP GREENS - "Of the Monkey" Suffix
+    -- ============================================================================
+    [6580] = { name = "Shimmering Boots of the Monkey", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6581] = { name = "Shimmering Bracers of the Monkey", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6582] = { name = "Shimmering Cloak of the Monkey", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6583] = { name = "Shimmering Gloves of the Monkey", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6584] = { name = "Shimmering Armor of the Monkey", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6585] = { name = "Shimmering Trousers of the Monkey", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6586] = { name = "Shimmering Sash of the Monkey", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6618] = { name = "Battleforge Boots of the Monkey", quality = 2, source = "World Drop", sourceDetail = "Level 20-25" },
+    [6619] = { name = "Battleforge Armor of the Monkey", quality = 2, source = "World Drop", sourceDetail = "Level 20-25" },
+    [6620] = { name = "Battleforge Gauntlets of the Monkey", quality = 2, source = "World Drop", sourceDetail = "Level 20-25" },
+    [6621] = { name = "Battleforge Legguards of the Monkey", quality = 2, source = "World Drop", sourceDetail = "Level 20-25" },
+    [6622] = { name = "Battleforge Girdle of the Monkey", quality = 2, source = "World Drop", sourceDetail = "Level 20-25" },
+    [6623] = { name = "Battleforge Shoulderguards of the Monkey", quality = 2, source = "World Drop", sourceDetail = "Level 20-25" },
+    [6624] = { name = "Battleforge Wristguards of the Monkey", quality = 2, source = "World Drop", sourceDetail = "Level 20-25" },
+    
+    -- ============================================================================
+    --                      WORLD DROP GREENS - "Of the Whale" Suffix
+    -- ============================================================================
+    [6590] = { name = "Shimmering Boots of the Whale", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6591] = { name = "Shimmering Bracers of the Whale", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6592] = { name = "Shimmering Cloak of the Whale", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6593] = { name = "Shimmering Gloves of the Whale", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6594] = { name = "Shimmering Armor of the Whale", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6595] = { name = "Shimmering Trousers of the Whale", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    [6596] = { name = "Shimmering Sash of the Whale", quality = 2, source = "World Drop", sourceDetail = "Level 18-23" },
+    
+    -- ============================================================================
+    --                      WORLD DROP GREENS - High Level Sets (45-60)
+    -- ============================================================================
+    -- Bloodforged Plate
+    [14947] = { name = "Bloodforged Bindings", quality = 2, source = "World Drop", sourceDetail = "Level 45-50" },
+    [14948] = { name = "Bloodforged Belt", quality = 2, source = "World Drop", sourceDetail = "Level 45-50" },
+    [14949] = { name = "Bloodforged Chestpiece", quality = 2, source = "World Drop", sourceDetail = "Level 45-50" },
+    [14950] = { name = "Bloodforged Gauntlets", quality = 2, source = "World Drop", sourceDetail = "Level 45-50" },
+    [14951] = { name = "Bloodforged Helmet", quality = 2, source = "World Drop", sourceDetail = "Level 45-50" },
+    [14952] = { name = "Bloodforged Legplates", quality = 2, source = "World Drop", sourceDetail = "Level 45-50" },
+    [14953] = { name = "Bloodforged Sabatons", quality = 2, source = "World Drop", sourceDetail = "Level 45-50" },
+    [14954] = { name = "Bloodforged Shoulder Pads", quality = 2, source = "World Drop", sourceDetail = "Level 45-50" },
+    
+    -- Jade Plate
+    [14955] = { name = "Jade Bracers", quality = 2, source = "World Drop", sourceDetail = "Level 48-53" },
+    [14956] = { name = "Jade Belt", quality = 2, source = "World Drop", sourceDetail = "Level 48-53" },
+    [14957] = { name = "Jade Breastplate", quality = 2, source = "World Drop", sourceDetail = "Level 48-53" },
+    [14958] = { name = "Jade Gauntlets", quality = 2, source = "World Drop", sourceDetail = "Level 48-53" },
+    [14959] = { name = "Jade Circlet", quality = 2, source = "World Drop", sourceDetail = "Level 48-53" },
+    [14960] = { name = "Jade Legplates", quality = 2, source = "World Drop", sourceDetail = "Level 48-53" },
+    [14961] = { name = "Jade Greaves", quality = 2, source = "World Drop", sourceDetail = "Level 48-53" },
+    [14962] = { name = "Jade Epaulets", quality = 2, source = "World Drop", sourceDetail = "Level 48-53" },
+    
+    -- Lofty Plate
+    [14963] = { name = "Lofty Armguards", quality = 2, source = "World Drop", sourceDetail = "Level 51-56" },
+    [14964] = { name = "Lofty Belt", quality = 2, source = "World Drop", sourceDetail = "Level 51-56" },
+    [14965] = { name = "Lofty Breastplate", quality = 2, source = "World Drop", sourceDetail = "Level 51-56" },
+    [14966] = { name = "Lofty Gauntlets", quality = 2, source = "World Drop", sourceDetail = "Level 51-56" },
+    [14967] = { name = "Lofty Helm", quality = 2, source = "World Drop", sourceDetail = "Level 51-56" },
+    [14968] = { name = "Lofty Legguards", quality = 2, source = "World Drop", sourceDetail = "Level 51-56" },
+    [14969] = { name = "Lofty Sabatons", quality = 2, source = "World Drop", sourceDetail = "Level 51-56" },
+    [14970] = { name = "Lofty Shoulder Pads", quality = 2, source = "World Drop", sourceDetail = "Level 51-56" },
+    
+    -- Glorious Plate
+    [14971] = { name = "Glorious Bindings", quality = 2, source = "World Drop", sourceDetail = "Level 54-59" },
+    [14972] = { name = "Glorious Belt", quality = 2, source = "World Drop", sourceDetail = "Level 54-59" },
+    [14973] = { name = "Glorious Breastplate", quality = 2, source = "World Drop", sourceDetail = "Level 54-59" },
+    [14974] = { name = "Glorious Gauntlets", quality = 2, source = "World Drop", sourceDetail = "Level 54-59" },
+    [14975] = { name = "Glorious Headdress", quality = 2, source = "World Drop", sourceDetail = "Level 54-59" },
+    [14976] = { name = "Glorious Legplates", quality = 2, source = "World Drop", sourceDetail = "Level 54-59" },
+    [14977] = { name = "Glorious Sabatons", quality = 2, source = "World Drop", sourceDetail = "Level 54-59" },
+    [14978] = { name = "Glorious Shoulder Pads", quality = 2, source = "World Drop", sourceDetail = "Level 54-59" },
+    
+    -- Vanguard Plate
+    [14979] = { name = "Vanguard Vambraces", quality = 2, source = "World Drop", sourceDetail = "Level 57-60" },
+    [14980] = { name = "Vanguard Girdle", quality = 2, source = "World Drop", sourceDetail = "Level 57-60" },
+    [14981] = { name = "Vanguard Breastplate", quality = 2, source = "World Drop", sourceDetail = "Level 57-60" },
+    [14982] = { name = "Vanguard Gauntlets", quality = 2, source = "World Drop", sourceDetail = "Level 57-60" },
+    [14983] = { name = "Vanguard Headdress", quality = 2, source = "World Drop", sourceDetail = "Level 57-60" },
+    [14984] = { name = "Vanguard Legplates", quality = 2, source = "World Drop", sourceDetail = "Level 57-60" },
+    [14985] = { name = "Vanguard Sabatons", quality = 2, source = "World Drop", sourceDetail = "Level 57-60" },
+    [14986] = { name = "Vanguard Pauldrons", quality = 2, source = "World Drop", sourceDetail = "Level 57-60" },
+    
+    -- ============================================================================
+    --                      WORLD DROP GREENS - Cloth Sets (45-60)
+    -- ============================================================================
+    -- Runecloth
+    [14342] = { name = "Felcloth Hood", quality = 2, source = "World Drop", sourceDetail = "Level 52-57" },
+    [14343] = { name = "Felcloth Robe", quality = 2, source = "World Drop", sourceDetail = "Level 52-57" },
+    [14344] = { name = "Felcloth Pants", quality = 2, source = "World Drop", sourceDetail = "Level 52-57" },
+    [14345] = { name = "Felcloth Boots", quality = 2, source = "World Drop", sourceDetail = "Level 52-57" },
+    [14346] = { name = "Felcloth Gloves", quality = 2, source = "World Drop", sourceDetail = "Level 52-57" },
+    [14347] = { name = "Felcloth Shoulders", quality = 2, source = "World Drop", sourceDetail = "Level 52-57" },
+    
+    -- Dreamweave
+    [10019] = { name = "Dreamweave Gloves", quality = 2, source = "Crafted", sourceDetail = "Tailoring" },
+    [10021] = { name = "Dreamweave Vest", quality = 2, source = "Crafted", sourceDetail = "Tailoring" },
+    [10020] = { name = "Dreamweave Circlet", quality = 2, source = "Crafted", sourceDetail = "Tailoring" },
+    
+    -- Runecloth Armor
+    [13867] = { name = "Runecloth Boots", quality = 2, source = "Crafted", sourceDetail = "Tailoring" },
+    [13866] = { name = "Runecloth Pants", quality = 2, source = "Crafted", sourceDetail = "Tailoring" },
+    [13868] = { name = "Runecloth Shoulders", quality = 2, source = "Crafted", sourceDetail = "Tailoring" },
+    [13869] = { name = "Frostweave Gloves", quality = 2, source = "Crafted", sourceDetail = "Tailoring" },
+    [13870] = { name = "Frostweave Pants", quality = 2, source = "Crafted", sourceDetail = "Tailoring" },
+    [13871] = { name = "Frostweave Robe", quality = 2, source = "Crafted", sourceDetail = "Tailoring" },
+    [13872] = { name = "Frostweave Tunic", quality = 2, source = "Crafted", sourceDetail = "Tailoring" },
+    
+    -- ============================================================================
+    --                      WORLD DROP GREENS - Leather Sets (45-60)
+    -- ============================================================================
+    -- Wicked Leather
+    [15062] = { name = "Wicked Leather Bracers", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15063] = { name = "Wicked Leather Gauntlets", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15064] = { name = "Wicked Leather Pants", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15065] = { name = "Wicked Leather Armor", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15066] = { name = "Wicked Leather Belt", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15067] = { name = "Wicked Leather Boots", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15068] = { name = "Wicked Leather Headband", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    
+    -- Runic Leather
+    [15090] = { name = "Runic Leather Armor", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15091] = { name = "Runic Leather Gauntlets", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15092] = { name = "Runic Leather Bracers", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15093] = { name = "Runic Leather Belt", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15094] = { name = "Runic Leather Headband", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15095] = { name = "Runic Leather Pants", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15096] = { name = "Runic Leather Shoulders", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    
+    -- Chimeric Leather
+    [15074] = { name = "Chimeric Gloves", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15075] = { name = "Chimeric Boots", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15076] = { name = "Chimeric Leggings", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15077] = { name = "Chimeric Vest", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    
+    -- ============================================================================
+    --                      WORLD DROP GREENS - Mail Sets (45-60)
+    -- ============================================================================
+    -- Heavy Scorpid Armor
+    [15082] = { name = "Heavy Scorpid Bracers", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15083] = { name = "Heavy Scorpid Vest", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15084] = { name = "Heavy Scorpid Belt", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15085] = { name = "Heavy Scorpid Helm", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15086] = { name = "Heavy Scorpid Leggings", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15087] = { name = "Heavy Scorpid Gauntlets", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15088] = { name = "Heavy Scorpid Shoulders", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    
+    -- Volcanic Armor
+    [15053] = { name = "Volcanic Breastplate", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15054] = { name = "Volcanic Leggings", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    [15055] = { name = "Volcanic Shoulders", quality = 2, source = "Crafted", sourceDetail = "Leatherworking" },
+    
+    -- ============================================================================
+    --                      WORLD DROP BLUES - Rare Items
+    -- ============================================================================
+    -- Blue Weapons
+    [1935] = { name = "Assassin's Blade", quality = 3, source = "World Drop", sourceDetail = "Level 22-27" },
+    [1937] = { name = "Buzz Saw", quality = 3, source = "World Drop", sourceDetail = "Level 23-28" },
+    [1943] = { name = "Sword of the Night Sky", quality = 3, source = "World Drop", sourceDetail = "Level 35-40" },
+    [1944] = { name = "Dagger of the Night Sky", quality = 3, source = "World Drop", sourceDetail = "Level 36-41" },
+    [1973] = { name = "Orb of Power", quality = 3, source = "World Drop", sourceDetail = "Level 30-35" },
+    [1974] = { name = "Mindthrust Bracers", quality = 3, source = "World Drop", sourceDetail = "Level 31-36" },
+    [1975] = { name = "Pysan's Old Greatsword", quality = 3, source = "World Drop", sourceDetail = "Level 33-38" },
+    [1976] = { name = "Soulkeeper", quality = 3, source = "World Drop", sourceDetail = "Level 44-49" },
+    [1977] = { name = "Magus Long Staff", quality = 3, source = "World Drop", sourceDetail = "Level 24-29" },
+    [1978] = { name = "Wolfclaw Gloves", quality = 3, source = "World Drop", sourceDetail = "Level 28-33" },
+    [1979] = { name = "Wall of the Dead", quality = 3, source = "World Drop", sourceDetail = "Level 35-40" },
+    [1981] = { name = "Icemail Jerkin", quality = 3, source = "World Drop", sourceDetail = "Level 33-38" },
+    [1983] = { name = "Duskbringer", quality = 3, source = "World Drop", sourceDetail = "Level 36-41" },
+    [1984] = { name = "Deepfury Bracers", quality = 3, source = "World Drop", sourceDetail = "Level 26-31" },
+    [1985] = { name = "Black Steel Greatsword", quality = 3, source = "World Drop", sourceDetail = "Level 37-42" },
+    [1986] = { name = "Gutrender", quality = 3, source = "World Drop", sourceDetail = "Level 38-43" },
+    [1987] = { name = "Gutterblade", quality = 3, source = "World Drop", sourceDetail = "Level 40-45" },
+    [1988] = { name = "Chief Brigadier Gauntlets", quality = 3, source = "World Drop", sourceDetail = "Level 39-44" },
+    [1990] = { name = "Rage Reaver", quality = 3, source = "World Drop", sourceDetail = "Level 45-50" },
+    [1994] = { name = "Ebonclaw Reaver", quality = 3, source = "World Drop", sourceDetail = "Level 48-53" },
+    [1995] = { name = "Murloc Skin Bag", quality = 3, source = "World Drop", sourceDetail = "Level 25-30" },
+    [1996] = { name = "Vile Fin Battle Axe", quality = 3, source = "World Drop", sourceDetail = "Level 20-25" },
+    [1997] = { name = "Stormwind Guard Leggings", quality = 3, source = "World Drop", sourceDetail = "Level 18-23" },
+    [2017] = { name = "Dragonclaw Ring", quality = 3, source = "World Drop", sourceDetail = "Level 55-60" },
+    [2018] = { name = "Stretched Leather Pants", quality = 3, source = "World Drop", sourceDetail = "Level 18-23" },
+    [2019] = { name = "Wolfpack Claws", quality = 3, source = "World Drop", sourceDetail = "Level 35-40" },
+    [2020] = { name = "Footpads of the Fang", quality = 3, source = "World Drop", sourceDetail = "Level 19-24" },
+    [2059] = { name = "Sentry Cloak", quality = 3, source = "World Drop", sourceDetail = "Level 20-25" },
+    [2060] = { name = "Fern-Laced Boots", quality = 3, source = "World Drop", sourceDetail = "Level 22-27" },
+    [2078] = { name = "Neophyte's Robe", quality = 3, source = "World Drop", sourceDetail = "Level 1-5" },
+    [2079] = { name = "Sergeant's Cloak", quality = 3, source = "World Drop", sourceDetail = "Level 25-30" },
+    [2080] = { name = "Spikelash Dagger", quality = 3, source = "World Drop", sourceDetail = "Level 22-27" },
+    [2089] = { name = "Scrimshaw Dagger", quality = 3, source = "World Drop", sourceDetail = "Level 30-35" },
+    [2090] = { name = "Gem-studded Leather Belt", quality = 3, source = "World Drop", sourceDetail = "Level 35-40" },
+    [2091] = { name = "Magic Dust", quality = 3, source = "World Drop", sourceDetail = "Level 30-35" },
+    [2092] = { name = "High Priestess Belt", quality = 3, source = "World Drop", sourceDetail = "Level 40-45" },
+    [2093] = { name = "Gloves of Spell Mastery", quality = 3, source = "World Drop", sourceDetail = "Level 50-55" },
+    [2094] = { name = "Mountaineer's Belt", quality = 3, source = "World Drop", sourceDetail = "Level 40-45" },
+    [2095] = { name = "Rod of Molten Fire", quality = 3, source = "World Drop", sourceDetail = "Level 45-50" },
+    [2096] = { name = "Knightbane", quality = 3, source = "World Drop", sourceDetail = "Level 38-43" },
+    [2097] = { name = "Thunderbrow Ring", quality = 3, source = "World Drop", sourceDetail = "Level 40-45" },
+    [2098] = { name = "Double Link Tunic", quality = 3, source = "World Drop", sourceDetail = "Level 38-43" },
+    [2100] = { name = "Briarwood Reed", quality = 3, source = "World Drop", sourceDetail = "Level 42-47" },
+    
+    -- High-Level Blue World Drops
+    [14528] = { name = "Bonecaster's Boots", quality = 3, source = "World Drop", sourceDetail = "Level 52-57" },
+    [14529] = { name = "Bonecaster's Gloves", quality = 3, source = "World Drop", sourceDetail = "Level 52-57" },
+    [14530] = { name = "Bonecaster's Sarong", quality = 3, source = "World Drop", sourceDetail = "Level 52-57" },
+    [14531] = { name = "Bonecaster's Spaulders", quality = 3, source = "World Drop", sourceDetail = "Level 52-57" },
+    [14532] = { name = "Bonecaster's Belt", quality = 3, source = "World Drop", sourceDetail = "Level 52-57" },
+    [14533] = { name = "Bonecaster's Bindings", quality = 3, source = "World Drop", sourceDetail = "Level 52-57" },
+    [14534] = { name = "Bonecaster's Crown", quality = 3, source = "World Drop", sourceDetail = "Level 52-57" },
+    [14535] = { name = "Bonecaster's Vest", quality = 3, source = "World Drop", sourceDetail = "Level 52-57" },
+    
+    -- Bloodmail
+    [14536] = { name = "Bloodmail Boots", quality = 3, source = "World Drop", sourceDetail = "Level 55-60" },
+    [14537] = { name = "Bloodmail Gauntlets", quality = 3, source = "World Drop", sourceDetail = "Level 55-60" },
+    [14538] = { name = "Bloodmail Legguards", quality = 3, source = "World Drop", sourceDetail = "Level 55-60" },
+    [14539] = { name = "Bloodmail Belt", quality = 3, source = "World Drop", sourceDetail = "Level 55-60" },
+    [14540] = { name = "Bloodmail Hauberk", quality = 3, source = "World Drop", sourceDetail = "Level 55-60" },
+    [14541] = { name = "Bloodmail Bindings", quality = 3, source = "World Drop", sourceDetail = "Level 55-60" },
+    
+    -- Deathbone
+    [14542] = { name = "Deathbone Sabatons", quality = 3, source = "World Drop", sourceDetail = "Level 57-60" },
+    [14543] = { name = "Deathbone Gauntlets", quality = 3, source = "World Drop", sourceDetail = "Level 57-60" },
+    [14544] = { name = "Deathbone Legguards", quality = 3, source = "World Drop", sourceDetail = "Level 57-60" },
+    [14545] = { name = "Deathbone Girdle", quality = 3, source = "World Drop", sourceDetail = "Level 57-60" },
+    [14546] = { name = "Deathbone Chestplate", quality = 3, source = "World Drop", sourceDetail = "Level 57-60" },
+    [14547] = { name = "Deathbone Bracers", quality = 3, source = "World Drop", sourceDetail = "Level 57-60" },
+    
+    -- ============================================================================
+    --                      QUEST REWARDS - Eastern Kingdoms
+    -- ============================================================================
+    -- Elwynn Forest / Westfall Quests
+    [1388] = { name = "Seal of Wrynn", quality = 2, source = "Quest", sourceDetail = "The Missing Diplomat (Alliance)" },
+    [1440] = { name = "Trader's Ring", quality = 2, source = "Quest", sourceDetail = "Elmore's Task (Alliance)" },
+    [1254] = { name = "Lesser Belt of the Spire", quality = 2, source = "Quest", sourceDetail = "Oh Brother... (Alliance)" },
+    [1265] = { name = "Worn Leather Belt", quality = 2, source = "Quest", sourceDetail = "Protect the Frontier (Alliance)" },
+    [1306] = { name = "Riveted Gauntlets", quality = 2, source = "Quest", sourceDetail = "The Defias Brotherhood (Alliance)" },
+    [2033] = { name = "Ambassador's Boots", quality = 2, source = "Quest", sourceDetail = "An Ambassador of Evil (Alliance)" },
+    [2037] = { name = "Dusty Robes", quality = 2, source = "Quest", sourceDetail = "The Collector (Alliance)" },
+    [2038] = { name = "Burrowing Shovel", quality = 2, source = "Quest", sourceDetail = "Digging Through the Ooze (Alliance)" },
+    [2039] = { name = "Plains Ring", quality = 2, source = "Quest", sourceDetail = "Red Leather Bandanas (Alliance)" },
+    [2040] = { name = "Troll Chopper", quality = 2, source = "Quest", sourceDetail = "Troll Necklace Bounty (Alliance)" },
+    [2041] = { name = "Tunic of Westfall", quality = 3, source = "Quest", sourceDetail = "The Defias Brotherhood (Alliance)" },
+    [2042] = { name = "Staff of Westfall", quality = 3, source = "Quest", sourceDetail = "The Defias Brotherhood (Alliance)" },
+    [2089] = { name = "Mace of Righteous Might", quality = 2, source = "Quest", sourceDetail = "The Brotherhood of Light (Alliance)" },
+    
+    -- Duskwood Quests
+    [2872] = { name = "Vile Fin Oracle Staff", quality = 2, source = "Quest", sourceDetail = "Gather the Cargo (Duskwood)" },
+    [3400] = { name = "Lucine Longsword", quality = 2, source = "Quest", sourceDetail = "Worgen in the Woods (Duskwood)" },
+    [3401] = { name = "Staff of Nobles", quality = 2, source = "Quest", sourceDetail = "The Night Watch (Duskwood)" },
+    [3563] = { name = "Seafarer's Pantaloons", quality = 2, source = "Quest", sourceDetail = "Raven Hill (Duskwood)" },
+    [3567] = { name = "Duskwoven Bracers", quality = 2, source = "Quest", sourceDetail = "Mor'Ladim (Duskwood)" },
+    [3570] = { name = "Bonebiter", quality = 3, source = "Quest", sourceDetail = "Mor'Ladim (Duskwood)" },
+    [4534] = { name = "Steel-Toed Boots", quality = 2, source = "Quest", sourceDetail = "Wolves at Our Heels (Duskwood)" },
+    [6196] = { name = "Leggings of the Lost Light", quality = 2, source = "Quest", sourceDetail = "The Legend of Stalvan (Duskwood)" },
+    [6197] = { name = "Gauntlets of the Lost Light", quality = 2, source = "Quest", sourceDetail = "The Legend of Stalvan (Duskwood)" },
+    [6198] = { name = "Juggernaut Leggings", quality = 2, source = "Quest", sourceDetail = "The Legend of Stalvan (Duskwood)" },
+    
+    -- Redridge Mountains Quests
+    [1434] = { name = "Gloves of Brawn", quality = 2, source = "Quest", sourceDetail = "Wanted: Lieutenant Fangore (Redridge)" },
+    [1275] = { name = "Deputy Chain", quality = 2, source = "Quest", sourceDetail = "Blackrock Menace (Redridge)" },
+    [1276] = { name = "Fire-Hardened Leggings", quality = 2, source = "Quest", sourceDetail = "Blackrock Bounty (Redridge)" },
+    [2911] = { name = "Keller's Girdle", quality = 2, source = "Quest", sourceDetail = "Wanted: Gath'Ilzogg (Redridge)" },
+    
+    -- Stranglethorn Vale Quests
+    [4113] = { name = "Berylline Pads", quality = 2, source = "Quest", sourceDetail = "Bloodscalp Ears (STV)" },
+    [4114] = { name = "Darkmoon Necklace", quality = 2, source = "Quest", sourceDetail = "The Green Hills of Stranglethorn (STV)" },
+    [4115] = { name = "Jungle Band", quality = 2, source = "Quest", sourceDetail = "Some Assembly Required (STV)" },
+    [4116] = { name = "Olmann's Leash", quality = 2, source = "Quest", sourceDetail = "The Bloodsail Buccaneers (STV)" },
+    [4128] = { name = "Jungle Boots", quality = 2, source = "Quest", sourceDetail = "Big Game Hunter (STV)" },
+    [4129] = { name = "Jungle Stave", quality = 2, source = "Quest", sourceDetail = "Mok'thardin's Enchantment (STV)" },
+    [4130] = { name = "Smotts' Compass", quality = 3, source = "Quest", sourceDetail = "The Curse of the Tides (STV)" },
+    [4138] = { name = "Goblin Fishing Pole", quality = 3, source = "Quest", sourceDetail = "Venture Company Mining (STV)" },
+    [4139] = { name = "Jungle Pendant", quality = 2, source = "Quest", sourceDetail = "Raptor Mastery (STV)" },
+    [4140] = { name = "Panther Hunter Leggings", quality = 2, source = "Quest", sourceDetail = "Panther Mastery (STV)" },
+    [4141] = { name = "Tiger Hunter Gloves", quality = 2, source = "Quest", sourceDetail = "Tiger Mastery (STV)" },
+    
+    -- Burning Steppes / Searing Gorge Quests
+    [10824] = { name = "Amberglow Talisman", quality = 2, source = "Quest", sourceDetail = "Forging the Shaft (Burning Steppes)" },
+    [10825] = { name = "Carved Stone Idol", quality = 2, source = "Quest", sourceDetail = "Forging the Shaft (Burning Steppes)" },
+    [15854] = { name = "Chromatic Carapace", quality = 4, source = "Quest", sourceDetail = "The Demon-Forged Breastplate (BS Quest)" },
+    [12066] = { name = "Sharpened Silithid Femur", quality = 3, source = "Quest", sourceDetail = "In the Name of the Light (Searing Gorge)" },
+    
+    -- Eastern Plaguelands / Western Plaguelands
+    [13534] = { name = "Brimstone Staff", quality = 3, source = "Quest", sourceDetail = "Demon Dogs (EPL)" },
+    [13535] = { name = "Coldstone Slippers", quality = 3, source = "Quest", sourceDetail = "Demon Dogs (EPL)" },
+    [15411] = { name = "Mark of Resolution", quality = 3, source = "Quest", sourceDetail = "Auntie Marlene (WPL)" },
+    [15412] = { name = "Ghoul Skin Leggings", quality = 3, source = "Quest", sourceDetail = "The Battle of Darrowshire (EPL)" },
+    [15413] = { name = "Argent Dawn Valor Token", quality = 3, source = "Quest", sourceDetail = "Brother Carlin (EPL)" },
+    [18537] = { name = "Noth's Special Brew", quality = 3, source = "Quest", sourceDetail = "Noth's Special Brew (WPL)" },
+    [18538] = { name = "Cauldron Stirrer", quality = 2, source = "Quest", sourceDetail = "Target: Gahrron's Withering (WPL)" },
+    
+    -- ============================================================================
+    --                      QUEST REWARDS - Kalimdor
+    -- ============================================================================
+    -- Darkshore / Ashenvale Quests
+    [5587] = { name = "Thornroot Club", quality = 2, source = "Quest", sourceDetail = "The Sleeper Has Awakened (Darkshore)" },
+    [5588] = { name = "Thornroot Staff", quality = 2, source = "Quest", sourceDetail = "The Master's Glaive (Darkshore)" },
+    [5589] = { name = "Foul Cloak", quality = 2, source = "Quest", sourceDetail = "The Fall of Ameth'Aran (Darkshore)" },
+    [5590] = { name = "Owl Talon Staff", quality = 2, source = "Quest", sourceDetail = "Grove of the Ancients (Darkshore)" },
+    [5591] = { name = "Rain Song", quality = 3, source = "Quest", sourceDetail = "Deep Ocean, Vast Sea (Darkshore)" },
+    [6318] = { name = "Orcish War Chain", quality = 2, source = "Quest", sourceDetail = "Warsong Supplies (Ashenvale)" },
+    [6319] = { name = "Healing Sting", quality = 2, source = "Quest", sourceDetail = "Satyr Horns (Ashenvale)" },
+    [6320] = { name = "Commander's Crest", quality = 2, source = "Quest", sourceDetail = "The Ashenvale Hunt (Ashenvale)" },
+    [6321] = { name = "Silverwing Defender", quality = 2, source = "Quest", sourceDetail = "The Silverwing Sentinel (Ashenvale)" },
+    [6723] = { name = "Medal of Courage", quality = 2, source = "Quest", sourceDetail = "Je'neu of the Earthen Ring (Ashenvale)" },
+    [6724] = { name = "Enchanted Adamantite Breastplate", quality = 3, source = "Quest", sourceDetail = "Fallen Sky Lake (Ashenvale)" },
+    
+    -- Feralas / Thousand Needles Quests
+    [9520] = { name = "Emerald Encrusted Chest", quality = 3, source = "Quest", sourceDetail = "Rhapsody's Tale (Feralas)" },
+    [9521] = { name = "Mistscape Gloves", quality = 2, source = "Quest", sourceDetail = "A New Cloak's Sheen (Feralas)" },
+    [9522] = { name = "Energized Stone Circle", quality = 2, source = "Quest", sourceDetail = "Freedom for All Creatures (Feralas)" },
+    [9523] = { name = "Greenweave Cloak", quality = 2, source = "Quest", sourceDetail = "Feral Scar Yetis (Feralas)" },
+    [9528] = { name = "Elven Spirit Claws", quality = 3, source = "Quest", sourceDetail = "The Giant Guardian (Feralas)" },
+    [9529] = { name = "Quickdraw Gloves", quality = 3, source = "Quest", sourceDetail = "Gordunni Cobalt (Feralas)" },
+    [9530] = { name = "Horn of Hatetalon", quality = 2, source = "Quest", sourceDetail = "War on the Woodpaw (Feralas)" },
+    
+    -- Tanaris / Un'Goro Crater Quests
+    [9638] = { name = "Nogg's Gold Ring", quality = 2, source = "Quest", sourceDetail = "Cuergo's Gold (Tanaris)" },
+    [9639] = { name = "Bonelink Armor", quality = 3, source = "Quest", sourceDetail = "Gahz'ridian (Tanaris)" },
+    [9640] = { name = "Vice Grips", quality = 2, source = "Quest", sourceDetail = "The Thirsty Goblin (Tanaris)" },
+    [9641] = { name = "Band of Icy Depths", quality = 2, source = "Quest", sourceDetail = "Pirate Hats Ahoy! (Tanaris)" },
+    [9651] = { name = "Gryphon Rider's Stormhammer", quality = 3, source = "Quest", sourceDetail = "Handle With Care (Tanaris)" },
+    [9652] = { name = "Gloves of Insight", quality = 3, source = "Quest", sourceDetail = "The Secret of Un'Goro (Un'Goro)" },
+    [9653] = { name = "Speedy Racer Goggles", quality = 2, source = "Quest", sourceDetail = "Shizzle's Flyer (Un'Goro)" },
+    [11173] = { name = "Linken's Boomerang", quality = 3, source = "Quest", sourceDetail = "It's Dangerous to Go Alone (Un'Goro)" },
+    [11174] = { name = "Linken's Sword of Mastery", quality = 4, source = "Quest", sourceDetail = "It's Dangerous to Go Alone (Un'Goro)" },
+    
+    -- Silithus Quests
+    [20726] = { name = "Cenarion Circle Cache", quality = 3, source = "Quest", sourceDetail = "Hive in the Tower (Silithus)" },
+    [20727] = { name = "Sharpened Silithid Femur", quality = 3, source = "Quest", sourceDetail = "Hive in the Tower (Silithus)" },
+    [20728] = { name = "Savannah Bracers", quality = 2, source = "Quest", sourceDetail = "Deadly Desert Venom (Silithus)" },
+    [20729] = { name = "Earthclasp Barrier", quality = 2, source = "Quest", sourceDetail = "Cenarion Battlegear (Silithus)" },
+    [20730] = { name = "Cenarion Reservist's Legplates", quality = 3, source = "Quest", sourceDetail = "Cenarion Reservist's Leggings (Silithus)" },
+    
+    -- Winterspring Quests
+    [12384] = { name = "Snowblind Shoes", quality = 2, source = "Quest", sourceDetail = "Are We There, Yeti? (Winterspring)" },
+    [12385] = { name = "Fractured Elemental Bracer", quality = 2, source = "Quest", sourceDetail = "Luck Be With You (Winterspring)" },
+    [12386] = { name = "Winterfall Firewater", quality = 2, source = "Quest", sourceDetail = "Winterfall Activity (Winterspring)" },
+    [12387] = { name = "Chromatic Sword", quality = 3, source = "Quest", sourceDetail = "Shy-Rotam (Winterspring)" },
+    [12388] = { name = "Soulstealer Mantle", quality = 3, source = "Quest", sourceDetail = "Ursius (Winterspring)" },
+    [12389] = { name = "Rage of Mugamba", quality = 3, source = "Quest", sourceDetail = "Brumeran (Winterspring)" },
+    
+    -- ============================================================================
+    --                      QUEST REWARDS - Horde Starting Areas
+    -- ============================================================================
+    -- Durotar / Barrens Quests
+    [4941] = { name = "Thrall's Resolve", quality = 2, source = "Quest", sourceDetail = "Hidden Enemies (Durotar)" },
+    [4942] = { name = "Fury of Razorfen", quality = 2, source = "Quest", sourceDetail = "Razorfen Downs" },
+    [4943] = { name = "Robes of the Lich", quality = 3, source = "Quest", sourceDetail = "Bring the End (RFD)" },
+    [4959] = { name = "Reigelord's Sword", quality = 2, source = "Quest", sourceDetail = "An Angry Horde (Barrens)" },
+    [4960] = { name = "Crochet Boots", quality = 2, source = "Quest", sourceDetail = "Disrupt the Attacks (Barrens)" },
+    [4961] = { name = "Flightblade Throwing Axe", quality = 2, source = "Quest", sourceDetail = "Eggs of Ironforge (Barrens)" },
+    [4962] = { name = "Deathstalker's Dagger", quality = 2, source = "Quest", sourceDetail = "Crossroads Conscription (Barrens)" },
+    [4971] = { name = "Skeletal Gauntlets", quality = 2, source = "Quest", sourceDetail = "Apothecary Zamah (Barrens)" },
+    [4972] = { name = "Gloves of Karsh", quality = 2, source = "Quest", sourceDetail = "The Angry Scytheclaws (Barrens)" },
+    [4973] = { name = "Tundra Boots", quality = 2, source = "Quest", sourceDetail = "Consumed by Hatred (Barrens)" },
+    
+    -- Tirisfal Glades / Silverpine Forest Quests
+    [3324] = { name = "Ghostweave Belt", quality = 2, source = "Quest", sourceDetail = "A Rogue's Deal (Tirisfal)" },
+    [3325] = { name = "Vile Fin Battle Axe", quality = 2, source = "Quest", sourceDetail = "Prove Your Worth (Tirisfal)" },
+    [3326] = { name = "Ghostly Mantle", quality = 2, source = "Quest", sourceDetail = "A New Plague (Tirisfal)" },
+    [3327] = { name = "Rattlecage Buckler", quality = 2, source = "Quest", sourceDetail = "Proof of Demise (Tirisfal)" },
+    [6326] = { name = "Befouled Bloodstone Orb", quality = 3, source = "Quest", sourceDetail = "Arugal's Folly (Silverpine)" },
+    [6327] = { name = "Leggings of the Darkness", quality = 2, source = "Quest", sourceDetail = "Border Crossings (Silverpine)" },
+    [6328] = { name = "Fenrus' Hide", quality = 3, source = "Quest", sourceDetail = "Fenrus the Devourer (Shadowfang Keep)" },
+    [6829] = { name = "Seal of Sylvanas", quality = 3, source = "Quest", sourceDetail = "The Dark Lady (Silverpine)" },
+    
+    -- Mulgore / Stonetalon Quests  
+    [4907] = { name = "Loch Croc Hide Bag", quality = 2, source = "Quest", sourceDetail = "A Hunter's Boast (Mulgore)" },
+    [4908] = { name = "Rainwalker Boots", quality = 2, source = "Quest", sourceDetail = "Dangers of the Windfury (Mulgore)" },
+    [4909] = { name = "Kodo Hunter's Leggings", quality = 2, source = "Quest", sourceDetail = "The Kodo's Return (Mulgore)" },
+    [4910] = { name = "Tribal Warrior's Shield", quality = 2, source = "Quest", sourceDetail = "Rite of Vision (Mulgore)" },
+    [6742] = { name = "Stonefist Girdle", quality = 2, source = "Quest", sourceDetail = "Boulderslide Ravine (Stonetalon)" },
+    [6743] = { name = "Sustaining Ring", quality = 2, source = "Quest", sourceDetail = "Bloodfury Bloodline (Stonetalon)" },
+    [6744] = { name = "Windweaver Staff", quality = 3, source = "Quest", sourceDetail = "Elemental War (Stonetalon)" },
+    [6745] = { name = "Bastion of Stonetalon", quality = 2, source = "Quest", sourceDetail = "Cycle of Rebirth (Stonetalon)" },
+    
+    -- ============================================================================
+    --                      VENDOR ITEMS - Food & Drinks
+    -- ============================================================================
+    [117] = { name = "Tough Jerky", quality = 1, source = "Vendor", sourceDetail = "General Goods (Starting Areas)" },
+    [159] = { name = "Refreshing Spring Water", quality = 1, source = "Vendor", sourceDetail = "Innkeepers" },
+    [414] = { name = "Dalaran Sharp", quality = 1, source = "Vendor", sourceDetail = "Cheese Vendors" },
+    [422] = { name = "Dwarven Mild", quality = 1, source = "Vendor", sourceDetail = "Cheese Vendors" },
+    [787] = { name = "Slitherskin Mackerel", quality = 1, source = "Vendor", sourceDetail = "Fishing Vendors" },
+    [1179] = { name = "Ice Cold Milk", quality = 1, source = "Vendor", sourceDetail = "Innkeepers" },
+    [1205] = { name = "Melon Juice", quality = 1, source = "Vendor", sourceDetail = "Innkeepers" },
+    [1645] = { name = "Moonberry Juice", quality = 1, source = "Vendor", sourceDetail = "Innkeepers" },
+    [1708] = { name = "Sweet Nectar", quality = 1, source = "Vendor", sourceDetail = "Innkeepers" },
+    [2287] = { name = "Haunch of Meat", quality = 1, source = "Vendor", sourceDetail = "General Goods" },
+    [2594] = { name = "Flagon of Mead", quality = 1, source = "Vendor", sourceDetail = "Innkeepers" },
+    [2595] = { name = "Jug of Bourbon", quality = 1, source = "Vendor", sourceDetail = "Innkeepers" },
+    [3770] = { name = "Mutton Chop", quality = 1, source = "Vendor", sourceDetail = "General Goods" },
+    [3771] = { name = "Wild Hog Shank", quality = 1, source = "Vendor", sourceDetail = "General Goods" },
+    [4599] = { name = "Cured Ham Steak", quality = 1, source = "Vendor", sourceDetail = "General Goods" },
+    [4601] = { name = "Soft Banana Bread", quality = 1, source = "Vendor", sourceDetail = "General Goods" },
+    [4540] = { name = "Tough Hunk of Bread", quality = 1, source = "Vendor", sourceDetail = "General Goods (Starting Areas)" },
+    [4541] = { name = "Freshly Baked Bread", quality = 1, source = "Vendor", sourceDetail = "General Goods" },
+    [4542] = { name = "Moist Cornbread", quality = 1, source = "Vendor", sourceDetail = "General Goods" },
+    [4544] = { name = "Mulgore Spice Bread", quality = 1, source = "Vendor", sourceDetail = "General Goods (Mulgore)" },
+    [4594] = { name = "Rockscale Cod", quality = 1, source = "Vendor", sourceDetail = "Fishing Vendors" },
+    [4602] = { name = "Moon Harvest Pumpkin", quality = 1, source = "Vendor", sourceDetail = "General Goods" },
+    [4608] = { name = "Raw Black Truffle", quality = 1, source = "Vendor", sourceDetail = "Special Vendors" },
+    [8766] = { name = "Morning Glory Dew", quality = 1, source = "Vendor", sourceDetail = "Innkeepers" },
+    [8932] = { name = "Alterac Swiss", quality = 1, source = "Vendor", sourceDetail = "Cheese Vendors" },
+    [8948] = { name = "Dried King Bolete", quality = 1, source = "Vendor", sourceDetail = "General Goods" },
+    [8950] = { name = "Homemade Cherry Pie", quality = 1, source = "Vendor", sourceDetail = "General Goods" },
+    [8952] = { name = "Roasted Quail", quality = 1, source = "Vendor", sourceDetail = "General Goods" },
+    [8953] = { name = "Deep Fried Plantains", quality = 1, source = "Vendor", sourceDetail = "General Goods" },
+    [13724] = { name = "Enriched Manna Biscuit", quality = 1, source = "Vendor", sourceDetail = "Argent Dawn" },
+    [18255] = { name = "Runn Tum Tuber Surprise", quality = 1, source = "Drop", sourceDetail = "Pusillin (Dire Maul East)" },
+    [19301] = { name = "Alterac Manna Biscuit", quality = 1, source = "Vendor", sourceDetail = "Alterac Valley" },
+    [19300] = { name = "Bottled Alterac Spring Water", quality = 1, source = "Vendor", sourceDetail = "Alterac Valley" },
+    
+    -- ============================================================================
+    --                      VENDOR ITEMS - Reagents & Consumables
+    -- ============================================================================
+    [17020] = { name = "Arcane Powder", quality = 1, source = "Vendor", sourceDetail = "Reagent Vendors (Mage)" },
+    [17021] = { name = "Wild Berries", quality = 1, source = "Vendor", sourceDetail = "Reagent Vendors (Druid)" },
+    [17026] = { name = "Wild Thornroot", quality = 1, source = "Vendor", sourceDetail = "Reagent Vendors (Druid)" },
+    [17028] = { name = "Holy Candle", quality = 1, source = "Vendor", sourceDetail = "Reagent Vendors (Priest)" },
+    [17029] = { name = "Sacred Candle", quality = 1, source = "Vendor", sourceDetail = "Reagent Vendors (Priest)" },
+    [17030] = { name = "Ankh", quality = 1, source = "Vendor", sourceDetail = "Reagent Vendors (Shaman)" },
+    [17031] = { name = "Rune of Teleportation", quality = 1, source = "Vendor", sourceDetail = "Reagent Vendors (Mage)" },
+    [17032] = { name = "Rune of Portals", quality = 1, source = "Vendor", sourceDetail = "Reagent Vendors (Mage)" },
+    [17033] = { name = "Symbol of Divinity", quality = 1, source = "Vendor", sourceDetail = "Reagent Vendors (Paladin)" },
+    [17034] = { name = "Maple Seed", quality = 1, source = "Vendor", sourceDetail = "Reagent Vendors (Druid)" },
+    [17035] = { name = "Stranglethorn Seed", quality = 1, source = "Vendor", sourceDetail = "Reagent Vendors (Druid)" },
+    [17036] = { name = "Ashwood Seed", quality = 1, source = "Vendor", sourceDetail = "Reagent Vendors (Druid)" },
+    [17037] = { name = "Hornbeam Seed", quality = 1, source = "Vendor", sourceDetail = "Reagent Vendors (Druid)" },
+    [17038] = { name = "Ironwood Seed", quality = 1, source = "Vendor", sourceDetail = "Reagent Vendors (Druid)" },
+    [5060] = { name = "Thieves' Tools", quality = 1, source = "Vendor", sourceDetail = "Reagent Vendors (Rogue)" },
+    [5140] = { name = "Flash Powder", quality = 1, source = "Vendor", sourceDetail = "Reagent Vendors (Rogue)" },
+    [5173] = { name = "Deathweed", quality = 1, source = "Vendor", sourceDetail = "Reagent Vendors (Rogue)" },
+    [5565] = { name = "Infernal Stone", quality = 1, source = "Vendor", sourceDetail = "Reagent Vendors (Warlock)" },
+    [16583] = { name = "Demonic Figurine", quality = 1, source = "Vendor", sourceDetail = "Reagent Vendors (Warlock)" },
+    [6265] = { name = "Soul Shard", quality = 1, source = "Drop", sourceDetail = "Warlock Drain Soul" },
+    [5500] = { name = "Iridescent Pearl", quality = 2, source = "Drop", sourceDetail = "Clams (Shellfish Trap)" },
+    [7971] = { name = "Black Pearl", quality = 2, source = "Drop", sourceDetail = "Clams (High Level)" },
+    [13926] = { name = "Golden Pearl", quality = 3, source = "Drop", sourceDetail = "Clams (High Level)" },
+    
+    -- ============================================================================
+    --                      VENDOR ITEMS - Profession Materials
+    -- ============================================================================
+    -- Leatherworking
+    [2320] = { name = "Coarse Thread", quality = 1, source = "Vendor", sourceDetail = "Trade Goods Vendors" },
+    [2321] = { name = "Fine Thread", quality = 1, source = "Vendor", sourceDetail = "Trade Goods Vendors" },
+    [4340] = { name = "Gray Dye", quality = 1, source = "Vendor", sourceDetail = "Trade Goods Vendors" },
+    [4341] = { name = "Yellow Dye", quality = 1, source = "Vendor", sourceDetail = "Trade Goods Vendors" },
+    [4342] = { name = "Purple Dye", quality = 1, source = "Vendor", sourceDetail = "Trade Goods Vendors" },
+    [6260] = { name = "Blue Dye", quality = 1, source = "Vendor", sourceDetail = "Trade Goods Vendors" },
+    [6261] = { name = "Orange Dye", quality = 1, source = "Vendor", sourceDetail = "Trade Goods Vendors" },
+    [2324] = { name = "Bleach", quality = 1, source = "Vendor", sourceDetail = "Trade Goods Vendors" },
+    [2325] = { name = "Black Dye", quality = 1, source = "Vendor", sourceDetail = "Trade Goods Vendors" },
+    [4289] = { name = "Salt", quality = 1, source = "Vendor", sourceDetail = "Trade Goods Vendors" },
+    [7005] = { name = "Skinning Knife", quality = 1, source = "Vendor", sourceDetail = "Trade Goods Vendors" },
+    [8343] = { name = "Heavy Silken Thread", quality = 1, source = "Vendor", sourceDetail = "Trade Goods Vendors" },
+    [14341] = { name = "Rune Thread", quality = 1, source = "Vendor", sourceDetail = "Trade Goods Vendors" },
+    
+    -- Blacksmithing
+    [2880] = { name = "Weak Flux", quality = 1, source = "Vendor", sourceDetail = "Trade Goods Vendors" },
+    [3466] = { name = "Strong Flux", quality = 1, source = "Vendor", sourceDetail = "Trade Goods Vendors" },
+    [3857] = { name = "Coal", quality = 1, source = "Vendor", sourceDetail = "Trade Goods Vendors" },
+    [5956] = { name = "Blacksmith Hammer", quality = 1, source = "Vendor", sourceDetail = "Trade Goods Vendors" },
+    
+    -- Alchemy
+    [3371] = { name = "Empty Vial", quality = 1, source = "Vendor", sourceDetail = "Trade Goods Vendors" },
+    [3372] = { name = "Leaded Vial", quality = 1, source = "Vendor", sourceDetail = "Trade Goods Vendors" },
+    [8925] = { name = "Crystal Vial", quality = 1, source = "Vendor", sourceDetail = "Trade Goods Vendors" },
+    
+    -- Enchanting
+    [6217] = { name = "Copper Rod", quality = 1, source = "Vendor", sourceDetail = "Trade Goods Vendors" },
+    [16207] = { name = "Runed Arcanite Rod", quality = 1, source = "Crafted", sourceDetail = "Enchanting" },
+    [11291] = { name = "Star Wood", quality = 1, source = "Vendor", sourceDetail = "Trade Goods Vendors (Enchanting)" },
+    
+    -- ============================================================================
+    --                      COMMON/TRASH ITEMS - Grey Quality
+    -- ============================================================================
+    [729] = { name = "Stringy Wolf Meat", quality = 0, source = "Drop", sourceDetail = "Wolves" },
+    [730] = { name = "Murloc Eye", quality = 0, source = "Drop", sourceDetail = "Murlocs" },
+    [731] = { name = "Goretusk Liver", quality = 0, source = "Drop", sourceDetail = "Goretusks" },
+    [732] = { name = "Chunks of Boar Meat", quality = 0, source = "Drop", sourceDetail = "Boars" },
+    [769] = { name = "Chunk of Boar Meat", quality = 0, source = "Drop", sourceDetail = "Boars" },
+    [774] = { name = "Malachite", quality = 2, source = "Drop", sourceDetail = "Mining/Prospecting" },
+    [818] = { name = "Tigerseye", quality = 2, source = "Drop", sourceDetail = "Mining/Prospecting" },
+    [1288] = { name = "Large Venom Sac", quality = 0, source = "Drop", sourceDetail = "Spiders" },
+    [1468] = { name = "Murloc Fin", quality = 0, source = "Drop", sourceDetail = "Murlocs" },
+    [1475] = { name = "Small Venom Sac", quality = 0, source = "Drop", sourceDetail = "Spiders" },
+    [1529] = { name = "Jade", quality = 2, source = "Drop", sourceDetail = "Mining/Prospecting" },
+    [1705] = { name = "Lesser Moonstone", quality = 2, source = "Drop", sourceDetail = "Mining/Prospecting" },
+    [2318] = { name = "Light Leather", quality = 1, source = "Drop", sourceDetail = "Skinning" },
+    [2319] = { name = "Medium Leather", quality = 1, source = "Drop", sourceDetail = "Skinning" },
+    [4232] = { name = "Medium Hide", quality = 1, source = "Drop", sourceDetail = "Skinning" },
+    [4233] = { name = "Light Hide", quality = 1, source = "Drop", sourceDetail = "Skinning" },
+    [4234] = { name = "Heavy Leather", quality = 1, source = "Drop", sourceDetail = "Skinning" },
+    [4235] = { name = "Heavy Hide", quality = 1, source = "Drop", sourceDetail = "Skinning" },
+    [4236] = { name = "Cured Heavy Hide", quality = 1, source = "Crafted", sourceDetail = "Leatherworking" },
+    [4304] = { name = "Thick Leather", quality = 1, source = "Drop", sourceDetail = "Skinning" },
+    [8169] = { name = "Thick Hide", quality = 1, source = "Drop", sourceDetail = "Skinning" },
+    [8170] = { name = "Rugged Leather", quality = 1, source = "Drop", sourceDetail = "Skinning" },
+    [8171] = { name = "Rugged Hide", quality = 1, source = "Drop", sourceDetail = "Skinning" },
+    [2770] = { name = "Copper Ore", quality = 1, source = "Drop", sourceDetail = "Mining" },
+    [2771] = { name = "Tin Ore", quality = 1, source = "Drop", sourceDetail = "Mining" },
+    [2772] = { name = "Iron Ore", quality = 1, source = "Drop", sourceDetail = "Mining" },
+    [2775] = { name = "Silver Ore", quality = 2, source = "Drop", sourceDetail = "Mining" },
+    [2776] = { name = "Gold Ore", quality = 2, source = "Drop", sourceDetail = "Mining" },
+    [3858] = { name = "Mithril Ore", quality = 1, source = "Drop", sourceDetail = "Mining" },
+    [7911] = { name = "Truesilver Ore", quality = 2, source = "Drop", sourceDetail = "Mining" },
+    [10620] = { name = "Thorium Ore", quality = 1, source = "Drop", sourceDetail = "Mining" },
+    [12364] = { name = "Huge Emerald", quality = 3, source = "Drop", sourceDetail = "Mining (Thorium)" },
+    [12363] = { name = "Arcane Crystal", quality = 3, source = "Drop", sourceDetail = "Mining (Rich Thorium)" },
+    [12800] = { name = "Azerothian Diamond", quality = 3, source = "Drop", sourceDetail = "Mining (Thorium)" },
+    [12799] = { name = "Large Opal", quality = 3, source = "Drop", sourceDetail = "Mining (Thorium)" },
+    [12361] = { name = "Blue Sapphire", quality = 3, source = "Drop", sourceDetail = "Mining (Thorium)" },
+    [12360] = { name = "Arcanite Bar", quality = 3, source = "Crafted", sourceDetail = "Alchemy (Transmute)" },
+    [2449] = { name = "Earthroot", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [2450] = { name = "Briarthorn", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [2452] = { name = "Swiftthistle", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [2453] = { name = "Bruiseweed", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [3355] = { name = "Wild Steelbloom", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [3356] = { name = "Kingsblood", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [3357] = { name = "Liferoot", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [3358] = { name = "Khadgar's Whisker", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [3369] = { name = "Grave Moss", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [3818] = { name = "Fadeleaf", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [3819] = { name = "Wintersbite", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [3820] = { name = "Stranglekelp", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [3821] = { name = "Goldthorn", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [4625] = { name = "Firebloom", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [8831] = { name = "Purple Lotus", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [8836] = { name = "Arthas' Tears", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [8838] = { name = "Sungrass", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [8839] = { name = "Blindweed", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [8845] = { name = "Ghost Mushroom", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [8846] = { name = "Gromsblood", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [13463] = { name = "Dreamfoil", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [13464] = { name = "Golden Sansam", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [13465] = { name = "Mountain Silversage", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [13466] = { name = "Plaguebloom", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [13467] = { name = "Icecap", quality = 1, source = "Drop", sourceDetail = "Herbalism" },
+    [13468] = { name = "Black Lotus", quality = 3, source = "Drop", sourceDetail = "Herbalism (Rare)" },
+    
+    -- Cloth
+    [2589] = { name = "Linen Cloth", quality = 1, source = "Drop", sourceDetail = "Humanoids (Level 1-15)" },
+    [2592] = { name = "Wool Cloth", quality = 1, source = "Drop", sourceDetail = "Humanoids (Level 15-30)" },
+    [4306] = { name = "Silk Cloth", quality = 1, source = "Drop", sourceDetail = "Humanoids (Level 25-40)" },
+    [4338] = { name = "Mageweave Cloth", quality = 1, source = "Drop", sourceDetail = "Humanoids (Level 35-50)" },
+    [14047] = { name = "Runecloth", quality = 1, source = "Drop", sourceDetail = "Humanoids (Level 50-60)" },
+    [14256] = { name = "Felcloth", quality = 2, source = "Drop", sourceDetail = "Felguards / Demons" },
+    [14342] = { name = "Mooncloth", quality = 3, source = "Crafted", sourceDetail = "Tailoring (Moonwell)" },
+    
+    -- Enchanting Materials
+    [10938] = { name = "Lesser Magic Essence", quality = 2, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [10939] = { name = "Greater Magic Essence", quality = 2, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [10940] = { name = "Strange Dust", quality = 1, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [10978] = { name = "Small Glimmering Shard", quality = 3, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [10998] = { name = "Lesser Astral Essence", quality = 2, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [11082] = { name = "Greater Astral Essence", quality = 2, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [11083] = { name = "Soul Dust", quality = 1, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [11084] = { name = "Large Glimmering Shard", quality = 3, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [11134] = { name = "Lesser Mystic Essence", quality = 2, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [11135] = { name = "Greater Mystic Essence", quality = 2, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [11137] = { name = "Vision Dust", quality = 1, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [11138] = { name = "Small Glowing Shard", quality = 3, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [11139] = { name = "Large Glowing Shard", quality = 3, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [11174] = { name = "Lesser Nether Essence", quality = 2, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [11175] = { name = "Greater Nether Essence", quality = 2, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [11176] = { name = "Dream Dust", quality = 1, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [11177] = { name = "Small Radiant Shard", quality = 3, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [11178] = { name = "Large Radiant Shard", quality = 3, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [16202] = { name = "Lesser Eternal Essence", quality = 2, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [16203] = { name = "Greater Eternal Essence", quality = 2, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [16204] = { name = "Illusion Dust", quality = 1, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [14343] = { name = "Small Brilliant Shard", quality = 3, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [14344] = { name = "Large Brilliant Shard", quality = 3, source = "Crafted", sourceDetail = "Enchanting (Disenchant)" },
+    [20725] = { name = "Nexus Crystal", quality = 4, source = "Crafted", sourceDetail = "Enchanting (Disenchant Epic)" },
 }
 
 --------------------------------------------------------------------------------
