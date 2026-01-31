@@ -1018,6 +1018,420 @@ DB.Items = {
     [9453] = { name = "Toxic Revenger", quality = 3, source = "Drop", sourceDetail = "Viscous Fallout (Gnomeregan)" },
     [9490] = { name = "Gizmotron Megachopper", quality = 3, source = "Drop", sourceDetail = "Mekgineer Thermaplugg (Gnomeregan)" },
     [9492] = { name = "Electromagnetic Gigaflux Reactivator", quality = 3, source = "Drop", sourceDetail = "Mekgineer Thermaplugg (Gnomeregan)" },
+    
+    -- ============================================================================
+    --                    TIER 0.5 DUNGEON SET 2 (Upgrade Quests)
+    -- ============================================================================
+    -- Sorcerer's Regalia (Mage - Upgraded Magister's)
+    [22065] = { name = "Sorcerer's Crown", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "MAGE" },
+    [22066] = { name = "Sorcerer's Robes", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "MAGE" },
+    [22067] = { name = "Sorcerer's Leggings", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "MAGE" },
+    [22068] = { name = "Sorcerer's Mantle", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "MAGE" },
+    [22069] = { name = "Sorcerer's Gloves", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "MAGE" },
+    [22070] = { name = "Sorcerer's Boots", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "MAGE" },
+    [22071] = { name = "Sorcerer's Belt", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "MAGE" },
+    [22072] = { name = "Sorcerer's Bindings", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "MAGE" },
+    
+    -- Deathmist Raiment (Warlock - Upgraded Dreadmist)
+    [22073] = { name = "Deathmist Mask", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "WARLOCK" },
+    [22074] = { name = "Deathmist Robe", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "WARLOCK" },
+    [22075] = { name = "Deathmist Leggings", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "WARLOCK" },
+    [22076] = { name = "Deathmist Mantle", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "WARLOCK" },
+    [22077] = { name = "Deathmist Wraps", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "WARLOCK" },
+    [22078] = { name = "Deathmist Sandals", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "WARLOCK" },
+    [22079] = { name = "Deathmist Belt", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "WARLOCK" },
+    [22080] = { name = "Deathmist Bracers", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "WARLOCK" },
+    
+    -- Virtuous Raiment (Priest - Upgraded Devout)
+    [22079] = { name = "Virtuous Crown", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "PRIEST" },
+    [22080] = { name = "Virtuous Robe", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "PRIEST" },
+    [22081] = { name = "Virtuous Skirt", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "PRIEST" },
+    [22082] = { name = "Virtuous Mantle", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "PRIEST" },
+    [22083] = { name = "Virtuous Gloves", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "PRIEST" },
+    [22084] = { name = "Virtuous Sandals", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "PRIEST" },
+    [22085] = { name = "Virtuous Belt", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "PRIEST" },
+    [22086] = { name = "Virtuous Bracers", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "PRIEST" },
+    
+    -- Darkmantle Armor (Rogue - Upgraded Shadowcraft)
+    [22000] = { name = "Darkmantle Cap", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "ROGUE" },
+    [22001] = { name = "Darkmantle Tunic", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "ROGUE" },
+    [22002] = { name = "Darkmantle Pants", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "ROGUE" },
+    [22003] = { name = "Darkmantle Spaulders", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "ROGUE" },
+    [22004] = { name = "Darkmantle Gloves", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "ROGUE" },
+    [22005] = { name = "Darkmantle Boots", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "ROGUE" },
+    [22006] = { name = "Darkmantle Belt", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "ROGUE" },
+    [22007] = { name = "Darkmantle Bracers", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "ROGUE" },
+    
+    -- Feralheart Raiment (Druid - Upgraded Wildheart)
+    [22108] = { name = "Feralheart Cowl", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "DRUID" },
+    [22109] = { name = "Feralheart Vest", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "DRUID" },
+    [22110] = { name = "Feralheart Kilt", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "DRUID" },
+    [22111] = { name = "Feralheart Spaulders", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "DRUID" },
+    [22112] = { name = "Feralheart Gloves", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "DRUID" },
+    [22113] = { name = "Feralheart Boots", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "DRUID" },
+    [22114] = { name = "Feralheart Belt", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "DRUID" },
+    [22115] = { name = "Feralheart Bracers", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "DRUID" },
+    
+    -- Beastmaster Armor (Hunter - Upgraded Beaststalker)
+    [22010] = { name = "Beastmaster's Cap", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "HUNTER" },
+    [22011] = { name = "Beastmaster's Tunic", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "HUNTER" },
+    [22015] = { name = "Beastmaster's Pants", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "HUNTER" },
+    [22016] = { name = "Beastmaster's Mantle", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "HUNTER" },
+    [22012] = { name = "Beastmaster's Gloves", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "HUNTER" },
+    [22013] = { name = "Beastmaster's Boots", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "HUNTER" },
+    [22014] = { name = "Beastmaster's Belt", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "HUNTER" },
+    [22017] = { name = "Beastmaster's Bindings", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "HUNTER" },
+    
+    -- The Five Thunders (Shaman - Upgraded Elements)
+    [22095] = { name = "Coif of the Five Thunders", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "SHAMAN" },
+    [22096] = { name = "Vest of the Five Thunders", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "SHAMAN" },
+    [22097] = { name = "Kilt of the Five Thunders", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "SHAMAN" },
+    [22098] = { name = "Pauldrons of the Five Thunders", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "SHAMAN" },
+    [22099] = { name = "Gauntlets of the Five Thunders", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "SHAMAN" },
+    [22100] = { name = "Boots of the Five Thunders", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "SHAMAN" },
+    [22101] = { name = "Cord of the Five Thunders", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "SHAMAN" },
+    [22102] = { name = "Bindings of the Five Thunders", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "SHAMAN" },
+    
+    -- Soulforge Armor (Paladin - Upgraded Lightforge)
+    [22086] = { name = "Soulforge Helm", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "PALADIN" },
+    [22087] = { name = "Soulforge Breastplate", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "PALADIN" },
+    [22088] = { name = "Soulforge Legplates", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "PALADIN" },
+    [22089] = { name = "Soulforge Spaulders", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "PALADIN" },
+    [22090] = { name = "Soulforge Gauntlets", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "PALADIN" },
+    [22091] = { name = "Soulforge Boots", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "PALADIN" },
+    [22092] = { name = "Soulforge Belt", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "PALADIN" },
+    [22093] = { name = "Soulforge Bracers", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "PALADIN" },
+    
+    -- Heroism Armor (Warrior - Upgraded Valor)
+    [21994] = { name = "Helm of Heroism", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "WARRIOR" },
+    [21995] = { name = "Breastplate of Heroism", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "WARRIOR" },
+    [21996] = { name = "Legplates of Heroism", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "WARRIOR" },
+    [21997] = { name = "Spaulders of Heroism", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "WARRIOR" },
+    [21998] = { name = "Gauntlets of Heroism", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "WARRIOR" },
+    [21999] = { name = "Boots of Heroism", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "WARRIOR" },
+    [22000] = { name = "Belt of Heroism", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "WARRIOR" },
+    [22001] = { name = "Bracers of Heroism", quality = 4, source = "Quest", sourceDetail = "Dungeon Set 2 Upgrade", class = "WARRIOR" },
+    
+    -- ============================================================================
+    --                       REPUTATION REWARDS
+    -- ============================================================================
+    -- Argent Dawn
+    [13209] = { name = "Seal of the Dawn", quality = 3, source = "Reputation", sourceDetail = "Argent Dawn (Honored)" },
+    [13216] = { name = "Crown of the Penitent", quality = 3, source = "Reputation", sourceDetail = "Argent Dawn (Revered)" },
+    [22401] = { name = "Arcane Mantle of the Dawn", quality = 3, source = "Reputation", sourceDetail = "Argent Dawn (Exalted)" },
+    [22402] = { name = "Chromatic Mantle of the Dawn", quality = 3, source = "Reputation", sourceDetail = "Argent Dawn (Exalted)" },
+    [22403] = { name = "Flame Mantle of the Dawn", quality = 3, source = "Reputation", sourceDetail = "Argent Dawn (Exalted)" },
+    [22404] = { name = "Frost Mantle of the Dawn", quality = 3, source = "Reputation", sourceDetail = "Argent Dawn (Exalted)" },
+    [22405] = { name = "Nature Mantle of the Dawn", quality = 3, source = "Reputation", sourceDetail = "Argent Dawn (Exalted)" },
+    [22406] = { name = "Shadow Mantle of the Dawn", quality = 3, source = "Reputation", sourceDetail = "Argent Dawn (Exalted)" },
+    [18169] = { name = "Flame Deflector", quality = 2, source = "Reputation", sourceDetail = "Argent Dawn (Friendly)" },
+    [22636] = { name = "Blessed Wizard Oil", quality = 2, source = "Reputation", sourceDetail = "Argent Dawn (Revered)" },
+    [22637] = { name = "Holy Water", quality = 1, source = "Reputation", sourceDetail = "Argent Dawn (Honored)" },
+    
+    -- Timbermaw Hold
+    [21326] = { name = "Defender of the Timbermaw", quality = 4, source = "Reputation", sourceDetail = "Timbermaw Hold (Exalted)" },
+    [19047] = { name = "Timbermaw Brawlers", quality = 3, source = "Reputation", sourceDetail = "Timbermaw Hold (Revered)" },
+    [19049] = { name = "Wisdom of the Timbermaw", quality = 3, source = "Reputation", sourceDetail = "Timbermaw Hold (Honored)" },
+    [19050] = { name = "Furbolg Medicine Pouch", quality = 3, source = "Reputation", sourceDetail = "Timbermaw Hold (Revered)" },
+    [19051] = { name = "Furbolg Medicine Totem", quality = 3, source = "Reputation", sourceDetail = "Timbermaw Hold (Honored)" },
+    [19052] = { name = "Timbermaw Ancestor", quality = 3, source = "Reputation", sourceDetail = "Timbermaw Hold (Honored)" },
+    [19053] = { name = "Timbermaw Ancestor", quality = 3, source = "Reputation", sourceDetail = "Timbermaw Hold (Honored)" },
+    [20253] = { name = "Pattern: Warbear Harness", quality = 3, source = "Reputation", sourceDetail = "Timbermaw Hold (Honored)" },
+    [20254] = { name = "Pattern: Warbear Woolies", quality = 3, source = "Reputation", sourceDetail = "Timbermaw Hold (Honored)" },
+    
+    -- Thorium Brotherhood
+    [17015] = { name = "Pattern: Corehound Boots", quality = 4, source = "Reputation", sourceDetail = "Thorium Brotherhood (Honored)" },
+    [17022] = { name = "Pattern: Corehound Belt", quality = 4, source = "Reputation", sourceDetail = "Thorium Brotherhood (Friendly)" },
+    [17025] = { name = "Pattern: Black Dragonscale Boots", quality = 4, source = "Reputation", sourceDetail = "Thorium Brotherhood (Honored)" },
+    [18628] = { name = "Plans: Demon Forged Breastplate", quality = 4, source = "Reputation", sourceDetail = "Thorium Brotherhood (Exalted)" },
+    [18629] = { name = "Plans: Fiery Chain Girdle", quality = 4, source = "Reputation", sourceDetail = "Thorium Brotherhood (Exalted)" },
+    [18630] = { name = "Plans: Fiery Chain Shoulders", quality = 4, source = "Reputation", sourceDetail = "Thorium Brotherhood (Exalted)" },
+    [18632] = { name = "Plans: Dark Iron Helm", quality = 4, source = "Reputation", sourceDetail = "Thorium Brotherhood (Honored)" },
+    [18633] = { name = "Plans: Dark Iron Gauntlets", quality = 4, source = "Reputation", sourceDetail = "Thorium Brotherhood (Revered)" },
+    [18634] = { name = "Plans: Dark Iron Destroyer", quality = 4, source = "Reputation", sourceDetail = "Thorium Brotherhood (Exalted)" },
+    [18592] = { name = "Plans: Sulfuron Hammer", quality = 5, source = "Reputation", sourceDetail = "Thorium Brotherhood (Exalted)" },
+    
+    -- Cenarion Circle
+    [22209] = { name = "Plans: Heavy Obsidian Belt", quality = 4, source = "Reputation", sourceDetail = "Cenarion Circle (Friendly)" },
+    [22214] = { name = "Plans: Light Obsidian Belt", quality = 4, source = "Reputation", sourceDetail = "Cenarion Circle (Friendly)" },
+    [22219] = { name = "Plans: Jagged Obsidian Shield", quality = 4, source = "Reputation", sourceDetail = "Cenarion Circle (Revered)" },
+    [22221] = { name = "Plans: Obsidian Mail Tunic", quality = 4, source = "Reputation", sourceDetail = "Cenarion Circle (Revered)" },
+    [22766] = { name = "Pattern: Bramblewood Helm", quality = 4, source = "Reputation", sourceDetail = "Cenarion Circle (Revered)" },
+    [22769] = { name = "Pattern: Bramblewood Belt", quality = 4, source = "Reputation", sourceDetail = "Cenarion Circle (Friendly)" },
+    [22770] = { name = "Pattern: Bramblewood Boots", quality = 4, source = "Reputation", sourceDetail = "Cenarion Circle (Honored)" },
+    [22772] = { name = "Pattern: Sylvan Shoulders", quality = 4, source = "Reputation", sourceDetail = "Cenarion Circle (Exalted)" },
+    [22773] = { name = "Pattern: Sylvan Crown", quality = 4, source = "Reputation", sourceDetail = "Cenarion Circle (Revered)" },
+    [22683] = { name = "Pattern: Cenarion Herb Bag", quality = 3, source = "Reputation", sourceDetail = "Cenarion Circle (Revered)" },
+    
+    -- Hydraxian Waterlords
+    [17333] = { name = "Aqual Quintessence", quality = 3, source = "Reputation", sourceDetail = "Hydraxian Waterlords (Revered)" },
+    [22754] = { name = "Eternal Quintessence", quality = 3, source = "Reputation", sourceDetail = "Hydraxian Waterlords (Exalted)" },
+    
+    -- Brood of Nozdormu
+    [21205] = { name = "Signet Ring of the Bronze Dragonflight", quality = 4, source = "Reputation", sourceDetail = "Brood of Nozdormu (Exalted)" },
+    [21206] = { name = "Signet Ring of the Bronze Dragonflight", quality = 4, source = "Reputation", sourceDetail = "Brood of Nozdormu (Revered)" },
+    [21207] = { name = "Signet Ring of the Bronze Dragonflight", quality = 4, source = "Reputation", sourceDetail = "Brood of Nozdormu (Honored)" },
+    [21208] = { name = "Signet Ring of the Bronze Dragonflight", quality = 4, source = "Reputation", sourceDetail = "Brood of Nozdormu (Friendly)" },
+    [21209] = { name = "Signet Ring of the Bronze Dragonflight", quality = 4, source = "Reputation", sourceDetail = "Brood of Nozdormu (Neutral)" },
+    
+    -- Zandalar Tribe
+    [19820] = { name = "Zandalar Signet of Might", quality = 4, source = "Reputation", sourceDetail = "Zandalar Tribe (Exalted)" },
+    [19821] = { name = "Zandalar Signet of Mojo", quality = 4, source = "Reputation", sourceDetail = "Zandalar Tribe (Exalted)" },
+    [19822] = { name = "Zandalar Signet of Serenity", quality = 4, source = "Reputation", sourceDetail = "Zandalar Tribe (Exalted)" },
+    [19948] = { name = "Zandalarian Hero Badge", quality = 4, source = "Reputation", sourceDetail = "Zandalar Tribe (Exalted)" },
+    [19949] = { name = "Zandalarian Hero Medallion", quality = 4, source = "Reputation", sourceDetail = "Zandalar Tribe (Exalted)" },
+    [19950] = { name = "Zandalarian Hero Charm", quality = 4, source = "Reputation", sourceDetail = "Zandalar Tribe (Exalted)" },
+    
+    -- Wintersaber Trainers
+    [13086] = { name = "Winterspring Frostsaber", quality = 4, source = "Reputation", sourceDetail = "Wintersaber Trainers (Exalted)" },
+    
+    -- ============================================================================
+    --                      EPIC WORLD DROPS
+    -- ============================================================================
+    [14551] = { name = "Edgemaster's Handguards", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 52-60)" },
+    [867] = { name = "Gloves of Holy Might", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 53-60)" },
+    [940] = { name = "Robes of Insight", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 53-60)" },
+    [868] = { name = "Ardent Custodian", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 54-60)" },
+    [1169] = { name = "Blackskull Shield", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 53-60)" },
+    [1980] = { name = "Underworld Band", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 52-60)" },
+    [1982] = { name = "Nightblade", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 53-60)" },
+    [1991] = { name = "Shadowblade", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 53-60)" },
+    [1992] = { name = "Swiftwind", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 52-60)" },
+    [1993] = { name = "Stealthblade", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 54-60)" },
+    [1998] = { name = "Bloodrazor", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 55-60)" },
+    [1999] = { name = "Slicer", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 53-60)" },
+    [2000] = { name = "Archeus", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 51-60)" },
+    [2099] = { name = "Dwarven Hand Cannon", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 49-60)" },
+    [2164] = { name = "Gut Ripper", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 42-50)" },
+    [2244] = { name = "Krol Blade", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 51-60)" },
+    [2801] = { name = "Blade of the Titans", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 48-58)" },
+    [2824] = { name = "Hurricane", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 49-58)" },
+    [2825] = { name = "Bow of Searing Arrows", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 50-60)" },
+    [3475] = { name = "Cloak of Flames", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 47-56)" },
+    [14549] = { name = "Boots of Avoidance", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 52-60)" },
+    [14550] = { name = "Stockade Pauldrons", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 48-57)" },
+    [14552] = { name = "Alcor's Sunrazor", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 45-55)" },
+    [14553] = { name = "Sash of Mercy", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 48-58)" },
+    [14554] = { name = "Cloudkeeper Legplates", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 56-60)" },
+    [14555] = { name = "Alcor's Sunrazor", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 45-55)" },
+    [17012] = { name = "Flurry Axe", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 42-51)" },
+    [17069] = { name = "Striker's Mark", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 48-58)" },
+    [18665] = { name = "The Eye of Shadow", quality = 4, source = "World Drop", sourceDetail = "Lord Kazzak / Elite Demons (Blasted Lands)" },
+    [18703] = { name = "Ancient Petrified Leaf", quality = 4, source = "Drop", sourceDetail = "Majordomo Executus (Molten Core)" },
+    [19138] = { name = "Band of Sulfuras", quality = 4, source = "Drop", sourceDetail = "Ragnaros (Molten Core)" },
+    
+    -- Teebu's Blazing Longsword and other famous world drops
+    [1728] = { name = "Teebu's Blazing Longsword", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 52-60)" },
+    [1168] = { name = "Skullflame Shield", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 53-60)" },
+    [943] = { name = "Warden Staff", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 50-60)" },
+    [944] = { name = "Elemental Mage Staff", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 51-60)" },
+    [810] = { name = "Staff of Jordan", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 35-45)" },
+    [809] = { name = "Bloodrazor", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 45-54)" },
+    [811] = { name = "Glowing Brightwood Staff", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 48-58)" },
+    [942] = { name = "Freezing Band", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 52-60)" },
+    [1315] = { name = "Lei of the Lifegiver", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 55-60)" },
+    [869] = { name = "Dazzling Longsword", quality = 4, source = "World Drop", sourceDetail = "World Drop (Level 50-59)" },
+    
+    -- ============================================================================
+    --                      CRAFTED EPIC ITEMS
+    -- ============================================================================
+    -- Blacksmithing
+    [12640] = { name = "Lionheart Helm", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing (Armorsmithing)" },
+    [12639] = { name = "Stronghold Gauntlets", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing (Weaponsmithing)" },
+    [12636] = { name = "Helm of the Great Chief", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing (Armorsmithing)" },
+    [12632] = { name = "Storm Gauntlets", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing (Armorsmithing)" },
+    [12641] = { name = "Invulnerable Mail", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing (Armorsmithing)" },
+    [12644] = { name = "Helm of the Fireguard", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing" },
+    [12631] = { name = "Fiery Plate Gauntlets", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing (Armorsmithing)" },
+    [12618] = { name = "Enchanted Thorium Breastplate", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing" },
+    [12619] = { name = "Enchanted Thorium Leggings", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing" },
+    [12620] = { name = "Enchanted Thorium Helm", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing" },
+    [12782] = { name = "Corruption", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing (Swordsmithing)" },
+    [12784] = { name = "Arcanite Reaper", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing (Axesmithing)" },
+    [12792] = { name = "Volcanic Hammer", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing (Hammersmithing)" },
+    [12797] = { name = "Frostguard", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing (Swordsmithing)" },
+    [12798] = { name = "Annihilator", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing (Axesmithing)" },
+    [12794] = { name = "Masterwork Stormhammer", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing (Hammersmithing)" },
+    [17193] = { name = "Sulfuron Hammer", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing (300)" },
+    [19166] = { name = "Black Amnesty", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing (Swordsmithing)" },
+    [19167] = { name = "Blackfury", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing (Swordsmithing)" },
+    [19168] = { name = "Blackguard", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing (Swordsmithing)" },
+    [19169] = { name = "Nightfall", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing (Axesmithing)" },
+    [22383] = { name = "Sageblade", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing (Swordsmithing)" },
+    [22384] = { name = "Persuader", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing (Hammersmithing)" },
+    [22385] = { name = "Titanic Leggings", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing (Armorsmithing)" },
+    [22194] = { name = "Black Grasp of the Destroyer", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing" },
+    [22191] = { name = "Obsidian Mail Tunic", quality = 4, source = "Crafted", sourceDetail = "Blacksmithing" },
+    
+    -- Leatherworking
+    [19149] = { name = "Chromatic Gauntlets", quality = 4, source = "Crafted", sourceDetail = "Leatherworking (Dragonscale)" },
+    [19157] = { name = "Chromatic Cloak", quality = 4, source = "Crafted", sourceDetail = "Leatherworking" },
+    [19162] = { name = "Corehound Boots", quality = 4, source = "Crafted", sourceDetail = "Leatherworking" },
+    [19163] = { name = "Molten Belt", quality = 4, source = "Crafted", sourceDetail = "Leatherworking (Elemental)" },
+    [19148] = { name = "Black Dragonscale Boots", quality = 4, source = "Crafted", sourceDetail = "Leatherworking (Dragonscale)" },
+    [20380] = { name = "Dreamscale Breastplate", quality = 4, source = "Crafted", sourceDetail = "Leatherworking" },
+    [20382] = { name = "Polar Bracers", quality = 4, source = "Crafted", sourceDetail = "Leatherworking" },
+    [20385] = { name = "Icy Scale Bracers", quality = 4, source = "Crafted", sourceDetail = "Leatherworking" },
+    [19685] = { name = "Primal Batskin Jerkin", quality = 4, source = "Crafted", sourceDetail = "Leatherworking (Tribal)" },
+    [19051] = { name = "Girdle of the Dawn", quality = 4, source = "Crafted", sourceDetail = "Leatherworking" },
+    [19052] = { name = "Dawn Treaders", quality = 4, source = "Crafted", sourceDetail = "Leatherworking" },
+    [20476] = { name = "Sandstalker Bracers", quality = 4, source = "Crafted", sourceDetail = "Leatherworking (Tribal)" },
+    [20477] = { name = "Sandstalker Gauntlets", quality = 4, source = "Crafted", sourceDetail = "Leatherworking (Tribal)" },
+    [20478] = { name = "Sandstalker Breastplate", quality = 4, source = "Crafted", sourceDetail = "Leatherworking (Tribal)" },
+    [20479] = { name = "Spitfire Bracers", quality = 4, source = "Crafted", sourceDetail = "Leatherworking (Elemental)" },
+    [20480] = { name = "Spitfire Gauntlets", quality = 4, source = "Crafted", sourceDetail = "Leatherworking (Elemental)" },
+    [20481] = { name = "Spitfire Breastplate", quality = 4, source = "Crafted", sourceDetail = "Leatherworking (Elemental)" },
+    
+    -- Tailoring
+    [14152] = { name = "Robe of the Archmage", quality = 4, source = "Crafted", sourceDetail = "Tailoring" },
+    [14153] = { name = "Robe of the Void", quality = 4, source = "Crafted", sourceDetail = "Tailoring (Shadoweave)" },
+    [14154] = { name = "Truefaith Vestments", quality = 4, source = "Crafted", sourceDetail = "Tailoring" },
+    [18405] = { name = "Belt of the Archmage", quality = 4, source = "Crafted", sourceDetail = "Tailoring" },
+    [18407] = { name = "Felcloth Gloves", quality = 4, source = "Crafted", sourceDetail = "Tailoring" },
+    [18408] = { name = "Inferno Gloves", quality = 4, source = "Crafted", sourceDetail = "Tailoring" },
+    [18409] = { name = "Mooncloth Gloves", quality = 4, source = "Crafted", sourceDetail = "Tailoring" },
+    [18486] = { name = "Mooncloth Robe", quality = 4, source = "Crafted", sourceDetail = "Tailoring" },
+    [19682] = { name = "Bloodvine Vest", quality = 4, source = "Crafted", sourceDetail = "Tailoring (ZG Reputation)" },
+    [20539] = { name = "Robe of the Winter Night", quality = 4, source = "Crafted", sourceDetail = "Tailoring (Frostwolf Rep)" },
+    [22658] = { name = "Glacial Cloak", quality = 4, source = "Crafted", sourceDetail = "Tailoring (Naxx)" },
+    [22654] = { name = "Glacial Vest", quality = 4, source = "Crafted", sourceDetail = "Tailoring (Naxx)" },
+    [22655] = { name = "Glacial Gloves", quality = 4, source = "Crafted", sourceDetail = "Tailoring (Naxx)" },
+    [22652] = { name = "Glacial Wrists", quality = 4, source = "Crafted", sourceDetail = "Tailoring (Naxx)" },
+    
+    -- Engineering
+    [18168] = { name = "Force Reactive Disk", quality = 4, source = "Crafted", sourceDetail = "Engineering" },
+    [19999] = { name = "Bloodvine Goggles", quality = 4, source = "Crafted", sourceDetail = "Engineering" },
+    [19998] = { name = "Bloodvine Lens", quality = 4, source = "Crafted", sourceDetail = "Engineering" },
+    [19794] = { name = "Flash Bomb", quality = 3, source = "Crafted", sourceDetail = "Engineering" },
+    [10645] = { name = "Gnomish Death Ray", quality = 3, source = "Crafted", sourceDetail = "Engineering (Gnomish)" },
+    [10716] = { name = "Gnomish Shrink Ray", quality = 3, source = "Crafted", sourceDetail = "Engineering (Gnomish)" },
+    [10577] = { name = "Goblin Mortar", quality = 3, source = "Crafted", sourceDetail = "Engineering (Goblin)" },
+    [10727] = { name = "Goblin Rocket Helmet", quality = 3, source = "Crafted", sourceDetail = "Engineering (Goblin)" },
+    [10543] = { name = "Goblin Jumper Cables XL", quality = 3, source = "Crafted", sourceDetail = "Engineering (Goblin)" },
+    
+    -- ============================================================================
+    --                      HOLIDAY EVENT ITEMS
+    -- ============================================================================
+    -- Lunar Festival
+    [21100] = { name = "Coin of Ancestry", quality = 3, source = "Holiday", sourceDetail = "Lunar Festival" },
+    [21745] = { name = "Elder's Moonstone", quality = 3, source = "Holiday", sourceDetail = "Lunar Festival" },
+    [21747] = { name = "Festival Firecracker", quality = 1, source = "Holiday", sourceDetail = "Lunar Festival" },
+    [21713] = { name = "Elune's Lantern", quality = 3, source = "Holiday", sourceDetail = "Lunar Festival" },
+    [21154] = { name = "Festival Dress", quality = 2, source = "Holiday", sourceDetail = "Lunar Festival" },
+    [21157] = { name = "Festive Blue Pant Suit", quality = 2, source = "Holiday", sourceDetail = "Lunar Festival" },
+    [21538] = { name = "Festive Teal Pant Suit", quality = 2, source = "Holiday", sourceDetail = "Lunar Festival" },
+    [21539] = { name = "Festive Black Pant Suit", quality = 2, source = "Holiday", sourceDetail = "Lunar Festival" },
+    [21541] = { name = "Festive Purple Dress", quality = 2, source = "Holiday", sourceDetail = "Lunar Festival" },
+    [21544] = { name = "Festive Pink Dress", quality = 2, source = "Holiday", sourceDetail = "Lunar Festival" },
+    
+    -- Love is in the Air
+    [22200] = { name = "Silver Shafted Arrow", quality = 2, source = "Holiday", sourceDetail = "Love is in the Air" },
+    [22235] = { name = "Truesilver Shafted Arrow", quality = 3, source = "Holiday", sourceDetail = "Love is in the Air" },
+    [22261] = { name = "Love Fool", quality = 3, source = "Holiday", sourceDetail = "Love is in the Air" },
+    [22218] = { name = "Handful of Rose Petals", quality = 1, source = "Holiday", sourceDetail = "Love is in the Air" },
+    [21813] = { name = "Bag of Heart Candies", quality = 1, source = "Holiday", sourceDetail = "Love is in the Air" },
+    [22279] = { name = "Lovely Black Dress", quality = 2, source = "Holiday", sourceDetail = "Love is in the Air" },
+    [22276] = { name = "Lovely Red Dress", quality = 2, source = "Holiday", sourceDetail = "Love is in the Air" },
+    [22278] = { name = "Lovely Blue Dress", quality = 2, source = "Holiday", sourceDetail = "Love is in the Air" },
+    [22280] = { name = "Lovely Purple Dress", quality = 2, source = "Holiday", sourceDetail = "Love is in the Air" },
+    
+    -- Noblegarden
+    [19028] = { name = "Elegant Dress", quality = 2, source = "Holiday", sourceDetail = "Noblegarden" },
+    [6833] = { name = "White Tuxedo Shirt", quality = 2, source = "Holiday", sourceDetail = "Noblegarden" },
+    [6835] = { name = "Black Tuxedo Pants", quality = 2, source = "Holiday", sourceDetail = "Noblegarden" },
+    
+    -- Children's Week
+    [23007] = { name = "Piglet's Collar", quality = 3, source = "Holiday", sourceDetail = "Children's Week" },
+    [23015] = { name = "Rat Cage", quality = 3, source = "Holiday", sourceDetail = "Children's Week" },
+    [23002] = { name = "Turtle Box", quality = 3, source = "Holiday", sourceDetail = "Children's Week" },
+    [23083] = { name = "Sleepy Willy", quality = 3, source = "Holiday", sourceDetail = "Children's Week" },
+    [23713] = { name = "Curmudgeon's Payoff", quality = 3, source = "Holiday", sourceDetail = "Children's Week" },
+    
+    -- Midsummer Fire Festival
+    [23083] = { name = "Captured Flame", quality = 3, source = "Holiday", sourceDetail = "Midsummer Fire Festival" },
+    [23211] = { name = "Toasting Goblet", quality = 2, source = "Holiday", sourceDetail = "Midsummer Fire Festival" },
+    [23215] = { name = "Flaming Torch", quality = 1, source = "Holiday", sourceDetail = "Midsummer Fire Festival" },
+    [23246] = { name = "Fiery Festival Brew", quality = 2, source = "Holiday", sourceDetail = "Midsummer Fire Festival" },
+    [23247] = { name = "Burning Blossom", quality = 1, source = "Holiday", sourceDetail = "Midsummer Fire Festival" },
+    [23324] = { name = "Crown of the Fire Festival", quality = 3, source = "Holiday", sourceDetail = "Midsummer Fire Festival" },
+    [23323] = { name = "Mantle of the Fire Festival", quality = 3, source = "Holiday", sourceDetail = "Midsummer Fire Festival" },
+    [23379] = { name = "Vestment of Summer", quality = 2, source = "Holiday", sourceDetail = "Midsummer Fire Festival" },
+    
+    -- Hallow's End
+    [18633] = { name = "Hallowed Wand - Bat", quality = 2, source = "Holiday", sourceDetail = "Hallow's End" },
+    [18634] = { name = "Hallowed Wand - Ghost", quality = 2, source = "Holiday", sourceDetail = "Hallow's End" },
+    [18635] = { name = "Hallowed Wand - Leper Gnome", quality = 2, source = "Holiday", sourceDetail = "Hallow's End" },
+    [18636] = { name = "Hallowed Wand - Ninja", quality = 2, source = "Holiday", sourceDetail = "Hallow's End" },
+    [18637] = { name = "Hallowed Wand - Pirate", quality = 2, source = "Holiday", sourceDetail = "Hallow's End" },
+    [18638] = { name = "Hallowed Wand - Random", quality = 2, source = "Holiday", sourceDetail = "Hallow's End" },
+    [18639] = { name = "Hallowed Wand - Skeleton", quality = 2, source = "Holiday", sourceDetail = "Hallow's End" },
+    [18640] = { name = "Hallowed Wand - Wisp", quality = 2, source = "Holiday", sourceDetail = "Hallow's End" },
+    [20400] = { name = "Pumpkin Bag", quality = 2, source = "Holiday", sourceDetail = "Hallow's End" },
+    [20557] = { name = "Hallow's End Pumpkin Treat", quality = 1, source = "Holiday", sourceDetail = "Hallow's End" },
+    
+    -- Feast of Winter Veil
+    [17712] = { name = "Winter Veil Disguise Kit", quality = 2, source = "Holiday", sourceDetail = "Winter Veil" },
+    [17202] = { name = "Snowball", quality = 1, source = "Holiday", sourceDetail = "Winter Veil" },
+    [17303] = { name = "Blue Ribboned Wrapping Paper", quality = 1, source = "Holiday", sourceDetail = "Winter Veil" },
+    [17344] = { name = "Candy Cane", quality = 1, source = "Holiday", sourceDetail = "Winter Veil" },
+    [17724] = { name = "Pattern: Green Winter Clothes", quality = 2, source = "Holiday", sourceDetail = "Winter Veil" },
+    [17725] = { name = "Pattern: Red Winter Clothes", quality = 2, source = "Holiday", sourceDetail = "Winter Veil" },
+    [17706] = { name = "Plans: Edge of Winter", quality = 3, source = "Holiday", sourceDetail = "Winter Veil" },
+    [17722] = { name = "Pattern: Gloves of the Greatfather", quality = 3, source = "Holiday", sourceDetail = "Winter Veil" },
+    [21525] = { name = "Green Winter Hat", quality = 2, source = "Holiday", sourceDetail = "Winter Veil" },
+    [21524] = { name = "Red Winter Hat", quality = 2, source = "Holiday", sourceDetail = "Winter Veil" },
+    
+    -- ============================================================================
+    --                      KEY QUEST REWARDS
+    -- ============================================================================
+    -- Class Quests
+    [18715] = { name = "Lok'delar, Stave of the Ancient Keepers", quality = 4, source = "Quest", sourceDetail = "Hunter Class Quest (Rhok'delar)" },
+    [18713] = { name = "Rhok'delar, Longbow of the Ancient Keepers", quality = 4, source = "Quest", sourceDetail = "Hunter Class Quest (Ancient Petrified Leaf)" },
+    [18608] = { name = "Benediction", quality = 4, source = "Quest", sourceDetail = "Priest Class Quest (Eye of Divinity)" },
+    [18609] = { name = "Anathema", quality = 4, source = "Quest", sourceDetail = "Priest Class Quest (Eye of Shadow)" },
+    [13262] = { name = "Ashbringer", quality = 4, source = "Quest", sourceDetail = "Corrupted Ashbringer Event (Naxxramas)" },
+    
+    -- Famous Quest Rewards
+    [17966] = { name = "Onyxia Scale Cloak", quality = 4, source = "Quest", sourceDetail = "Onyxia Scale Cloak Quest" },
+    [18404] = { name = "Onyxia Blood Talisman", quality = 4, source = "Quest", sourceDetail = "Onyxia Attunement (Horde)" },
+    [18403] = { name = "Dragonslayer's Signet", quality = 4, source = "Quest", sourceDetail = "Head of Onyxia Turn-in" },
+    [18406] = { name = "Onyxia Tooth Pendant", quality = 4, source = "Quest", sourceDetail = "Head of Onyxia Turn-in" },
+    [19383] = { name = "Master Dragonslayer's Orb", quality = 4, source = "Quest", sourceDetail = "Head of Nefarian Turn-in" },
+    [19366] = { name = "Master Dragonslayer's Medallion", quality = 4, source = "Quest", sourceDetail = "Head of Nefarian Turn-in" },
+    [19384] = { name = "Master Dragonslayer's Ring", quality = 4, source = "Quest", sourceDetail = "Head of Nefarian Turn-in" },
+    
+    -- Attunement Quest Items
+    [12344] = { name = "Seal of Ascension", quality = 4, source = "Quest", sourceDetail = "UBRS Key Quest" },
+    [7733] = { name = "Staff of Prehistoria", quality = 3, source = "Quest", sourceDetail = "Uldaman Staff Quest" },
+    [6893] = { name = "Workshop Key", quality = 2, source = "Quest", sourceDetail = "Gnomeregan Key Quest" },
+    [17191] = { name = "Scepter of Celebras", quality = 3, source = "Quest", sourceDetail = "Maraudon Key Quest" },
+    [11000] = { name = "Shadowforge Key", quality = 2, source = "Quest", sourceDetail = "BRD Key Quest" },
+    [12382] = { name = "Key to the City", quality = 2, source = "Quest", sourceDetail = "Stratholme Key Quest" },
+    [13307] = { name = "Skeleton Key", quality = 2, source = "Quest", sourceDetail = "Scholomance Key Quest" },
+    [18266] = { name = "Crescent Key", quality = 2, source = "Quest", sourceDetail = "Dire Maul Key Quest" },
+    
+    -- UBRS/LBRS Quest Rewards
+    [12590] = { name = "Felstriker", quality = 4, source = "Drop", sourceDetail = "Warchief Rend Blackhand (UBRS)" },
+    [13965] = { name = "Blackhand's Breadth", quality = 4, source = "Quest", sourceDetail = "General Drakkisath's Demise" },
+    [13966] = { name = "Mark of Tyranny", quality = 4, source = "Quest", sourceDetail = "General Drakkisath's Demise" },
+    [13968] = { name = "Eye of the Beast", quality = 4, source = "Quest", sourceDetail = "General Drakkisath's Demise" },
+    [12352] = { name = "Draconic Infused Emblem", quality = 4, source = "Quest", sourceDetail = "The Only Prescription" },
+    
+    -- Sunken Temple Quest Rewards
+    [10749] = { name = "Atal'ai Spear", quality = 4, source = "Quest", sourceDetail = "Sunken Temple Class Quest" },
+    [10750] = { name = "Blessed Prayer Beads", quality = 4, source = "Quest", sourceDetail = "Sunken Temple Class Quest" },
+    [10751] = { name = "Drakeclaw Band", quality = 4, source = "Quest", sourceDetail = "Sunken Temple Class Quest" },
+    [10752] = { name = "Gloomstave", quality = 4, source = "Quest", sourceDetail = "Sunken Temple Class Quest" },
+    [10753] = { name = "Hakkari Urn", quality = 4, source = "Quest", sourceDetail = "Sunken Temple Class Quest" },
+    [10754] = { name = "Soulcatcher Halo", quality = 4, source = "Quest", sourceDetail = "Sunken Temple Class Quest" },
+    [10755] = { name = "Drakestone of Frozen Wrath", quality = 4, source = "Quest", sourceDetail = "Sunken Temple Class Quest" },
+    [10756] = { name = "Drakefire Amulet", quality = 4, source = "Quest", sourceDetail = "Onyxia Attunement" },
+    
+    -- Epic Quest Lines
+    [21138] = { name = "Red Scepter Shard", quality = 4, source = "Quest", sourceDetail = "Scepter of the Shifting Sands (Red)" },
+    [21139] = { name = "Green Scepter Shard", quality = 4, source = "Quest", sourceDetail = "Scepter of the Shifting Sands (Green)" },
+    [21140] = { name = "Blue Scepter Shard", quality = 4, source = "Quest", sourceDetail = "Scepter of the Shifting Sands (Blue)" },
+    [21175] = { name = "Scepter of the Shifting Sands", quality = 4, source = "Quest", sourceDetail = "Scepter of the Shifting Sands (Complete)" },
 }
 
 --------------------------------------------------------------------------------
