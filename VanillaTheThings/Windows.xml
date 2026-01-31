@@ -1740,4 +1740,724 @@
     </Scripts>
 </Frame>
 
+<!-- =====================================================================
+     HIERARCHICAL TREE BROWSER FRAME
+     ATT-style nested tree view: Zone > Subzone > NPC > Items
+     Matches tracker's minimalist design
+     ===================================================================== -->
+<Frame name="ATTTreeBrowserFrame" parent="UIParent" toplevel="true" movable="true" enableMouse="true" hidden="true">
+    <Size>
+        <AbsDimension x="380" y="500"/>
+    </Size>
+    <Anchors>
+        <Anchor point="CENTER"/>
+    </Anchors>
+    <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="" tile="true">
+        <BackgroundInsets>
+            <AbsInset left="0" right="0" top="0" bottom="0"/>
+        </BackgroundInsets>
+        <TileSize>
+            <AbsValue val="16"/>
+        </TileSize>
+    </Backdrop>
+    <Frames>
+        <!-- Title Bar Background -->
+        <Frame name="ATTTreeBrowserTitleBar">
+            <Size>
+                <AbsDimension x="380" y="20"/>
+            </Size>
+            <Anchors>
+                <Anchor point="TOPLEFT"/>
+            </Anchors>
+            <Layers>
+                <Layer level="BACKGROUND">
+                    <Texture name="ATTTreeBrowserTitleBG">
+                        <Color r="0.2" g="0.4" b="0.6" a="0.9"/>
+                    </Texture>
+                </Layer>
+                <Layer level="OVERLAY">
+                    <FontString name="ATTTreeBrowserTitle" inherits="GameFontNormalSmall" text="Tree Browser">
+                        <Anchors>
+                            <Anchor point="LEFT">
+                                <Offset><AbsDimension x="8" y="0"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Color r="1" g="1" b="1"/>
+                    </FontString>
+                    <FontString name="ATTTreeBrowserCount" inherits="GameFontNormalSmall" text="0 items">
+                        <Anchors>
+                            <Anchor point="RIGHT">
+                                <Offset><AbsDimension x="-24" y="0"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Color r="0.8" g="0.8" b="0.8"/>
+                    </FontString>
+                </Layer>
+            </Layers>
+        </Frame>
+        <!-- Close Button -->
+        <Button name="ATTTreeBrowserCloseButton">
+            <Size>
+                <AbsDimension x="16" y="16"/>
+            </Size>
+            <Anchors>
+                <Anchor point="TOPRIGHT">
+                    <Offset><AbsDimension x="-2" y="-2"/></Offset>
+                </Anchor>
+            </Anchors>
+            <NormalTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Up"/>
+            <PushedTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Down"/>
+            <HighlightTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD"/>
+            <Scripts>
+                <OnClick>
+                    ATTTreeBrowserFrame:Hide()
+                </OnClick>
+            </Scripts>
+        </Button>
+        <!-- Search Box Frame -->
+        <Frame name="ATTTreeBrowserSearchFrame">
+            <Size>
+                <AbsDimension x="376" y="28"/>
+            </Size>
+            <Anchors>
+                <Anchor point="TOPLEFT">
+                    <Offset><AbsDimension x="2" y="-22"/></Offset>
+                </Anchor>
+            </Anchors>
+            <Layers>
+                <Layer level="BACKGROUND">
+                    <Texture name="ATTTreeBrowserSearchBG">
+                        <Color r="0" g="0" b="0" a="0.3"/>
+                    </Texture>
+                </Layer>
+            </Layers>
+            <Frames>
+                <EditBox name="ATTTreeBrowserSearchBox" autoFocus="false">
+                    <Size>
+                        <AbsDimension x="200" y="20"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="LEFT">
+                            <Offset><AbsDimension x="4" y="0"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                    <Layers>
+                        <Layer level="BACKGROUND">
+                            <Texture name="ATTTreeBrowserSearchBoxBG">
+                                <Color r="0.1" g="0.1" b="0.1" a="0.8"/>
+                            </Texture>
+                        </Layer>
+                    </Layers>
+                    <FontString inherits="ChatFontNormal"/>
+                    <Scripts>
+                        <OnEscapePressed>
+                            this:ClearFocus()
+                        </OnEscapePressed>
+                        <OnEnterPressed>
+                            this:ClearFocus()
+                            if VanillaTheThings and VanillaTheThings.SearchTreeBrowser then
+                                VanillaTheThings:SearchTreeBrowser(this:GetText())
+                            end
+                        </OnEnterPressed>
+                        <OnTextChanged>
+                            if VanillaTheThings and VanillaTheThings.OnTreeSearchChanged then
+                                VanillaTheThings:OnTreeSearchChanged(this:GetText())
+                            end
+                        </OnTextChanged>
+                    </Scripts>
+                </EditBox>
+                <!-- Preset Dropdown Button -->
+                <Button name="ATTTreeBrowserPresetButton">
+                    <Size>
+                        <AbsDimension x="80" y="20"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="ATTTreeBrowserSearchBox" relativePoint="RIGHT">
+                            <Offset><AbsDimension x="4" y="0"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                    <Layers>
+                        <Layer level="BACKGROUND">
+                            <Texture name="ATTTreeBrowserPresetBG">
+                                <Color r="0.15" g="0.15" b="0.15" a="0.9"/>
+                            </Texture>
+                        </Layer>
+                        <Layer level="OVERLAY">
+                            <FontString name="ATTTreeBrowserPresetText" inherits="GameFontNormalSmall" text="Presets">
+                                <Anchors>
+                                    <Anchor point="CENTER"/>
+                                </Anchors>
+                                <Color r="1" g="0.82" b="0"/>
+                            </FontString>
+                        </Layer>
+                    </Layers>
+                    <Scripts>
+                        <OnClick>
+                            if VanillaTheThings and VanillaTheThings.TogglePresetMenu then
+                                VanillaTheThings:TogglePresetMenu()
+                            end
+                        </OnClick>
+                        <OnEnter>
+                            ATTTreeBrowserPresetBG:SetVertexColor(0.25, 0.25, 0.25, 1)
+                        </OnEnter>
+                        <OnLeave>
+                            ATTTreeBrowserPresetBG:SetVertexColor(0.15, 0.15, 0.15, 0.9)
+                        </OnLeave>
+                    </Scripts>
+                </Button>
+                <!-- Expand All Button -->
+                <Button name="ATTTreeBrowserExpandAllButton">
+                    <Size>
+                        <AbsDimension x="20" y="20"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="ATTTreeBrowserPresetButton" relativePoint="RIGHT">
+                            <Offset><AbsDimension x="4" y="0"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                    <NormalTexture file="Interface\Buttons\UI-PlusButton-Up"/>
+                    <PushedTexture file="Interface\Buttons\UI-PlusButton-Down"/>
+                    <HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD"/>
+                    <Scripts>
+                        <OnClick>
+                            if VanillaTheThings and VanillaTheThings.ExpandAllTreeNodes then
+                                VanillaTheThings:ExpandAllTreeNodes()
+                            end
+                        </OnClick>
+                        <OnEnter>
+                            GameTooltip:SetOwner(this, "ANCHOR_RIGHT")
+                            GameTooltip:SetText("Expand All")
+                            GameTooltip:Show()
+                        </OnEnter>
+                        <OnLeave>
+                            GameTooltip:Hide()
+                        </OnLeave>
+                    </Scripts>
+                </Button>
+                <!-- Collapse All Button -->
+                <Button name="ATTTreeBrowserCollapseAllButton">
+                    <Size>
+                        <AbsDimension x="20" y="20"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="ATTTreeBrowserExpandAllButton" relativePoint="RIGHT">
+                            <Offset><AbsDimension x="2" y="0"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                    <NormalTexture file="Interface\Buttons\UI-MinusButton-Up"/>
+                    <PushedTexture file="Interface\Buttons\UI-MinusButton-Down"/>
+                    <HighlightTexture file="Interface\Buttons\UI-MinusButton-Hilight" alphaMode="ADD"/>
+                    <Scripts>
+                        <OnClick>
+                            if VanillaTheThings and VanillaTheThings.CollapseAllTreeNodes then
+                                VanillaTheThings:CollapseAllTreeNodes()
+                            end
+                        </OnClick>
+                        <OnEnter>
+                            GameTooltip:SetOwner(this, "ANCHOR_RIGHT")
+                            GameTooltip:SetText("Collapse All")
+                            GameTooltip:Show()
+                        </OnEnter>
+                        <OnLeave>
+                            GameTooltip:Hide()
+                        </OnLeave>
+                    </Scripts>
+                </Button>
+                <!-- Reset Filters Button -->
+                <Button name="ATTTreeBrowserResetButton">
+                    <Size>
+                        <AbsDimension x="20" y="20"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="ATTTreeBrowserCollapseAllButton" relativePoint="RIGHT">
+                            <Offset><AbsDimension x="2" y="0"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                    <NormalTexture file="Interface\Buttons\UI-RefreshButton"/>
+                    <HighlightTexture file="Interface\Buttons\CheckButtonHilight" alphaMode="ADD"/>
+                    <Scripts>
+                        <OnClick>
+                            if VanillaTheThings and VanillaTheThings.ResetTreeFilters then
+                                VanillaTheThings:ResetTreeFilters()
+                            end
+                        </OnClick>
+                        <OnEnter>
+                            GameTooltip:SetOwner(this, "ANCHOR_RIGHT")
+                            GameTooltip:SetText("Reset Filters")
+                            GameTooltip:Show()
+                        </OnEnter>
+                        <OnLeave>
+                            GameTooltip:Hide()
+                        </OnLeave>
+                    </Scripts>
+                </Button>
+            </Frames>
+        </Frame>
+        <!-- Filter Bar -->
+        <Frame name="ATTTreeBrowserFilterBar">
+            <Size>
+                <AbsDimension x="376" y="24"/>
+            </Size>
+            <Anchors>
+                <Anchor point="TOPLEFT">
+                    <Offset><AbsDimension x="2" y="-52"/></Offset>
+                </Anchor>
+            </Anchors>
+            <Layers>
+                <Layer level="BACKGROUND">
+                    <Texture name="ATTTreeBrowserFilterBG">
+                        <Color r="0.1" g="0.1" b="0.1" a="0.5"/>
+                    </Texture>
+                </Layer>
+                <Layer level="OVERLAY">
+                    <FontString name="ATTTreeBrowserFilterText" inherits="GameFontNormalSmall" text="No filters active">
+                        <Anchors>
+                            <Anchor point="LEFT">
+                                <Offset><AbsDimension x="4" y="0"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Color r="0.7" g="0.7" b="0.7"/>
+                    </FontString>
+                </Layer>
+            </Layers>
+        </Frame>
+        <!-- Tree Content Area -->
+        <ScrollFrame name="ATTTreeBrowserScrollFrame">
+            <Size>
+                <AbsDimension x="358" y="400"/>
+            </Size>
+            <Anchors>
+                <Anchor point="TOPLEFT">
+                    <Offset><AbsDimension x="2" y="-78"/></Offset>
+                </Anchor>
+            </Anchors>
+            <Frames>
+                <Frame name="ATTTreeBrowserContent">
+                    <Size>
+                        <AbsDimension x="358" y="400"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                    </Anchors>
+                </Frame>
+            </Frames>
+            <Scripts>
+                <OnVerticalScroll>
+                    FauxScrollFrame_OnVerticalScroll(16, function()
+                        if VanillaTheThings and VanillaTheThings.RefreshTreeBrowser then
+                            VanillaTheThings:RefreshTreeBrowser()
+                        end
+                    end)
+                </OnVerticalScroll>
+            </Scripts>
+        </ScrollFrame>
+        <!-- Scroll Bar -->
+        <Slider name="ATTTreeBrowserScrollFrameScrollBar" inherits="FauxScrollFrameTemplate">
+            <Size>
+                <AbsDimension x="16" y="400"/>
+            </Size>
+            <Anchors>
+                <Anchor point="TOPRIGHT">
+                    <Offset><AbsDimension x="-2" y="-78"/></Offset>
+                </Anchor>
+            </Anchors>
+        </Slider>
+    </Frames>
+    <Scripts>
+        <OnLoad>
+            this:SetBackdropColor(0, 0, 0, 0.7)
+            this:RegisterForDrag("LeftButton")
+            tinsert(UISpecialFrames, "ATTTreeBrowserFrame")
+        </OnLoad>
+        <OnDragStart>
+            this:StartMoving()
+        </OnDragStart>
+        <OnDragStop>
+            this:StopMovingOrSizing()
+        </OnDragStop>
+        <OnShow>
+            PlaySound("igMainMenuOpen")
+            if VanillaTheThings and VanillaTheThings.RefreshTreeBrowser then
+                VanillaTheThings:RefreshTreeBrowser()
+            end
+        </OnShow>
+        <OnHide>
+            PlaySound("igMainMenuClose")
+        </OnHide>
+    </Scripts>
+</Frame>
+
+<!-- =====================================================================
+     FILTER PRESET DROPDOWN MENU
+     Matches tracker style, appears below preset button
+     ===================================================================== -->
+<Frame name="ATTPresetMenuFrame" parent="UIParent" toplevel="true" hidden="true" enableMouse="true">
+    <Size>
+        <AbsDimension x="180" y="300"/>
+    </Size>
+    <Anchors>
+        <Anchor point="CENTER"/>
+    </Anchors>
+    <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="" tile="true">
+        <BackgroundInsets>
+            <AbsInset left="0" right="0" top="0" bottom="0"/>
+        </BackgroundInsets>
+        <TileSize>
+            <AbsValue val="16"/>
+        </TileSize>
+    </Backdrop>
+    <Frames>
+        <!-- Title -->
+        <Frame name="ATTPresetMenuTitleBar">
+            <Size>
+                <AbsDimension x="180" y="18"/>
+            </Size>
+            <Anchors>
+                <Anchor point="TOPLEFT"/>
+            </Anchors>
+            <Layers>
+                <Layer level="BACKGROUND">
+                    <Texture name="ATTPresetMenuTitleBG">
+                        <Color r="0.3" g="0.3" b="0.5" a="0.9"/>
+                    </Texture>
+                </Layer>
+                <Layer level="OVERLAY">
+                    <FontString name="ATTPresetMenuTitle" inherits="GameFontNormalSmall" text="Filter Presets">
+                        <Anchors>
+                            <Anchor point="LEFT">
+                                <Offset><AbsDimension x="6" y="0"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Color r="1" g="1" b="1"/>
+                    </FontString>
+                </Layer>
+            </Layers>
+        </Frame>
+        <!-- Preset List Scroll Frame -->
+        <ScrollFrame name="ATTPresetMenuScrollFrame">
+            <Size>
+                <AbsDimension x="162" y="260"/>
+            </Size>
+            <Anchors>
+                <Anchor point="TOPLEFT">
+                    <Offset><AbsDimension x="2" y="-20"/></Offset>
+                </Anchor>
+            </Anchors>
+            <Frames>
+                <Frame name="ATTPresetMenuContent">
+                    <Size>
+                        <AbsDimension x="162" y="260"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                    </Anchors>
+                </Frame>
+            </Frames>
+        </ScrollFrame>
+        <!-- Save New Preset Button -->
+        <Button name="ATTPresetMenuSaveButton">
+            <Size>
+                <AbsDimension x="176" y="18"/>
+            </Size>
+            <Anchors>
+                <Anchor point="BOTTOMLEFT">
+                    <Offset><AbsDimension x="2" y="2"/></Offset>
+                </Anchor>
+            </Anchors>
+            <Layers>
+                <Layer level="BACKGROUND">
+                    <Texture name="ATTPresetMenuSaveBG">
+                        <Color r="0.2" g="0.4" b="0.2" a="0.9"/>
+                    </Texture>
+                </Layer>
+                <Layer level="OVERLAY">
+                    <FontString name="ATTPresetMenuSaveText" inherits="GameFontNormalSmall" text="+ Save Current Filters">
+                        <Anchors>
+                            <Anchor point="CENTER"/>
+                        </Anchors>
+                        <Color r="0.5" g="1" b="0.5"/>
+                    </FontString>
+                </Layer>
+            </Layers>
+            <Scripts>
+                <OnClick>
+                    if VanillaTheThings and VanillaTheThings.ShowSavePresetDialog then
+                        VanillaTheThings:ShowSavePresetDialog()
+                    end
+                </OnClick>
+                <OnEnter>
+                    ATTPresetMenuSaveBG:SetVertexColor(0.3, 0.5, 0.3, 1)
+                </OnEnter>
+                <OnLeave>
+                    ATTPresetMenuSaveBG:SetVertexColor(0.2, 0.4, 0.2, 0.9)
+                </OnLeave>
+            </Scripts>
+        </Button>
+    </Frames>
+    <Scripts>
+        <OnLoad>
+            this:SetBackdropColor(0, 0, 0, 0.85)
+        </OnLoad>
+        <OnShow>
+            if VanillaTheThings and VanillaTheThings.RefreshPresetMenu then
+                VanillaTheThings:RefreshPresetMenu()
+            end
+        </OnShow>
+        <OnHide>
+        </OnHide>
+    </Scripts>
+</Frame>
+
+<!-- =====================================================================
+     ADVANCED SEARCH FRAME
+     Filter by source type, quality, level range
+     ===================================================================== -->
+<Frame name="ATTAdvancedSearchFrame" parent="UIParent" toplevel="true" movable="true" enableMouse="true" hidden="true">
+    <Size>
+        <AbsDimension x="280" y="380"/>
+    </Size>
+    <Anchors>
+        <Anchor point="CENTER"/>
+    </Anchors>
+    <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="" tile="true">
+        <BackgroundInsets>
+            <AbsInset left="0" right="0" top="0" bottom="0"/>
+        </BackgroundInsets>
+        <TileSize>
+            <AbsValue val="16"/>
+        </TileSize>
+    </Backdrop>
+    <Frames>
+        <!-- Title Bar -->
+        <Frame name="ATTAdvancedSearchTitleBar">
+            <Size>
+                <AbsDimension x="280" y="20"/>
+            </Size>
+            <Anchors>
+                <Anchor point="TOPLEFT"/>
+            </Anchors>
+            <Layers>
+                <Layer level="BACKGROUND">
+                    <Texture name="ATTAdvancedSearchTitleBG">
+                        <Color r="0.4" g="0.3" b="0.2" a="0.9"/>
+                    </Texture>
+                </Layer>
+                <Layer level="OVERLAY">
+                    <FontString name="ATTAdvancedSearchTitle" inherits="GameFontNormalSmall" text="Advanced Search">
+                        <Anchors>
+                            <Anchor point="LEFT">
+                                <Offset><AbsDimension x="8" y="0"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Color r="1" g="1" b="1"/>
+                    </FontString>
+                </Layer>
+            </Layers>
+        </Frame>
+        <!-- Close Button -->
+        <Button name="ATTAdvancedSearchCloseButton">
+            <Size>
+                <AbsDimension x="16" y="16"/>
+            </Size>
+            <Anchors>
+                <Anchor point="TOPRIGHT">
+                    <Offset><AbsDimension x="-2" y="-2"/></Offset>
+                </Anchor>
+            </Anchors>
+            <NormalTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Up"/>
+            <PushedTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Down"/>
+            <HighlightTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD"/>
+            <Scripts>
+                <OnClick>
+                    ATTAdvancedSearchFrame:Hide()
+                </OnClick>
+            </Scripts>
+        </Button>
+        <!-- Quality Section -->
+        <Frame name="ATTAdvancedSearchQualitySection">
+            <Size>
+                <AbsDimension x="276" y="60"/>
+            </Size>
+            <Anchors>
+                <Anchor point="TOPLEFT">
+                    <Offset><AbsDimension x="2" y="-24"/></Offset>
+                </Anchor>
+            </Anchors>
+            <Layers>
+                <Layer level="BACKGROUND">
+                    <Texture name="ATTAdvancedSearchQualityBG">
+                        <Color r="0.1" g="0.1" b="0.1" a="0.4"/>
+                    </Texture>
+                </Layer>
+                <Layer level="OVERLAY">
+                    <FontString name="ATTAdvancedSearchQualityLabel" inherits="GameFontNormalSmall" text="Quality Range:">
+                        <Anchors>
+                            <Anchor point="TOPLEFT">
+                                <Offset><AbsDimension x="6" y="-4"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Color r="1" g="0.82" b="0"/>
+                    </FontString>
+                </Layer>
+            </Layers>
+        </Frame>
+        <!-- Level Section -->
+        <Frame name="ATTAdvancedSearchLevelSection">
+            <Size>
+                <AbsDimension x="276" y="50"/>
+            </Size>
+            <Anchors>
+                <Anchor point="TOPLEFT">
+                    <Offset><AbsDimension x="2" y="-86"/></Offset>
+                </Anchor>
+            </Anchors>
+            <Layers>
+                <Layer level="BACKGROUND">
+                    <Texture name="ATTAdvancedSearchLevelBG">
+                        <Color r="0.1" g="0.1" b="0.1" a="0.4"/>
+                    </Texture>
+                </Layer>
+                <Layer level="OVERLAY">
+                    <FontString name="ATTAdvancedSearchLevelLabel" inherits="GameFontNormalSmall" text="Level Range:">
+                        <Anchors>
+                            <Anchor point="TOPLEFT">
+                                <Offset><AbsDimension x="6" y="-4"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Color r="1" g="0.82" b="0"/>
+                    </FontString>
+                </Layer>
+            </Layers>
+        </Frame>
+        <!-- Source Types Section -->
+        <Frame name="ATTAdvancedSearchSourceSection">
+            <Size>
+                <AbsDimension x="276" y="180"/>
+            </Size>
+            <Anchors>
+                <Anchor point="TOPLEFT">
+                    <Offset><AbsDimension x="2" y="-138"/></Offset>
+                </Anchor>
+            </Anchors>
+            <Layers>
+                <Layer level="BACKGROUND">
+                    <Texture name="ATTAdvancedSearchSourceBG">
+                        <Color r="0.1" g="0.1" b="0.1" a="0.4"/>
+                    </Texture>
+                </Layer>
+                <Layer level="OVERLAY">
+                    <FontString name="ATTAdvancedSearchSourceLabel" inherits="GameFontNormalSmall" text="Source Types:">
+                        <Anchors>
+                            <Anchor point="TOPLEFT">
+                                <Offset><AbsDimension x="6" y="-4"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Color r="1" g="0.82" b="0"/>
+                    </FontString>
+                </Layer>
+            </Layers>
+        </Frame>
+        <!-- Apply Button -->
+        <Button name="ATTAdvancedSearchApplyButton">
+            <Size>
+                <AbsDimension x="130" y="24"/>
+            </Size>
+            <Anchors>
+                <Anchor point="BOTTOMLEFT">
+                    <Offset><AbsDimension x="6" y="6"/></Offset>
+                </Anchor>
+            </Anchors>
+            <Layers>
+                <Layer level="BACKGROUND">
+                    <Texture name="ATTAdvancedSearchApplyBG">
+                        <Color r="0.2" g="0.4" b="0.6" a="0.9"/>
+                    </Texture>
+                </Layer>
+                <Layer level="OVERLAY">
+                    <FontString name="ATTAdvancedSearchApplyText" inherits="GameFontNormalSmall" text="Apply Filters">
+                        <Anchors>
+                            <Anchor point="CENTER"/>
+                        </Anchors>
+                        <Color r="1" g="1" b="1"/>
+                    </FontString>
+                </Layer>
+            </Layers>
+            <Scripts>
+                <OnClick>
+                    if VanillaTheThings and VanillaTheThings.ApplyAdvancedFilters then
+                        VanillaTheThings:ApplyAdvancedFilters()
+                    end
+                </OnClick>
+                <OnEnter>
+                    ATTAdvancedSearchApplyBG:SetVertexColor(0.3, 0.5, 0.7, 1)
+                </OnEnter>
+                <OnLeave>
+                    ATTAdvancedSearchApplyBG:SetVertexColor(0.2, 0.4, 0.6, 0.9)
+                </OnLeave>
+            </Scripts>
+        </Button>
+        <!-- Reset Button -->
+        <Button name="ATTAdvancedSearchResetButton">
+            <Size>
+                <AbsDimension x="130" y="24"/>
+            </Size>
+            <Anchors>
+                <Anchor point="BOTTOMRIGHT">
+                    <Offset><AbsDimension x="-6" y="6"/></Offset>
+                </Anchor>
+            </Anchors>
+            <Layers>
+                <Layer level="BACKGROUND">
+                    <Texture name="ATTAdvancedSearchResetBG">
+                        <Color r="0.4" g="0.2" b="0.2" a="0.9"/>
+                    </Texture>
+                </Layer>
+                <Layer level="OVERLAY">
+                    <FontString name="ATTAdvancedSearchResetText" inherits="GameFontNormalSmall" text="Reset All">
+                        <Anchors>
+                            <Anchor point="CENTER"/>
+                        </Anchors>
+                        <Color r="1" g="1" b="1"/>
+                    </FontString>
+                </Layer>
+            </Layers>
+            <Scripts>
+                <OnClick>
+                    if VanillaTheThings and VanillaTheThings.ResetAdvancedFilters then
+                        VanillaTheThings:ResetAdvancedFilters()
+                    end
+                </OnClick>
+                <OnEnter>
+                    ATTAdvancedSearchResetBG:SetVertexColor(0.5, 0.3, 0.3, 1)
+                </OnEnter>
+                <OnLeave>
+                    ATTAdvancedSearchResetBG:SetVertexColor(0.4, 0.2, 0.2, 0.9)
+                </OnLeave>
+            </Scripts>
+        </Button>
+    </Frames>
+    <Scripts>
+        <OnLoad>
+            this:SetBackdropColor(0, 0, 0, 0.7)
+            this:RegisterForDrag("LeftButton")
+            tinsert(UISpecialFrames, "ATTAdvancedSearchFrame")
+        </OnLoad>
+        <OnDragStart>
+            this:StartMoving()
+        </OnDragStart>
+        <OnDragStop>
+            this:StopMovingOrSizing()
+        </OnDragStop>
+        <OnShow>
+            PlaySound("igMainMenuOpen")
+            if VanillaTheThings and VanillaTheThings.RefreshAdvancedSearch then
+                VanillaTheThings:RefreshAdvancedSearch()
+            end
+        </OnShow>
+        <OnHide>
+            PlaySound("igMainMenuClose")
+        </OnHide>
+    </Scripts>
+</Frame>
+
 </Ui>

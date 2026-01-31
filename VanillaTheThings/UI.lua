@@ -1992,10 +1992,13 @@ flight paths, and items across all your characters.
 |cFF00FF00/att mini|r - Toggle mini list
 |cFF00FF00/att mounts|r - Toggle mount collection
 |cFF00FF00/att pets|r - Toggle pet collection
+|cFF00FF00/att tree|r - Toggle tree browser
+|cFF00FF00/att search <text>|r - Search database
+|cFF00FF00/att filter|r - Open advanced search
+|cFF00FF00/att preset <name>|r - Load filter preset
 |cFF00FF00/att settings|r - Open settings
 |cFF00FF00/att refresh|r - Refresh all data
 |cFF00FF00/att reset|r - Reset window positions
-|cFF00FF00/att search <text>|r - Search database
 |cFF00FF00/att stats|r - Show statistics
 |cFF00FF00/att debug|r - Toggle debug mode
 
@@ -2015,6 +2018,12 @@ flight paths, and items across all your characters.
 |cFF00FF00Stats:|r Collection statistics
 
 |cFFFFD700NEW FEATURES|r
+|cFF00FF00Tree Browser:|r Hierarchical view organized
+  by Zone > Subzone > NPC > Items with expand/collapse.
+|cFF00FF00Advanced Search:|r Filter by source type,
+  quality level, and level range.
+|cFF00FF00Filter Presets:|r Save and load custom
+  filter combinations with one click.
 |cFF00FF00Mount Collection:|r Track all mounts with 
   costs, reputation requirements, and sources.
 |cFF00FF00Pet Collection:|r Track companion pets from
@@ -2035,6 +2044,9 @@ flight paths, and items across all your characters.
 - Pet collection tracking
 - Cost/currency tracking
 - Source chain information
+- Hierarchical tree browser
+- Advanced search filters
+- Filter presets system
 - Account-wide tracking
 - Per-character tracking
 - Searchable database
@@ -2047,6 +2059,8 @@ flight paths, and items across all your characters.
 - Hover over items for detailed tooltips
 - Right-click items for additional options
 - Click mounts/pets to mark as collected
+- Use presets for quick filter switching
+- Tree browser shows full item hierarchy
 ]]
     
     text:SetText(helpText)
@@ -3213,6 +3227,634 @@ if origTooltipSetItem then
 end
 
 --------------------------------------------------------------------------------
+-- HIERARCHICAL TREE BROWSER UI
+-- ATT-style nested tree view with expand/collapse functionality
+--------------------------------------------------------------------------------
+
+-- Tree browser state
+VTT.TreeBrowserState = {
+    rows = {},
+    visibleData = {},
+    scrollOffset = 0,
+    maxVisibleRows = 24,
+    rowHeight = 16,
+}
+
+-- Toggle the tree browser window
+function VTT:ToggleTreeBrowser()
+    local frame = getglobal("ATTTreeBrowserFrame")
+    if frame then
+        if frame:IsVisible() then
+            frame:Hide()
+        else
+            frame:Show()
+        end
+    else
+        self.Print("|cFFFF0000Tree browser frame not found.|r")
+    end
+end
+
+-- Initialize tree browser rows
+function VTT:InitTreeBrowserRows()
+    local contentFrame = getglobal("ATTTreeBrowserContent")
+    if not contentFrame then return end
+    
+    -- Create rows
+    for i = 1, self.TreeBrowserState.maxVisibleRows do
+        local rowName = "ATTTreeBrowserRow" .. i
+        local row = CreateFrame("Button", rowName, contentFrame)
+        row:SetHeight(self.TreeBrowserState.rowHeight)
+        row:SetWidth(350)
+        row:SetPoint("TOPLEFT", contentFrame, "TOPLEFT", 0, -((i - 1) * self.TreeBrowserState.rowHeight))
+        
+        -- Background
+        local bg = row:CreateTexture(rowName .. "BG", "BACKGROUND")
+        bg:SetAllPoints()
+        bg:SetTexture("Interface\\Tooltips\\UI-Tooltip-Background")
+        bg:SetVertexColor(0.1, 0.1, 0.1, 0)
+        row.bg = bg
+        
+        -- Expand/collapse icon
+        local expandIcon = row:CreateTexture(rowName .. "ExpandIcon", "ARTWORK")
+        expandIcon:SetWidth(12)
+        expandIcon:SetHeight(12)
+        expandIcon:SetPoint("LEFT", 2, 0)
+        row.expandIcon = expandIcon
+        
+        -- Node type icon
+        local typeIcon = row:CreateTexture(rowName .. "TypeIcon", "ARTWORK")
+        typeIcon:SetWidth(14)
+        typeIcon:SetHeight(14)
+        typeIcon:SetPoint("LEFT", 16, 0)
+        row.typeIcon = typeIcon
+        
+        -- Text
+        local text = row:CreateFontString(rowName .. "Text", "OVERLAY", "GameFontNormalSmall")
+        text:SetPoint("LEFT", 34, 0)
+        text:SetPoint("RIGHT", -40, 0)
+        text:SetJustifyH("LEFT")
+        row.text = text
+        
+        -- Count text
+        local countText = row:CreateFontString(rowName .. "Count", "OVERLAY", "GameFontNormalSmall")
+        countText:SetPoint("RIGHT", -4, 0)
+        countText:SetJustifyH("RIGHT")
+        countText:SetTextColor(0.6, 0.6, 0.6)
+        row.countText = countText
+        
+        -- Click handler
+        row:SetScript("OnClick", function()
+            local data = this.nodeData
+            if data then
+                if data.isItem then
+                    -- Item click - show tooltip or link in chat
+                    if IsShiftKeyDown() and data.itemId then
+                        local link = "item:" .. data.itemId .. ":0:0:0"
+                        ChatFrameEditBox:Show()
+                        ChatFrameEditBox:Insert(link)
+                    end
+                elseif data.hasChildren or data.hasItems then
+                    -- Node click - toggle expand
+                    DB.ToggleNodeExpanded(data.path)
+                    VTT:RefreshTreeBrowser()
+                end
+            end
+        end)
+        
+        -- Hover effects
+        row:SetScript("OnEnter", function()
+            this.bg:SetVertexColor(0.3, 0.3, 0.3, 0.5)
+            
+            local data = this.nodeData
+            if data and data.isItem and data.itemId then
+                GameTooltip:SetOwner(this, "ANCHOR_RIGHT")
+                GameTooltip:SetHyperlink("item:" .. data.itemId .. ":0:0:0")
+                GameTooltip:Show()
+            elseif data and data.node then
+                -- Show node info tooltip
+                GameTooltip:SetOwner(this, "ANCHOR_RIGHT")
+                GameTooltip:AddLine(data.name, 1, 1, 1)
+                if data.type then
+                    GameTooltip:AddLine("Type: " .. data.type, 0.7, 0.7, 0.7)
+                end
+                if data.level then
+                    GameTooltip:AddLine("Level: " .. data.level, 0.7, 0.7, 0.7)
+                end
+                if data.faction then
+                    local factionColor = data.faction == "Alliance" and {0.2, 0.4, 1} or 
+                                        data.faction == "Horde" and {1, 0.2, 0.2} or {0.7, 0.7, 0.7}
+                    GameTooltip:AddLine("Faction: " .. data.faction, factionColor[1], factionColor[2], factionColor[3])
+                end
+                if data.itemCount and data.itemCount > 0 then
+                    GameTooltip:AddLine("Items: " .. data.itemCount, 0.5, 1, 0.5)
+                end
+                GameTooltip:Show()
+            end
+        end)
+        
+        row:SetScript("OnLeave", function()
+            this.bg:SetVertexColor(0.1, 0.1, 0.1, 0)
+            GameTooltip:Hide()
+        end)
+        
+        row:Hide()
+        self.TreeBrowserState.rows[i] = row
+    end
+end
+
+-- Refresh tree browser display
+function VTT:RefreshTreeBrowser()
+    -- Initialize rows if needed
+    if not self.TreeBrowserState.rows or table.getn(self.TreeBrowserState.rows) == 0 then
+        self:InitTreeBrowserRows()
+    end
+    
+    -- Get flat tree data
+    local flatData = DB.GetFlatTreeView()
+    self.TreeBrowserState.visibleData = flatData
+    
+    -- Update scroll frame
+    local scrollFrame = getglobal("ATTTreeBrowserScrollFrame")
+    if scrollFrame then
+        FauxScrollFrame_Update(scrollFrame, table.getn(flatData), self.TreeBrowserState.maxVisibleRows, self.TreeBrowserState.rowHeight)
+    end
+    
+    local offset = FauxScrollFrame_GetOffset(scrollFrame) or 0
+    
+    -- Update count text
+    local countText = getglobal("ATTTreeBrowserCount")
+    if countText then
+        countText:SetText(table.getn(flatData) .. " items")
+    end
+    
+    -- Update filter text
+    local filterText = getglobal("ATTTreeBrowserFilterText")
+    if filterText then
+        filterText:SetText(DB.GetFilterSummary())
+    end
+    
+    -- Update rows
+    for i = 1, self.TreeBrowserState.maxVisibleRows do
+        local row = self.TreeBrowserState.rows[i]
+        if row then
+            local dataIndex = offset + i
+            local data = flatData[dataIndex]
+            
+            if data then
+                row.nodeData = data
+                
+                -- Calculate indent
+                local indent = (data.depth or 0) * 16
+                row.expandIcon:SetPoint("LEFT", 2 + indent, 0)
+                row.typeIcon:SetPoint("LEFT", 16 + indent, 0)
+                row.text:SetPoint("LEFT", 34 + indent, 0)
+                
+                -- Set expand icon
+                if data.isItem then
+                    row.expandIcon:SetTexture(nil)
+                elseif data.hasChildren or data.hasItems then
+                    if data.isExpanded then
+                        row.expandIcon:SetTexture("Interface\\Buttons\\UI-MinusButton-Up")
+                    else
+                        row.expandIcon:SetTexture("Interface\\Buttons\\UI-PlusButton-Up")
+                    end
+                else
+                    row.expandIcon:SetTexture(nil)
+                end
+                
+                -- Set type icon
+                if data.isItem then
+                    row.typeIcon:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
+                elseif data.icon then
+                    row.typeIcon:SetTexture(data.icon)
+                else
+                    row.typeIcon:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
+                end
+                
+                -- Set text with quality color for items
+                if data.isItem and data.quality then
+                    local qualityInfo = DB.QualityLevels[data.quality]
+                    local color = qualityInfo and qualityInfo.color or "|cFFFFFFFF"
+                    row.text:SetText(color .. (data.name or "Unknown") .. "|r")
+                else
+                    row.text:SetText(data.name or "Unknown")
+                    row.text:SetTextColor(1, 1, 1)
+                end
+                
+                -- Set count text
+                if data.isItem then
+                    if data.dropRate then
+                        row.countText:SetText(string.format("%.1f%%", data.dropRate))
+                    elseif data.cost then
+                        row.countText:SetText(DB.FormatCost(data.cost))
+                    else
+                        row.countText:SetText("")
+                    end
+                elseif data.itemCount and data.itemCount > 0 then
+                    row.countText:SetText("(" .. data.itemCount .. ")")
+                elseif data.childCount and data.childCount > 0 then
+                    row.countText:SetText("(" .. data.childCount .. ")")
+                else
+                    row.countText:SetText("")
+                end
+                
+                row:Show()
+            else
+                row:Hide()
+            end
+        end
+    end
+end
+
+-- Search tree browser
+function VTT:SearchTreeBrowser(searchText)
+    DB.SetSearchText(searchText or "")
+    self:RefreshTreeBrowser()
+end
+
+-- Handle search text change (for live search)
+function VTT:OnTreeSearchChanged(searchText)
+    -- Debounce - only search after user stops typing
+    if self.searchTimer then
+        self.searchTimer:SetScript("OnUpdate", nil)
+    end
+    
+    if not self.searchTimer then
+        self.searchTimer = CreateFrame("Frame")
+    end
+    
+    self.searchTimer.elapsed = 0
+    self.searchTimer.searchText = searchText
+    self.searchTimer:SetScript("OnUpdate", function()
+        this.elapsed = this.elapsed + arg1
+        if this.elapsed > 0.3 then
+            this:SetScript("OnUpdate", nil)
+            VTT:SearchTreeBrowser(this.searchText)
+        end
+    end)
+end
+
+-- Expand all tree nodes
+function VTT:ExpandAllTreeNodes()
+    DB.ExpandAllNodes()
+    self:RefreshTreeBrowser()
+end
+
+-- Collapse all tree nodes
+function VTT:CollapseAllTreeNodes()
+    DB.CollapseAllNodes()
+    self:RefreshTreeBrowser()
+end
+
+-- Reset tree filters
+function VTT:ResetTreeFilters()
+    DB.ResetSearchFilters()
+    local searchBox = getglobal("ATTTreeBrowserSearchBox")
+    if searchBox then
+        searchBox:SetText("")
+    end
+    self:RefreshTreeBrowser()
+end
+
+--------------------------------------------------------------------------------
+-- FILTER PRESET UI
+--------------------------------------------------------------------------------
+
+VTT.PresetMenuState = {
+    rows = {},
+    maxVisibleRows = 15,
+    rowHeight = 18,
+}
+
+-- Toggle preset menu
+function VTT:TogglePresetMenu()
+    local frame = getglobal("ATTPresetMenuFrame")
+    if frame then
+        if frame:IsVisible() then
+            frame:Hide()
+        else
+            -- Position below preset button
+            local presetButton = getglobal("ATTTreeBrowserPresetButton")
+            if presetButton then
+                frame:ClearAllPoints()
+                frame:SetPoint("TOPLEFT", presetButton, "BOTTOMLEFT", 0, -2)
+            end
+            frame:Show()
+        end
+    end
+end
+
+-- Initialize preset menu rows
+function VTT:InitPresetMenuRows()
+    local contentFrame = getglobal("ATTPresetMenuContent")
+    if not contentFrame then return end
+    
+    for i = 1, self.PresetMenuState.maxVisibleRows do
+        local rowName = "ATTPresetMenuRow" .. i
+        local row = CreateFrame("Button", rowName, contentFrame)
+        row:SetHeight(self.PresetMenuState.rowHeight)
+        row:SetWidth(160)
+        row:SetPoint("TOPLEFT", contentFrame, "TOPLEFT", 0, -((i - 1) * self.PresetMenuState.rowHeight))
+        
+        -- Background
+        local bg = row:CreateTexture(rowName .. "BG", "BACKGROUND")
+        bg:SetAllPoints()
+        bg:SetTexture("Interface\\Tooltips\\UI-Tooltip-Background")
+        bg:SetVertexColor(0.15, 0.15, 0.15, 0.8)
+        row.bg = bg
+        
+        -- Text
+        local text = row:CreateFontString(rowName .. "Text", "OVERLAY", "GameFontNormalSmall")
+        text:SetPoint("LEFT", 4, 0)
+        text:SetPoint("RIGHT", -20, 0)
+        text:SetJustifyH("LEFT")
+        row.text = text
+        
+        -- Default indicator
+        local defaultIcon = row:CreateFontString(rowName .. "Default", "OVERLAY", "GameFontNormalSmall")
+        defaultIcon:SetPoint("RIGHT", -4, 0)
+        defaultIcon:SetText("*")
+        defaultIcon:SetTextColor(0.5, 0.5, 0.5)
+        row.defaultIcon = defaultIcon
+        
+        -- Click handler
+        row:SetScript("OnClick", function()
+            local presetName = this.presetName
+            if presetName then
+                local success, msg = DB.LoadFilterPreset(presetName)
+                if success then
+                    VTT:RefreshTreeBrowser()
+                    ATTPresetMenuFrame:Hide()
+                    VTT.Print("|cFF00FF00" .. msg .. "|r")
+                else
+                    VTT.Print("|cFFFF0000" .. msg .. "|r")
+                end
+            end
+        end)
+        
+        -- Hover effects
+        row:SetScript("OnEnter", function()
+            this.bg:SetVertexColor(0.3, 0.3, 0.4, 0.9)
+        end)
+        
+        row:SetScript("OnLeave", function()
+            this.bg:SetVertexColor(0.15, 0.15, 0.15, 0.8)
+        end)
+        
+        row:Hide()
+        self.PresetMenuState.rows[i] = row
+    end
+end
+
+-- Refresh preset menu
+function VTT:RefreshPresetMenu()
+    -- Initialize rows if needed
+    if not self.PresetMenuState.rows or table.getn(self.PresetMenuState.rows) == 0 then
+        self:InitPresetMenuRows()
+    end
+    
+    -- Get presets
+    local presets = DB.GetFilterPresetNames()
+    
+    -- Update rows
+    for i = 1, self.PresetMenuState.maxVisibleRows do
+        local row = self.PresetMenuState.rows[i]
+        if row then
+            local preset = presets[i]
+            if preset then
+                row.presetName = preset.name
+                row.text:SetText(preset.name)
+                
+                if preset.isDefault then
+                    row.defaultIcon:SetText("*")
+                    row.defaultIcon:Show()
+                    row.text:SetTextColor(0.8, 0.8, 0.8)
+                else
+                    row.defaultIcon:SetText("")
+                    row.defaultIcon:Hide()
+                    row.text:SetTextColor(0.5, 1, 0.5)
+                end
+                
+                row:Show()
+            else
+                row:Hide()
+            end
+        end
+    end
+    
+    -- Resize menu frame
+    local menuFrame = getglobal("ATTPresetMenuFrame")
+    if menuFrame then
+        local height = math.min(table.getn(presets), self.PresetMenuState.maxVisibleRows) * self.PresetMenuState.rowHeight + 40
+        menuFrame:SetHeight(height)
+    end
+end
+
+-- Show save preset dialog
+function VTT:ShowSavePresetDialog()
+    StaticPopupDialogs["ATT_SAVE_PRESET"] = {
+        text = "Enter name for new filter preset:",
+        button1 = "Save",
+        button2 = "Cancel",
+        hasEditBox = true,
+        maxLetters = 30,
+        OnAccept = function()
+            local editBox = getglobal(this:GetParent():GetName() .. "EditBox")
+            local name = editBox:GetText()
+            if name and name ~= "" then
+                local success, msg = DB.SaveFilterPreset(name)
+                if success then
+                    VTT.Print("|cFF00FF00" .. msg .. "|r")
+                    VTT:RefreshPresetMenu()
+                else
+                    VTT.Print("|cFFFF0000" .. msg .. "|r")
+                end
+            end
+        end,
+        timeout = 0,
+        whileDead = true,
+        hideOnEscape = true,
+    }
+    StaticPopup_Show("ATT_SAVE_PRESET")
+    ATTPresetMenuFrame:Hide()
+end
+
+--------------------------------------------------------------------------------
+-- ADVANCED SEARCH UI
+--------------------------------------------------------------------------------
+
+VTT.AdvancedSearchState = {
+    qualityCheckboxes = {},
+    sourceCheckboxes = {},
+    minLevelSlider = nil,
+    maxLevelSlider = nil,
+}
+
+-- Toggle advanced search window
+function VTT:ToggleAdvancedSearch()
+    local frame = getglobal("ATTAdvancedSearchFrame")
+    if frame then
+        if frame:IsVisible() then
+            frame:Hide()
+        else
+            frame:Show()
+        end
+    end
+end
+
+-- Initialize advanced search UI elements
+function VTT:InitAdvancedSearchUI()
+    local qualitySection = getglobal("ATTAdvancedSearchQualitySection")
+    local levelSection = getglobal("ATTAdvancedSearchLevelSection")
+    local sourceSection = getglobal("ATTAdvancedSearchSourceSection")
+    
+    if not qualitySection or not levelSection or not sourceSection then return end
+    
+    -- Create quality checkboxes
+    local qualityNames = { "Poor", "Common", "Uncommon", "Rare", "Epic", "Legendary" }
+    local qualityColors = {
+        { 0.6, 0.6, 0.6 },  -- Poor
+        { 1, 1, 1 },        -- Common
+        { 0.1, 1, 0 },      -- Uncommon
+        { 0, 0.44, 0.87 },  -- Rare
+        { 0.64, 0.21, 0.93 }, -- Epic
+        { 1, 0.5, 0 },      -- Legendary
+    }
+    
+    for i = 1, 6 do
+        local cb = CreateFrame("CheckButton", "ATTAdvSearchQuality" .. i, qualitySection, "UICheckButtonTemplate")
+        cb:SetWidth(20)
+        cb:SetHeight(20)
+        local col = ((i - 1) % 3)
+        local row = math.floor((i - 1) / 3)
+        cb:SetPoint("TOPLEFT", 6 + (col * 90), -20 - (row * 20))
+        cb:SetChecked(true)
+        cb.qualityIndex = i - 1
+        
+        local label = cb:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+        label:SetPoint("LEFT", cb, "RIGHT", 0, 0)
+        label:SetText(qualityNames[i])
+        label:SetTextColor(qualityColors[i][1], qualityColors[i][2], qualityColors[i][3])
+        
+        cb:SetScript("OnClick", function()
+            -- Update filter based on checked qualities
+            VTT:UpdateQualityFilters()
+        end)
+        
+        self.AdvancedSearchState.qualityCheckboxes[i] = cb
+    end
+    
+    -- Create level sliders
+    local minLevelLabel = levelSection:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    minLevelLabel:SetPoint("TOPLEFT", 6, -20)
+    minLevelLabel:SetText("Min: 1")
+    minLevelLabel:SetTextColor(0.8, 0.8, 0.8)
+    self.AdvancedSearchState.minLevelLabel = minLevelLabel
+    
+    local maxLevelLabel = levelSection:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    maxLevelLabel:SetPoint("TOPLEFT", 140, -20)
+    maxLevelLabel:SetText("Max: 60")
+    maxLevelLabel:SetTextColor(0.8, 0.8, 0.8)
+    self.AdvancedSearchState.maxLevelLabel = maxLevelLabel
+    
+    -- Create source type checkboxes
+    local sourceTypes = { "Drop", "Quest", "Vendor", "Crafted", "Reputation", "PvP", "Dungeon", "Raid", "World Boss", "Rare Spawn" }
+    
+    for i, sourceType in ipairs(sourceTypes) do
+        local cb = CreateFrame("CheckButton", "ATTAdvSearchSource" .. i, sourceSection, "UICheckButtonTemplate")
+        cb:SetWidth(18)
+        cb:SetHeight(18)
+        local col = ((i - 1) % 2)
+        local row = math.floor((i - 1) / 2)
+        cb:SetPoint("TOPLEFT", 6 + (col * 135), -20 - (row * 18))
+        cb:SetChecked(true)
+        cb.sourceType = sourceType
+        
+        local label = cb:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+        label:SetPoint("LEFT", cb, "RIGHT", 0, 0)
+        label:SetText(sourceType)
+        label:SetTextColor(0.8, 0.8, 0.8)
+        
+        cb:SetScript("OnClick", function()
+            DB.SetSourceType(this.sourceType, this:GetChecked())
+        end)
+        
+        self.AdvancedSearchState.sourceCheckboxes[i] = cb
+    end
+end
+
+-- Update quality filters based on checkboxes
+function VTT:UpdateQualityFilters()
+    local minQuality = nil
+    local maxQuality = nil
+    
+    for i = 1, 6 do
+        local cb = self.AdvancedSearchState.qualityCheckboxes[i]
+        if cb and cb:GetChecked() then
+            local qual = i - 1
+            if not minQuality or qual < minQuality then
+                minQuality = qual
+            end
+            if not maxQuality or qual > maxQuality then
+                maxQuality = qual
+            end
+        end
+    end
+    
+    DB.SetQualityFilter(minQuality, maxQuality)
+end
+
+-- Refresh advanced search UI
+function VTT:RefreshAdvancedSearch()
+    -- Initialize UI if needed
+    if not self.AdvancedSearchState.qualityCheckboxes or table.getn(self.AdvancedSearchState.qualityCheckboxes) == 0 then
+        self:InitAdvancedSearchUI()
+    end
+    
+    -- Update quality checkboxes
+    for i = 1, 6 do
+        local cb = self.AdvancedSearchState.qualityCheckboxes[i]
+        if cb then
+            local qual = i - 1
+            local minQ = DB.SearchFilters.minQuality or 0
+            local maxQ = DB.SearchFilters.maxQuality or 5
+            cb:SetChecked(qual >= minQ and qual <= maxQ)
+        end
+    end
+    
+    -- Update source checkboxes
+    for i, cb in ipairs(self.AdvancedSearchState.sourceCheckboxes) do
+        if cb and cb.sourceType then
+            cb:SetChecked(DB.SearchFilters.sourceTypes[cb.sourceType] ~= false)
+        end
+    end
+    
+    -- Update level labels
+    if self.AdvancedSearchState.minLevelLabel then
+        local minL = DB.SearchFilters.minLevel or 1
+        self.AdvancedSearchState.minLevelLabel:SetText("Min: " .. minL)
+    end
+    if self.AdvancedSearchState.maxLevelLabel then
+        local maxL = DB.SearchFilters.maxLevel or 60
+        self.AdvancedSearchState.maxLevelLabel:SetText("Max: " .. maxL)
+    end
+end
+
+-- Apply advanced filters
+function VTT:ApplyAdvancedFilters()
+    self:UpdateQualityFilters()
+    self:RefreshTreeBrowser()
+    ATTAdvancedSearchFrame:Hide()
+end
+
+-- Reset advanced filters
+function VTT:ResetAdvancedFilters()
+    DB.ResetSearchFilters()
+    self:RefreshAdvancedSearch()
+    self:RefreshTreeBrowser()
+end
+
+--------------------------------------------------------------------------------
 -- Initialize UI on Load
 --------------------------------------------------------------------------------
 
@@ -3236,6 +3878,9 @@ initFrame:SetScript("OnEvent", function()
             VTT.TrackerFrame = getglobal("ATTTrackerFrame")
             VTT.MountFrame = getglobal("ATTMountFrame")
             VTT.PetFrame = getglobal("ATTPetFrame")
+            VTT.TreeBrowserFrame = getglobal("ATTTreeBrowserFrame")
+            VTT.AdvancedSearchFrame = getglobal("ATTAdvancedSearchFrame")
+            VTT.PresetMenuFrame = getglobal("ATTPresetMenuFrame")
             
             -- Create rows for all list windows
             InitializeRows()
@@ -3267,3 +3912,4 @@ zoneFrame:SetScript("OnEvent", function()
     -- Always refresh tracker on zone/quest changes
     VTT:RefreshTracker()
 end)
+

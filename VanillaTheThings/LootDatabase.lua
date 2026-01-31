@@ -8340,3 +8340,1780 @@ function DB.GetSourceChainText(itemID)
     return table.concat(lines, "\n")
 end
 
+--------------------------------------------------------------------------------
+-- HIERARCHICAL TREE DATA STRUCTURE
+-- Organized: Zone → Subzone/Instance → NPC/Source → Items
+--------------------------------------------------------------------------------
+
+DB.HierarchyTree = {
+    -- Eastern Kingdoms Zones
+    ["Eastern Kingdoms"] = {
+        type = "continent",
+        children = {
+            ["Elwynn Forest"] = {
+                type = "zone",
+                level = "1-10",
+                faction = "Alliance",
+                children = {
+                    ["Goldshire"] = {
+                        type = "subzone",
+                        children = {
+                            ["Kobold Vermin"] = {
+                                type = "npc",
+                                level = "1-2",
+                                items = {
+                                    { id = 774, name = "Malachite", quality = 2, dropRate = 0.5 },
+                                    { id = 818, name = "Tigerseye", quality = 2, dropRate = 0.3 },
+                                },
+                            },
+                            ["Kobold Worker"] = {
+                                type = "npc",
+                                level = "2-3",
+                                items = {
+                                    { id = 2589, name = "Linen Cloth", quality = 1, dropRate = 30 },
+                                },
+                            },
+                        },
+                    },
+                    ["Fargodeep Mine"] = {
+                        type = "subzone",
+                        children = {
+                            ["Kobold Tunneler"] = {
+                                type = "npc",
+                                level = "4-5",
+                                items = {
+                                    { id = 774, name = "Malachite", quality = 2, dropRate = 1 },
+                                    { id = 1210, name = "Shadowgem", quality = 2, dropRate = 0.5 },
+                                },
+                            },
+                        },
+                    },
+                    ["Quests"] = {
+                        type = "category",
+                        children = {
+                            ["Kobold Camp Cleanup"] = {
+                                type = "quest",
+                                level = 5,
+                                items = {
+                                    { id = 6070, name = "Kobold Camp Cleanup Reward", quality = 1 },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            ["Westfall"] = {
+                type = "zone",
+                level = "10-20",
+                faction = "Alliance",
+                children = {
+                    ["The Deadmines"] = {
+                        type = "instance",
+                        level = "17-26",
+                        players = 5,
+                        children = {
+                            ["Rhahk'Zor"] = {
+                                type = "boss",
+                                level = 19,
+                                items = {
+                                    { id = 872, name = "Rockslicer", quality = 2, dropRate = 25 },
+                                    { id = 5187, name = "Rhahk'Zor's Hammer", quality = 3, dropRate = 30 },
+                                },
+                            },
+                            ["Sneed's Shredder"] = {
+                                type = "boss",
+                                level = 20,
+                                items = {
+                                    { id = 2169, name = "Buzzer Blade", quality = 3, dropRate = 35 },
+                                    { id = 1937, name = "Buzz Saw", quality = 2, dropRate = 30 },
+                                },
+                            },
+                            ["Gilnid"] = {
+                                type = "boss",
+                                level = 20,
+                                items = {
+                                    { id = 1156, name = "Lavishly Jeweled Ring", quality = 3, dropRate = 30 },
+                                    { id = 5199, name = "Smelting Pants", quality = 2, dropRate = 35 },
+                                },
+                            },
+                            ["Mr. Smite"] = {
+                                type = "boss",
+                                level = 20,
+                                items = {
+                                    { id = 5192, name = "Thief's Blade", quality = 3, dropRate = 30 },
+                                    { id = 5196, name = "Smite's Reaver", quality = 3, dropRate = 25 },
+                                },
+                            },
+                            ["Edwin VanCleef"] = {
+                                type = "boss",
+                                level = 21,
+                                items = {
+                                    { id = 5193, name = "Cape of the Brotherhood", quality = 3, dropRate = 20 },
+                                    { id = 5191, name = "Cruel Barb", quality = 3, dropRate = 18 },
+                                    { id = 5194, name = "Taskmaster Axe", quality = 3, dropRate = 15 },
+                                    { id = 5195, name = "Gold-plated Buckler", quality = 2, dropRate = 15 },
+                                },
+                            },
+                            ["Cookie"] = {
+                                type = "boss",
+                                level = 20,
+                                items = {
+                                    { id = 5198, name = "Cookie's Stirring Rod", quality = 3, dropRate = 35 },
+                                    { id = 5197, name = "Cookie's Tenderizer", quality = 3, dropRate = 30 },
+                                },
+                            },
+                            ["Trash Mobs"] = {
+                                type = "trash",
+                                items = {
+                                    { id = 8492, name = "Green Wing Macaw", quality = 3, dropRate = 1 },
+                                    { id = 1926, name = "Defias Rapier", quality = 2, dropRate = 2 },
+                                    { id = 1951, name = "Blackwater Cutlass", quality = 2, dropRate = 1 },
+                                },
+                            },
+                        },
+                    },
+                    ["Defias Brotherhood"] = {
+                        type = "subzone",
+                        children = {
+                            ["Defias Pillager"] = {
+                                type = "npc",
+                                level = "15-16",
+                                items = {
+                                    { id = 2589, name = "Linen Cloth", quality = 1, dropRate = 35 },
+                                    { id = 2592, name = "Wool Cloth", quality = 1, dropRate = 15 },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            ["Duskwood"] = {
+                type = "zone",
+                level = "20-30",
+                faction = "Alliance",
+                children = {
+                    ["Darkshire"] = {
+                        type = "subzone",
+                        children = {
+                            ["Vendors"] = {
+                                type = "category",
+                                children = {
+                                    ["Madame Eva"] = {
+                                        type = "vendor",
+                                        items = {
+                                            { id = 5643, name = "Recipe: Great Rage Potion", quality = 1, cost = 2000 },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    ["Raven Hill Cemetery"] = {
+                        type = "subzone",
+                        children = {
+                            ["Mor'Ladim"] = {
+                                type = "rare",
+                                level = 25,
+                                spawnTimer = "4-6 hours",
+                                items = {
+                                    { id = 3185, name = "Acrobatic Staff", quality = 3, dropRate = 35 },
+                                    { id = 4446, name = "Blackbone Ring", quality = 2, dropRate = 20 },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            ["Stranglethorn Vale"] = {
+                type = "zone",
+                level = "30-45",
+                faction = "Both",
+                children = {
+                    ["Zul'Gurub"] = {
+                        type = "raid",
+                        level = 60,
+                        players = 20,
+                        children = {
+                            ["High Priest Venoxis"] = {
+                                type = "boss",
+                                level = 62,
+                                items = {
+                                    { id = 19903, name = "Fang of Venoxis", quality = 4, dropRate = 15 },
+                                    { id = 19900, name = "Zulian Stone Axe", quality = 4, dropRate = 12 },
+                                },
+                            },
+                            ["Bloodlord Mandokir"] = {
+                                type = "boss",
+                                level = 62,
+                                items = {
+                                    { id = 19872, name = "Swift Razzashi Raptor", quality = 4, dropRate = 1 },
+                                    { id = 19867, name = "Bloodlord's Defender", quality = 4, dropRate = 12 },
+                                },
+                            },
+                            ["High Priest Thekal"] = {
+                                type = "boss",
+                                level = 62,
+                                items = {
+                                    { id = 19902, name = "Swift Zulian Tiger", quality = 4, dropRate = 1 },
+                                    { id = 19897, name = "Betrayer's Boots", quality = 4, dropRate = 15 },
+                                },
+                            },
+                            ["Hakkar the Soulflayer"] = {
+                                type = "boss",
+                                level = 63,
+                                items = {
+                                    { id = 19857, name = "Cloak of Consumption", quality = 4, dropRate = 15 },
+                                    { id = 19859, name = "Fang of the Faceless", quality = 4, dropRate = 12 },
+                                    { id = 19864, name = "Bloodcaller", quality = 4, dropRate = 10 },
+                                    { id = 19862, name = "Aegis of the Blood God", quality = 4, dropRate = 8 },
+                                },
+                            },
+                        },
+                    },
+                    ["Booty Bay"] = {
+                        type = "subzone",
+                        children = {
+                            ["Vendors"] = {
+                                type = "category",
+                                children = {
+                                    ["Narkk"] = {
+                                        type = "vendor",
+                                        items = {
+                                            { id = 8496, name = "Cockatiel", quality = 1, cost = 4000 },
+                                            { id = 8495, name = "Senegal", quality = 1, cost = 4000 },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            ["Burning Steppes"] = {
+                type = "zone",
+                level = "50-58",
+                faction = "Both",
+                children = {
+                    ["Blackrock Mountain"] = {
+                        type = "subzone",
+                        children = {
+                            ["Blackrock Depths"] = {
+                                type = "instance",
+                                level = "52-60",
+                                players = 5,
+                                children = {
+                                    ["Emperor Dagran Thaurissan"] = {
+                                        type = "boss",
+                                        level = 59,
+                                        items = {
+                                            { id = 13964, name = "Ironfoe", quality = 4, dropRate = 1.5 },
+                                            { id = 11684, name = "Imperial Jewel", quality = 4, dropRate = 15 },
+                                            { id = 11932, name = "Guiding Stave of Wisdom", quality = 4, dropRate = 12 },
+                                        },
+                                    },
+                                    ["General Angerforge"] = {
+                                        type = "boss",
+                                        level = 57,
+                                        items = {
+                                            { id = 11935, name = "Dregmetal Spaulders", quality = 3, dropRate = 18 },
+                                            { id = 22266, name = "Libram of Constitution", quality = 3, dropRate = 8 },
+                                        },
+                                    },
+                                },
+                            },
+                            ["Upper Blackrock Spire"] = {
+                                type = "instance",
+                                level = "55-60",
+                                players = 10,
+                                children = {
+                                    ["Warchief Rend Blackhand"] = {
+                                        type = "boss",
+                                        level = 62,
+                                        items = {
+                                            { id = 12590, name = "Felstriker", quality = 4, dropRate = 0.7 },
+                                            { id = 12587, name = "Eye of Rend", quality = 4, dropRate = 15 },
+                                            { id = 12588, name = "Bonespike Shoulder", quality = 3, dropRate = 18 },
+                                        },
+                                    },
+                                    ["General Drakkisath"] = {
+                                        type = "boss",
+                                        level = 62,
+                                        items = {
+                                            { id = 12651, name = "Blackblade of Shahram", quality = 4, dropRate = 2.5 },
+                                            { id = 22253, name = "Tome of the Lost", quality = 3, dropRate = 10 },
+                                        },
+                                    },
+                                },
+                            },
+                            ["Molten Core"] = {
+                                type = "raid",
+                                level = 60,
+                                players = 40,
+                                children = {
+                                    ["Lucifron"] = {
+                                        type = "boss",
+                                        level = 62,
+                                        items = {
+                                            { id = 16805, name = "Felheart Gloves", quality = 4, dropRate = 18 },
+                                            { id = 16863, name = "Gauntlets of Might", quality = 4, dropRate = 18 },
+                                        },
+                                    },
+                                    ["Magmadar"] = {
+                                        type = "boss",
+                                        level = 62,
+                                        items = {
+                                            { id = 17069, name = "Striker's Mark", quality = 4, dropRate = 15 },
+                                            { id = 18203, name = "Eskhandar's Right Claw", quality = 4, dropRate = 10 },
+                                        },
+                                    },
+                                    ["Ragnaros"] = {
+                                        type = "boss",
+                                        level = 63,
+                                        items = {
+                                            { id = 17204, name = "Eye of Sulfuras", quality = 5, dropRate = 3 },
+                                            { id = 18814, name = "Choker of the Fire Lord", quality = 4, dropRate = 10 },
+                                            { id = 18817, name = "Crown of Destruction", quality = 4, dropRate = 12 },
+                                            { id = 17102, name = "Cloak of the Shrouded Mists", quality = 4, dropRate = 15 },
+                                        },
+                                    },
+                                },
+                            },
+                            ["Blackwing Lair"] = {
+                                type = "raid",
+                                level = 60,
+                                players = 40,
+                                children = {
+                                    ["Razorgore the Untamed"] = {
+                                        type = "boss",
+                                        level = 62,
+                                        items = {
+                                            { id = 19335, name = "Spineshatter", quality = 4, dropRate = 15 },
+                                            { id = 19336, name = "Arcane Infused Gem", quality = 4, dropRate = 18 },
+                                        },
+                                    },
+                                    ["Nefarian"] = {
+                                        type = "boss",
+                                        level = 63,
+                                        items = {
+                                            { id = 19002, name = "Head of Nefarian", quality = 4, dropRate = 100 },
+                                            { id = 19137, name = "Onslaught Girdle", quality = 4, dropRate = 8 },
+                                            { id = 19003, name = "Head of Nefarian", quality = 4, dropRate = 100 },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            ["Eastern Plaguelands"] = {
+                type = "zone",
+                level = "53-60",
+                faction = "Both",
+                children = {
+                    ["Stratholme"] = {
+                        type = "instance",
+                        level = "58-60",
+                        players = 5,
+                        children = {
+                            ["Baron Rivendare"] = {
+                                type = "boss",
+                                level = 62,
+                                items = {
+                                    { id = 13335, name = "Deathcharger's Reins", quality = 4, dropRate = 0.02 },
+                                    { id = 13505, name = "Runeblade of Baron Rivendare", quality = 4, dropRate = 0.3 },
+                                    { id = 13368, name = "Bonescraper", quality = 3, dropRate = 15 },
+                                },
+                            },
+                        },
+                    },
+                    ["Naxxramas"] = {
+                        type = "raid",
+                        level = 60,
+                        players = 40,
+                        children = {
+                            ["Anub'Rekhan"] = {
+                                type = "boss",
+                                level = 63,
+                                items = {
+                                    { id = 22726, name = "Splinter of Atiesh", quality = 4, dropRate = 50 },
+                                    { id = 22938, name = "Cryptfiend Silk Cloak", quality = 4, dropRate = 20 },
+                                },
+                            },
+                            ["Kel'Thuzad"] = {
+                                type = "boss",
+                                level = 63,
+                                items = {
+                                    { id = 23057, name = "Veil of Eclipse", quality = 4, dropRate = 15 },
+                                    { id = 23054, name = "Gressil, Dawn of Ruin", quality = 4, dropRate = 8 },
+                                    { id = 22802, name = "Kingsfall", quality = 4, dropRate = 8 },
+                                },
+                            },
+                        },
+                    },
+                    ["Light's Hope Chapel"] = {
+                        type = "subzone",
+                        children = {
+                            ["Argent Dawn Vendors"] = {
+                                type = "category",
+                                children = {
+                                    ["Quartermaster Hasana"] = {
+                                        type = "vendor",
+                                        reputation = "Argent Dawn",
+                                        items = {
+                                            { id = 22417, name = "Blessed Wizard Oil", quality = 1, cost = 50000, repReq = "Honored" },
+                                            { id = 22438, name = "Onslaught Girdle", quality = 4, cost = 3000000, repReq = "Exalted" },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    
+    -- Kalimdor Zones
+    ["Kalimdor"] = {
+        type = "continent",
+        children = {
+            ["Durotar"] = {
+                type = "zone",
+                level = "1-10",
+                faction = "Horde",
+                children = {
+                    ["Valley of Trials"] = {
+                        type = "subzone",
+                        children = {
+                            ["Scorpid Worker"] = {
+                                type = "npc",
+                                level = "1-2",
+                                items = {
+                                    { id = 2770, name = "Copper Ore", quality = 1, dropRate = 0.5 },
+                                },
+                            },
+                        },
+                    },
+                    ["Sen'jin Village"] = {
+                        type = "subzone",
+                        children = {
+                            ["Vendors"] = {
+                                type = "category",
+                                children = {
+                                    ["Zjolnir"] = {
+                                        type = "vendor",
+                                        items = {
+                                            { id = 8586, name = "Emerald Raptor", quality = 3, cost = 100000 },
+                                            { id = 8591, name = "Turquoise Raptor", quality = 3, cost = 100000 },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            ["Silithus"] = {
+                type = "zone",
+                level = "55-60",
+                faction = "Both",
+                children = {
+                    ["Temple of Ahn'Qiraj"] = {
+                        type = "raid",
+                        level = 60,
+                        players = 40,
+                        children = {
+                            ["The Prophet Skeram"] = {
+                                type = "boss",
+                                level = 63,
+                                items = {
+                                    { id = 21706, name = "Ring of Swarming Thought", quality = 4, dropRate = 18 },
+                                    { id = 21699, name = "Barrage Shoulders", quality = 4, dropRate = 15 },
+                                },
+                            },
+                            ["C'Thun"] = {
+                                type = "boss",
+                                level = 63,
+                                items = {
+                                    { id = 21126, name = "Death's Sting", quality = 4, dropRate = 10 },
+                                    { id = 21134, name = "Dark Edge of Insanity", quality = 4, dropRate = 8 },
+                                    { id = 22732, name = "Mark of C'Thun", quality = 4, dropRate = 100 },
+                                },
+                            },
+                            ["Trash Mobs"] = {
+                                type = "trash",
+                                items = {
+                                    { id = 21218, name = "Blue Qiraji Resonating Crystal", quality = 4, dropRate = 5 },
+                                    { id = 21323, name = "Green Qiraji Resonating Crystal", quality = 4, dropRate = 5 },
+                                    { id = 21321, name = "Red Qiraji Resonating Crystal", quality = 4, dropRate = 5 },
+                                    { id = 21324, name = "Yellow Qiraji Resonating Crystal", quality = 4, dropRate = 5 },
+                                },
+                            },
+                        },
+                    },
+                    ["Ruins of Ahn'Qiraj"] = {
+                        type = "raid",
+                        level = 60,
+                        players = 20,
+                        children = {
+                            ["Ossirian the Unscarred"] = {
+                                type = "boss",
+                                level = 63,
+                                items = {
+                                    { id = 21460, name = "Helm of Domination", quality = 4, dropRate = 15 },
+                                    { id = 21452, name = "Staff of the Ruins", quality = 4, dropRate = 12 },
+                                },
+                            },
+                        },
+                    },
+                    ["Cenarion Hold"] = {
+                        type = "subzone",
+                        children = {
+                            ["Cenarion Circle Vendors"] = {
+                                type = "category",
+                                children = {
+                                    ["Vargus"] = {
+                                        type = "vendor",
+                                        reputation = "Cenarion Circle",
+                                        items = {
+                                            { id = 21180, name = "Earthstrike", quality = 4, repReq = "Revered" },
+                                            { id = 21181, name = "Grace of Earth", quality = 4, repReq = "Revered" },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            ["Winterspring"] = {
+                type = "zone",
+                level = "55-60",
+                faction = "Both",
+                children = {
+                    ["Everlook"] = {
+                        type = "subzone",
+                        children = {
+                            ["Wintersaber Trainers"] = {
+                                type = "category",
+                                faction = "Alliance",
+                                children = {
+                                    ["Rivern Frostwind"] = {
+                                        type = "vendor",
+                                        reputation = "Wintersaber Trainers",
+                                        items = {
+                                            { id = 13086, name = "Reins of the Winterspring Frostsaber", quality = 4, repReq = "Exalted" },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    ["Rare Spawns"] = {
+                        type = "category",
+                        children = {
+                            ["Azurous"] = {
+                                type = "rare",
+                                level = 58,
+                                coords = { x = 58, y = 55 },
+                                items = {
+                                    { id = 20371, name = "Azure Whelpling", quality = 3, dropRate = 0.1 },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    
+    -- World Bosses
+    ["World Bosses"] = {
+        type = "category",
+        children = {
+            ["Lord Kazzak"] = {
+                type = "worldboss",
+                level = 63,
+                zone = "Blasted Lands",
+                coords = { x = 32, y = 48 },
+                respawn = "2 days",
+                items = {
+                    { id = 18546, name = "Infernal Headcage", quality = 4, dropRate = 15 },
+                    { id = 18543, name = "Ring of Entropy", quality = 4, dropRate = 12 },
+                    { id = 17113, name = "Amberseal Keeper", quality = 4, dropRate = 8 },
+                },
+            },
+            ["Azuregos"] = {
+                type = "worldboss",
+                level = 63,
+                zone = "Azshara",
+                coords = { x = 47, y = 83 },
+                respawn = "2-3 days",
+                items = {
+                    { id = 19132, name = "Crystal Adorned Crown", quality = 4, dropRate = 12 },
+                    { id = 18202, name = "Eskhandar's Left Claw", quality = 4, dropRate = 10 },
+                    { id = 17070, name = "Fang of the Mystics", quality = 4, dropRate = 12 },
+                },
+            },
+            ["Dragons of Nightmare"] = {
+                type = "category",
+                children = {
+                    ["Emeriss"] = {
+                        type = "worldboss",
+                        level = 63,
+                        zone = "Various",
+                        items = {
+                            { id = 20623, name = "Circlet of Restless Dreams", quality = 4, dropRate = 15 },
+                            { id = 20622, name = "Dragonheart Necklace", quality = 4, dropRate = 12 },
+                        },
+                    },
+                    ["Lethon"] = {
+                        type = "worldboss",
+                        level = 63,
+                        zone = "Various",
+                        items = {
+                            { id = 20623, name = "Circlet of Restless Dreams", quality = 4, dropRate = 15 },
+                            { id = 20622, name = "Dragonheart Necklace", quality = 4, dropRate = 12 },
+                        },
+                    },
+                    ["Taerar"] = {
+                        type = "worldboss",
+                        level = 63,
+                        zone = "Various",
+                        items = {
+                            { id = 20623, name = "Circlet of Restless Dreams", quality = 4, dropRate = 15 },
+                            { id = 20622, name = "Dragonheart Necklace", quality = 4, dropRate = 12 },
+                        },
+                    },
+                    ["Ysondre"] = {
+                        type = "worldboss",
+                        level = 63,
+                        zone = "Various",
+                        items = {
+                            { id = 20623, name = "Circlet of Restless Dreams", quality = 4, dropRate = 15 },
+                            { id = 20622, name = "Dragonheart Necklace", quality = 4, dropRate = 12 },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    
+    -- Professions
+    ["Professions"] = {
+        type = "category",
+        children = {
+            ["Blacksmithing"] = {
+                type = "profession",
+                children = {
+                    ["Armorsmith"] = {
+                        type = "specialization",
+                        items = {
+                            { id = 12618, name = "Enchanted Thorium Breastplate", quality = 4 },
+                            { id = 12620, name = "Enchanted Thorium Leggings", quality = 4 },
+                            { id = 12619, name = "Enchanted Thorium Helm", quality = 4 },
+                        },
+                    },
+                    ["Weaponsmith"] = {
+                        type = "specialization",
+                        children = {
+                            ["Swordsmith"] = {
+                                type = "specialization",
+                                items = {
+                                    { id = 12790, name = "Arcanite Champion", quality = 4 },
+                                    { id = 12798, name = "Arcanite Reaper", quality = 4 },
+                                },
+                            },
+                            ["Hammersmith"] = {
+                                type = "specialization",
+                                items = {
+                                    { id = 12794, name = "Masterwork Stormhammer", quality = 4 },
+                                },
+                            },
+                            ["Axesmith"] = {
+                                type = "specialization",
+                                items = {
+                                    { id = 12784, name = "Arcanite Reaper", quality = 4 },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            ["Enchanting"] = {
+                type = "profession",
+                children = {
+                    ["High-End Enchants"] = {
+                        type = "category",
+                        items = {
+                            { id = 16223, name = "Formula: Enchant Weapon - Crusader", quality = 2, source = "Drop" },
+                            { id = 16219, name = "Formula: Enchant Weapon - Lifestealing", quality = 2, source = "Drop" },
+                            { id = 20726, name = "Formula: Enchant Gloves - Threat", quality = 2, source = "Reputation" },
+                        },
+                    },
+                },
+            },
+        },
+    },
+}
+
+-- Quality constants for filtering
+DB.QualityLevels = {
+    [0] = { name = "Poor", color = "|cFF9D9D9D" },
+    [1] = { name = "Common", color = "|cFFFFFFFF" },
+    [2] = { name = "Uncommon", color = "|cFF1EFF00" },
+    [3] = { name = "Rare", color = "|cFF0070DD" },
+    [4] = { name = "Epic", color = "|cFFA335EE" },
+    [5] = { name = "Legendary", color = "|cFFFF8000" },
+}
+
+-- Source types for filtering
+DB.SourceTypes = {
+    "Drop",
+    "Quest",
+    "Vendor",
+    "Crafted",
+    "Reputation",
+    "PvP",
+    "World Drop",
+    "Dungeon",
+    "Raid",
+    "World Boss",
+    "Rare Spawn",
+    "Event",
+    "Fishing",
+}
+
+-- Node type icons
+DB.NodeTypeIcons = {
+    continent = "Interface\\Icons\\INV_Misc_Map_01",
+    zone = "Interface\\Icons\\INV_Misc_Map02",
+    subzone = "Interface\\Icons\\Ability_Tracking",
+    instance = "Interface\\Icons\\INV_Misc_Key_10",
+    raid = "Interface\\Icons\\INV_Misc_Key_14",
+    boss = "Interface\\Icons\\INV_Misc_Head_Dragon_01",
+    worldboss = "Interface\\Icons\\INV_Misc_Head_Dragon_Black",
+    npc = "Interface\\Icons\\Ability_Creature_Cursed_02",
+    rare = "Interface\\Icons\\INV_Misc_Coin_02",
+    vendor = "Interface\\Icons\\INV_Misc_Coin_01",
+    quest = "Interface\\Icons\\INV_Misc_Note_01",
+    trash = "Interface\\Icons\\INV_Misc_Bag_10",
+    category = "Interface\\Icons\\INV_Misc_QuestionMark",
+    profession = "Interface\\Icons\\Trade_Engineering",
+    specialization = "Interface\\Icons\\Trade_BlackSmithing",
+}
+
+--------------------------------------------------------------------------------
+-- ADVANCED SEARCH SYSTEM
+-- Filter by source type, quality, level range, and text
+--------------------------------------------------------------------------------
+
+DB.SearchFilters = {
+    -- Active search text
+    searchText = "",
+    
+    -- Quality filter (nil = all, or specific quality number 0-5)
+    minQuality = nil,
+    maxQuality = nil,
+    
+    -- Level range filter
+    minLevel = nil,
+    maxLevel = nil,
+    
+    -- Source type filters (true = show, false/nil = hide)
+    sourceTypes = {
+        Drop = true,
+        Quest = true,
+        Vendor = true,
+        Crafted = true,
+        Reputation = true,
+        PvP = true,
+        ["World Drop"] = true,
+        Dungeon = true,
+        Raid = true,
+        ["World Boss"] = true,
+        ["Rare Spawn"] = true,
+        Event = true,
+        Fishing = true,
+    },
+    
+    -- Faction filter
+    faction = nil, -- nil = both, "Alliance" or "Horde"
+    
+    -- Collection status filter
+    showCollected = true,
+    showUncollected = true,
+    
+    -- Node type filters for tree view
+    nodeTypes = {
+        continent = true,
+        zone = true,
+        subzone = true,
+        instance = true,
+        raid = true,
+        boss = true,
+        worldboss = true,
+        npc = true,
+        rare = true,
+        vendor = true,
+        quest = true,
+        trash = true,
+        category = true,
+        profession = true,
+        specialization = true,
+    },
+}
+
+-- Reset all filters to default
+function DB.ResetSearchFilters()
+    DB.SearchFilters.searchText = ""
+    DB.SearchFilters.minQuality = nil
+    DB.SearchFilters.maxQuality = nil
+    DB.SearchFilters.minLevel = nil
+    DB.SearchFilters.maxLevel = nil
+    DB.SearchFilters.faction = nil
+    DB.SearchFilters.showCollected = true
+    DB.SearchFilters.showUncollected = true
+    
+    for sourceType, _ in pairs(DB.SearchFilters.sourceTypes) do
+        DB.SearchFilters.sourceTypes[sourceType] = true
+    end
+    
+    for nodeType, _ in pairs(DB.SearchFilters.nodeTypes) do
+        DB.SearchFilters.nodeTypes[nodeType] = true
+    end
+end
+
+-- Set text search filter
+function DB.SetSearchText(text)
+    DB.SearchFilters.searchText = text or ""
+end
+
+-- Set quality range filter
+function DB.SetQualityFilter(minQual, maxQual)
+    DB.SearchFilters.minQuality = minQual
+    DB.SearchFilters.maxQuality = maxQual
+end
+
+-- Set level range filter
+function DB.SetLevelFilter(minLvl, maxLvl)
+    DB.SearchFilters.minLevel = minLvl
+    DB.SearchFilters.maxLevel = maxLvl
+end
+
+-- Toggle source type filter
+function DB.ToggleSourceType(sourceType)
+    if DB.SearchFilters.sourceTypes[sourceType] ~= nil then
+        DB.SearchFilters.sourceTypes[sourceType] = not DB.SearchFilters.sourceTypes[sourceType]
+    end
+end
+
+-- Set source type filter
+function DB.SetSourceType(sourceType, enabled)
+    if DB.SearchFilters.sourceTypes[sourceType] ~= nil then
+        DB.SearchFilters.sourceTypes[sourceType] = enabled
+    end
+end
+
+-- Toggle node type filter
+function DB.ToggleNodeType(nodeType)
+    if DB.SearchFilters.nodeTypes[nodeType] ~= nil then
+        DB.SearchFilters.nodeTypes[nodeType] = not DB.SearchFilters.nodeTypes[nodeType]
+    end
+end
+
+-- Check if item passes text search
+function DB.PassesTextSearch(itemName)
+    if not DB.SearchFilters.searchText or DB.SearchFilters.searchText == "" then
+        return true
+    end
+    
+    local searchLower = string.lower(DB.SearchFilters.searchText)
+    local nameLower = string.lower(itemName or "")
+    
+    return string.find(nameLower, searchLower, 1, true) ~= nil
+end
+
+-- Check if item passes quality filter
+function DB.PassesQualityFilter(quality)
+    if DB.SearchFilters.minQuality and quality < DB.SearchFilters.minQuality then
+        return false
+    end
+    if DB.SearchFilters.maxQuality and quality > DB.SearchFilters.maxQuality then
+        return false
+    end
+    return true
+end
+
+-- Check if item passes level filter
+function DB.PassesLevelFilter(level)
+    if not level then return true end
+    
+    -- Handle level ranges like "1-10"
+    local minLvl, maxLvl = level, level
+    if type(level) == "string" then
+        local l1, l2 = string.match(level, "(%d+)%-(%d+)")
+        if l1 and l2 then
+            minLvl = tonumber(l1)
+            maxLvl = tonumber(l2)
+        else
+            minLvl = tonumber(level) or 0
+            maxLvl = minLvl
+        end
+    end
+    
+    if DB.SearchFilters.minLevel and maxLvl < DB.SearchFilters.minLevel then
+        return false
+    end
+    if DB.SearchFilters.maxLevel and minLvl > DB.SearchFilters.maxLevel then
+        return false
+    end
+    return true
+end
+
+-- Check if source type passes filter
+function DB.PassesSourceTypeFilter(sourceType)
+    if not sourceType then return true end
+    return DB.SearchFilters.sourceTypes[sourceType] ~= false
+end
+
+-- Check if node type passes filter
+function DB.PassesNodeTypeFilter(nodeType)
+    if not nodeType then return true end
+    return DB.SearchFilters.nodeTypes[nodeType] ~= false
+end
+
+-- Check if faction passes filter
+function DB.PassesFactionFilter(faction)
+    if not DB.SearchFilters.faction then return true end
+    if not faction or faction == "Both" then return true end
+    return faction == DB.SearchFilters.faction
+end
+
+-- Full item filter check
+function DB.PassesAllFilters(item, nodeType, faction, level)
+    if not DB.PassesTextSearch(item.name) then return false end
+    if not DB.PassesQualityFilter(item.quality or 1) then return false end
+    if not DB.PassesNodeTypeFilter(nodeType) then return false end
+    if not DB.PassesFactionFilter(faction) then return false end
+    if not DB.PassesLevelFilter(level) then return false end
+    return true
+end
+
+-- Search items in hierarchy tree
+function DB.SearchHierarchy(searchText, filters)
+    local results = {}
+    
+    if searchText then
+        DB.SetSearchText(searchText)
+    end
+    
+    -- Apply any additional filters
+    if filters then
+        if filters.minQuality then DB.SearchFilters.minQuality = filters.minQuality end
+        if filters.maxQuality then DB.SearchFilters.maxQuality = filters.maxQuality end
+        if filters.minLevel then DB.SearchFilters.minLevel = filters.minLevel end
+        if filters.maxLevel then DB.SearchFilters.maxLevel = filters.maxLevel end
+        if filters.faction then DB.SearchFilters.faction = filters.faction end
+    end
+    
+    -- Recursive search function
+    local function searchNode(node, nodeName, path, parentFaction, parentLevel)
+        local currentPath = path and (path .. " > " .. nodeName) or nodeName
+        local nodeFaction = node.faction or parentFaction
+        local nodeLevel = node.level or parentLevel
+        
+        -- Check items in this node
+        if node.items then
+            for _, item in ipairs(node.items) do
+                if DB.PassesAllFilters(item, node.type, nodeFaction, nodeLevel) then
+                    table.insert(results, {
+                        item = item,
+                        path = currentPath,
+                        nodeType = node.type,
+                        faction = nodeFaction,
+                        level = nodeLevel,
+                    })
+                end
+            end
+        end
+        
+        -- Recurse into children
+        if node.children then
+            for childName, childNode in pairs(node.children) do
+                searchNode(childNode, childName, currentPath, nodeFaction, nodeLevel)
+            end
+        end
+    end
+    
+    -- Start search from root nodes
+    for rootName, rootNode in pairs(DB.HierarchyTree) do
+        searchNode(rootNode, rootName, nil, nil, nil)
+    end
+    
+    -- Sort results by path then by item name
+    table.sort(results, function(a, b)
+        if a.path == b.path then
+            return (a.item.name or "") < (b.item.name or "")
+        end
+        return a.path < b.path
+    end)
+    
+    return results
+end
+
+-- Get items by source type
+function DB.GetItemsBySourceType(sourceType)
+    local results = {}
+    
+    local function searchNode(node, nodeName, path)
+        local currentPath = path and (path .. " > " .. nodeName) or nodeName
+        
+        -- Check if this node matches the source type
+        local matchesType = false
+        if sourceType == "Raid" and node.type == "raid" then matchesType = true end
+        if sourceType == "Dungeon" and node.type == "instance" then matchesType = true end
+        if sourceType == "World Boss" and node.type == "worldboss" then matchesType = true end
+        if sourceType == "Rare Spawn" and node.type == "rare" then matchesType = true end
+        if sourceType == "Vendor" and node.type == "vendor" then matchesType = true end
+        if sourceType == "Quest" and node.type == "quest" then matchesType = true end
+        if sourceType == "Drop" and (node.type == "boss" or node.type == "npc" or node.type == "trash") then matchesType = true end
+        if sourceType == "Crafted" and node.type == "profession" then matchesType = true end
+        
+        if matchesType and node.items then
+            for _, item in ipairs(node.items) do
+                table.insert(results, {
+                    item = item,
+                    path = currentPath,
+                    nodeType = node.type,
+                })
+            end
+        end
+        
+        -- Recurse into children
+        if node.children then
+            for childName, childNode in pairs(node.children) do
+                searchNode(childNode, childName, currentPath)
+            end
+        end
+    end
+    
+    for rootName, rootNode in pairs(DB.HierarchyTree) do
+        searchNode(rootNode, rootName, nil)
+    end
+    
+    return results
+end
+
+-- Get items by quality
+function DB.GetItemsByQuality(quality)
+    local results = {}
+    
+    local function searchNode(node, nodeName, path)
+        local currentPath = path and (path .. " > " .. nodeName) or nodeName
+        
+        if node.items then
+            for _, item in ipairs(node.items) do
+                if item.quality == quality then
+                    table.insert(results, {
+                        item = item,
+                        path = currentPath,
+                        nodeType = node.type,
+                    })
+                end
+            end
+        end
+        
+        if node.children then
+            for childName, childNode in pairs(node.children) do
+                searchNode(childNode, childName, currentPath)
+            end
+        end
+    end
+    
+    for rootName, rootNode in pairs(DB.HierarchyTree) do
+        searchNode(rootNode, rootName, nil)
+    end
+    
+    return results
+end
+
+--------------------------------------------------------------------------------
+-- FILTER PRESETS SYSTEM
+-- Save and load custom filter combinations
+--------------------------------------------------------------------------------
+
+-- Default presets
+DB.DefaultFilterPresets = {
+    ["All Items"] = {
+        searchText = "",
+        minQuality = nil,
+        maxQuality = nil,
+        minLevel = nil,
+        maxLevel = nil,
+        faction = nil,
+        showCollected = true,
+        showUncollected = true,
+        sourceTypes = nil, -- nil = all enabled
+        nodeTypes = nil, -- nil = all enabled
+    },
+    
+    ["Rare+ Only"] = {
+        searchText = "",
+        minQuality = 3,
+        maxQuality = 5,
+        minLevel = nil,
+        maxLevel = nil,
+        faction = nil,
+        showCollected = true,
+        showUncollected = true,
+        sourceTypes = nil,
+        nodeTypes = nil,
+    },
+    
+    ["Epic+ Only"] = {
+        searchText = "",
+        minQuality = 4,
+        maxQuality = 5,
+        minLevel = nil,
+        maxLevel = nil,
+        faction = nil,
+        showCollected = true,
+        showUncollected = true,
+        sourceTypes = nil,
+        nodeTypes = nil,
+    },
+    
+    ["Legendaries"] = {
+        searchText = "",
+        minQuality = 5,
+        maxQuality = 5,
+        minLevel = nil,
+        maxLevel = nil,
+        faction = nil,
+        showCollected = true,
+        showUncollected = true,
+        sourceTypes = nil,
+        nodeTypes = nil,
+    },
+    
+    ["Raid Loot"] = {
+        searchText = "",
+        minQuality = 3,
+        maxQuality = nil,
+        minLevel = 55,
+        maxLevel = nil,
+        faction = nil,
+        showCollected = true,
+        showUncollected = true,
+        sourceTypes = {
+            Drop = false,
+            Quest = false,
+            Vendor = false,
+            Crafted = false,
+            Reputation = false,
+            PvP = false,
+            ["World Drop"] = false,
+            Dungeon = false,
+            Raid = true,
+            ["World Boss"] = false,
+            ["Rare Spawn"] = false,
+            Event = false,
+            Fishing = false,
+        },
+        nodeTypes = { raid = true, boss = true },
+    },
+    
+    ["Dungeon Loot"] = {
+        searchText = "",
+        minQuality = 2,
+        maxQuality = nil,
+        minLevel = nil,
+        maxLevel = nil,
+        faction = nil,
+        showCollected = true,
+        showUncollected = true,
+        sourceTypes = {
+            Drop = false,
+            Quest = false,
+            Vendor = false,
+            Crafted = false,
+            Reputation = false,
+            PvP = false,
+            ["World Drop"] = false,
+            Dungeon = true,
+            Raid = false,
+            ["World Boss"] = false,
+            ["Rare Spawn"] = false,
+            Event = false,
+            Fishing = false,
+        },
+        nodeTypes = { instance = true, boss = true, trash = true },
+    },
+    
+    ["World Bosses"] = {
+        searchText = "",
+        minQuality = 4,
+        maxQuality = nil,
+        minLevel = 60,
+        maxLevel = nil,
+        faction = nil,
+        showCollected = true,
+        showUncollected = true,
+        sourceTypes = {
+            Drop = false,
+            Quest = false,
+            Vendor = false,
+            Crafted = false,
+            Reputation = false,
+            PvP = false,
+            ["World Drop"] = false,
+            Dungeon = false,
+            Raid = false,
+            ["World Boss"] = true,
+            ["Rare Spawn"] = false,
+            Event = false,
+            Fishing = false,
+        },
+        nodeTypes = { worldboss = true },
+    },
+    
+    ["Rare Spawns"] = {
+        searchText = "",
+        minQuality = 2,
+        maxQuality = nil,
+        minLevel = nil,
+        maxLevel = nil,
+        faction = nil,
+        showCollected = true,
+        showUncollected = true,
+        sourceTypes = {
+            Drop = false,
+            Quest = false,
+            Vendor = false,
+            Crafted = false,
+            Reputation = false,
+            PvP = false,
+            ["World Drop"] = false,
+            Dungeon = false,
+            Raid = false,
+            ["World Boss"] = false,
+            ["Rare Spawn"] = true,
+            Event = false,
+            Fishing = false,
+        },
+        nodeTypes = { rare = true },
+    },
+    
+    ["Vendor Items"] = {
+        searchText = "",
+        minQuality = nil,
+        maxQuality = nil,
+        minLevel = nil,
+        maxLevel = nil,
+        faction = nil,
+        showCollected = true,
+        showUncollected = true,
+        sourceTypes = {
+            Drop = false,
+            Quest = false,
+            Vendor = true,
+            Crafted = false,
+            Reputation = false,
+            PvP = false,
+            ["World Drop"] = false,
+            Dungeon = false,
+            Raid = false,
+            ["World Boss"] = false,
+            ["Rare Spawn"] = false,
+            Event = false,
+            Fishing = false,
+        },
+        nodeTypes = { vendor = true },
+    },
+    
+    ["Quest Rewards"] = {
+        searchText = "",
+        minQuality = nil,
+        maxQuality = nil,
+        minLevel = nil,
+        maxLevel = nil,
+        faction = nil,
+        showCollected = true,
+        showUncollected = true,
+        sourceTypes = {
+            Drop = false,
+            Quest = true,
+            Vendor = false,
+            Crafted = false,
+            Reputation = false,
+            PvP = false,
+            ["World Drop"] = false,
+            Dungeon = false,
+            Raid = false,
+            ["World Boss"] = false,
+            ["Rare Spawn"] = false,
+            Event = false,
+            Fishing = false,
+        },
+        nodeTypes = { quest = true },
+    },
+    
+    ["Low Level (1-20)"] = {
+        searchText = "",
+        minQuality = nil,
+        maxQuality = nil,
+        minLevel = 1,
+        maxLevel = 20,
+        faction = nil,
+        showCollected = true,
+        showUncollected = true,
+        sourceTypes = nil,
+        nodeTypes = nil,
+    },
+    
+    ["Mid Level (21-40)"] = {
+        searchText = "",
+        minQuality = nil,
+        maxQuality = nil,
+        minLevel = 21,
+        maxLevel = 40,
+        faction = nil,
+        showCollected = true,
+        showUncollected = true,
+        sourceTypes = nil,
+        nodeTypes = nil,
+    },
+    
+    ["High Level (41-60)"] = {
+        searchText = "",
+        minQuality = nil,
+        maxQuality = nil,
+        minLevel = 41,
+        maxLevel = 60,
+        faction = nil,
+        showCollected = true,
+        showUncollected = true,
+        sourceTypes = nil,
+        nodeTypes = nil,
+    },
+    
+    ["Endgame (60)"] = {
+        searchText = "",
+        minQuality = 3,
+        maxQuality = nil,
+        minLevel = 60,
+        maxLevel = nil,
+        faction = nil,
+        showCollected = true,
+        showUncollected = true,
+        sourceTypes = nil,
+        nodeTypes = nil,
+    },
+    
+    ["Alliance Only"] = {
+        searchText = "",
+        minQuality = nil,
+        maxQuality = nil,
+        minLevel = nil,
+        maxLevel = nil,
+        faction = "Alliance",
+        showCollected = true,
+        showUncollected = true,
+        sourceTypes = nil,
+        nodeTypes = nil,
+    },
+    
+    ["Horde Only"] = {
+        searchText = "",
+        minQuality = nil,
+        maxQuality = nil,
+        minLevel = nil,
+        maxLevel = nil,
+        faction = "Horde",
+        showCollected = true,
+        showUncollected = true,
+        sourceTypes = nil,
+        nodeTypes = nil,
+    },
+    
+    ["Uncollected Only"] = {
+        searchText = "",
+        minQuality = nil,
+        maxQuality = nil,
+        minLevel = nil,
+        maxLevel = nil,
+        faction = nil,
+        showCollected = false,
+        showUncollected = true,
+        sourceTypes = nil,
+        nodeTypes = nil,
+    },
+}
+
+-- User-saved presets (stored in SavedVariables)
+DB.UserFilterPresets = {}
+
+-- Load a filter preset
+function DB.LoadFilterPreset(presetName)
+    local preset = DB.UserFilterPresets[presetName] or DB.DefaultFilterPresets[presetName]
+    if not preset then
+        return false, "Preset not found: " .. presetName
+    end
+    
+    -- Apply preset values
+    DB.SearchFilters.searchText = preset.searchText or ""
+    DB.SearchFilters.minQuality = preset.minQuality
+    DB.SearchFilters.maxQuality = preset.maxQuality
+    DB.SearchFilters.minLevel = preset.minLevel
+    DB.SearchFilters.maxLevel = preset.maxLevel
+    DB.SearchFilters.faction = preset.faction
+    DB.SearchFilters.showCollected = preset.showCollected ~= false
+    DB.SearchFilters.showUncollected = preset.showUncollected ~= false
+    
+    -- Apply source type filters
+    if preset.sourceTypes then
+        for sourceType, _ in pairs(DB.SearchFilters.sourceTypes) do
+            DB.SearchFilters.sourceTypes[sourceType] = preset.sourceTypes[sourceType] ~= false
+        end
+    else
+        -- Enable all source types
+        for sourceType, _ in pairs(DB.SearchFilters.sourceTypes) do
+            DB.SearchFilters.sourceTypes[sourceType] = true
+        end
+    end
+    
+    -- Apply node type filters
+    if preset.nodeTypes then
+        -- First disable all, then enable specified ones
+        for nodeType, _ in pairs(DB.SearchFilters.nodeTypes) do
+            DB.SearchFilters.nodeTypes[nodeType] = preset.nodeTypes[nodeType] == true
+        end
+    else
+        -- Enable all node types
+        for nodeType, _ in pairs(DB.SearchFilters.nodeTypes) do
+            DB.SearchFilters.nodeTypes[nodeType] = true
+        end
+    end
+    
+    return true, "Loaded preset: " .. presetName
+end
+
+-- Save current filters as a preset
+function DB.SaveFilterPreset(presetName)
+    if not presetName or presetName == "" then
+        return false, "Preset name required"
+    end
+    
+    -- Don't overwrite default presets
+    if DB.DefaultFilterPresets[presetName] then
+        return false, "Cannot overwrite default preset"
+    end
+    
+    -- Create a deep copy of current filters
+    local preset = {
+        searchText = DB.SearchFilters.searchText,
+        minQuality = DB.SearchFilters.minQuality,
+        maxQuality = DB.SearchFilters.maxQuality,
+        minLevel = DB.SearchFilters.minLevel,
+        maxLevel = DB.SearchFilters.maxLevel,
+        faction = DB.SearchFilters.faction,
+        showCollected = DB.SearchFilters.showCollected,
+        showUncollected = DB.SearchFilters.showUncollected,
+        sourceTypes = {},
+        nodeTypes = {},
+    }
+    
+    -- Copy source type filters
+    for sourceType, enabled in pairs(DB.SearchFilters.sourceTypes) do
+        preset.sourceTypes[sourceType] = enabled
+    end
+    
+    -- Copy node type filters
+    for nodeType, enabled in pairs(DB.SearchFilters.nodeTypes) do
+        preset.nodeTypes[nodeType] = enabled
+    end
+    
+    DB.UserFilterPresets[presetName] = preset
+    return true, "Saved preset: " .. presetName
+end
+
+-- Delete a user preset
+function DB.DeleteFilterPreset(presetName)
+    if DB.DefaultFilterPresets[presetName] then
+        return false, "Cannot delete default preset"
+    end
+    
+    if not DB.UserFilterPresets[presetName] then
+        return false, "Preset not found: " .. presetName
+    end
+    
+    DB.UserFilterPresets[presetName] = nil
+    return true, "Deleted preset: " .. presetName
+end
+
+-- Get list of all preset names
+function DB.GetFilterPresetNames()
+    local names = {}
+    
+    -- Add default presets
+    for name, _ in pairs(DB.DefaultFilterPresets) do
+        table.insert(names, { name = name, isDefault = true })
+    end
+    
+    -- Add user presets
+    for name, _ in pairs(DB.UserFilterPresets) do
+        table.insert(names, { name = name, isDefault = false })
+    end
+    
+    -- Sort alphabetically
+    table.sort(names, function(a, b)
+        return a.name < b.name
+    end)
+    
+    return names
+end
+
+-- Get current filter summary text
+function DB.GetFilterSummary()
+    local parts = {}
+    
+    if DB.SearchFilters.searchText and DB.SearchFilters.searchText ~= "" then
+        table.insert(parts, "Text: \"" .. DB.SearchFilters.searchText .. "\"")
+    end
+    
+    if DB.SearchFilters.minQuality or DB.SearchFilters.maxQuality then
+        local minQ = DB.SearchFilters.minQuality or 0
+        local maxQ = DB.SearchFilters.maxQuality or 5
+        local minName = DB.QualityLevels[minQ] and DB.QualityLevels[minQ].name or "?"
+        local maxName = DB.QualityLevels[maxQ] and DB.QualityLevels[maxQ].name or "?"
+        if minQ == maxQ then
+            table.insert(parts, "Quality: " .. minName)
+        else
+            table.insert(parts, "Quality: " .. minName .. " - " .. maxName)
+        end
+    end
+    
+    if DB.SearchFilters.minLevel or DB.SearchFilters.maxLevel then
+        local minL = DB.SearchFilters.minLevel or 1
+        local maxL = DB.SearchFilters.maxLevel or 60
+        if minL == maxL then
+            table.insert(parts, "Level: " .. minL)
+        else
+            table.insert(parts, "Level: " .. minL .. "-" .. maxL)
+        end
+    end
+    
+    if DB.SearchFilters.faction then
+        table.insert(parts, "Faction: " .. DB.SearchFilters.faction)
+    end
+    
+    if #parts == 0 then
+        return "No filters active"
+    end
+    
+    return table.concat(parts, ", ")
+end
+
+--------------------------------------------------------------------------------
+-- TREE NAVIGATION HELPERS
+--------------------------------------------------------------------------------
+
+-- Expanded state tracking
+DB.TreeExpandedState = {}
+
+-- Toggle node expanded state
+function DB.ToggleNodeExpanded(path)
+    DB.TreeExpandedState[path] = not DB.TreeExpandedState[path]
+end
+
+-- Check if node is expanded
+function DB.IsNodeExpanded(path)
+    return DB.TreeExpandedState[path] == true
+end
+
+-- Expand all nodes
+function DB.ExpandAllNodes()
+    local function expandAll(node, nodeName, path)
+        local currentPath = path and (path .. ">" .. nodeName) or nodeName
+        DB.TreeExpandedState[currentPath] = true
+        
+        if node.children then
+            for childName, childNode in pairs(node.children) do
+                expandAll(childNode, childName, currentPath)
+            end
+        end
+    end
+    
+    for rootName, rootNode in pairs(DB.HierarchyTree) do
+        expandAll(rootNode, rootName, nil)
+    end
+end
+
+-- Collapse all nodes
+function DB.CollapseAllNodes()
+    DB.TreeExpandedState = {}
+end
+
+-- Get flat list of visible tree nodes for display
+function DB.GetFlatTreeView()
+    local result = {}
+    
+    local function addNode(node, nodeName, path, depth)
+        local currentPath = path and (path .. ">" .. nodeName) or nodeName
+        
+        -- Check if this node passes filters
+        if not DB.PassesNodeTypeFilter(node.type) then
+            return
+        end
+        
+        -- Check faction filter
+        if node.faction and not DB.PassesFactionFilter(node.faction) then
+            return
+        end
+        
+        -- Count items that pass filters
+        local itemCount = 0
+        if node.items then
+            for _, item in ipairs(node.items) do
+                if DB.PassesAllFilters(item, node.type, node.faction, node.level) then
+                    itemCount = itemCount + 1
+                end
+            end
+        end
+        
+        -- Count children
+        local childCount = 0
+        if node.children then
+            for _, _ in pairs(node.children) do
+                childCount = childCount + 1
+            end
+        end
+        
+        -- Add this node to result
+        table.insert(result, {
+            name = nodeName,
+            path = currentPath,
+            depth = depth,
+            type = node.type,
+            level = node.level,
+            faction = node.faction,
+            hasChildren = childCount > 0,
+            hasItems = node.items ~= nil,
+            itemCount = itemCount,
+            childCount = childCount,
+            isExpanded = DB.IsNodeExpanded(currentPath),
+            icon = DB.NodeTypeIcons[node.type],
+            node = node,
+        })
+        
+        -- If expanded, add children
+        if DB.IsNodeExpanded(currentPath) and node.children then
+            -- Sort children by name
+            local sortedChildren = {}
+            for childName, childNode in pairs(node.children) do
+                table.insert(sortedChildren, { name = childName, node = childNode })
+            end
+            table.sort(sortedChildren, function(a, b) return a.name < b.name end)
+            
+            for _, child in ipairs(sortedChildren) do
+                addNode(child.node, child.name, currentPath, depth + 1)
+            end
+        end
+        
+        -- If expanded and has items, add items
+        if DB.IsNodeExpanded(currentPath) and node.items and itemCount > 0 then
+            for _, item in ipairs(node.items) do
+                if DB.PassesAllFilters(item, node.type, node.faction, node.level) then
+                    table.insert(result, {
+                        name = item.name,
+                        path = currentPath .. ">" .. item.name,
+                        depth = depth + 1,
+                        type = "item",
+                        isItem = true,
+                        itemId = item.id,
+                        quality = item.quality,
+                        dropRate = item.dropRate,
+                        cost = item.cost,
+                        icon = "Interface\\Icons\\INV_Misc_QuestionMark", -- Will be replaced by actual icon
+                    })
+                end
+            end
+        end
+    end
+    
+    -- Sort root nodes
+    local sortedRoots = {}
+    for rootName, rootNode in pairs(DB.HierarchyTree) do
+        table.insert(sortedRoots, { name = rootName, node = rootNode })
+    end
+    table.sort(sortedRoots, function(a, b) return a.name < b.name end)
+    
+    -- Start from root nodes
+    for _, root in ipairs(sortedRoots) do
+        addNode(root.node, root.name, nil, 0)
+    end
+    
+    return result
+end
+
+-- Get path to specific item in tree
+function DB.FindItemInTree(itemId)
+    local function searchNode(node, nodeName, path)
+        local currentPath = path and (path .. ">" .. nodeName) or nodeName
+        
+        if node.items then
+            for _, item in ipairs(node.items) do
+                if item.id == itemId then
+                    return currentPath, item
+                end
+            end
+        end
+        
+        if node.children then
+            for childName, childNode in pairs(node.children) do
+                local foundPath, foundItem = searchNode(childNode, childName, currentPath)
+                if foundPath then
+                    return foundPath, foundItem
+                end
+            end
+        end
+        
+        return nil, nil
+    end
+    
+    for rootName, rootNode in pairs(DB.HierarchyTree) do
+        local path, item = searchNode(rootNode, rootName, nil)
+        if path then
+            return path, item
+        end
+    end
+    
+    return nil, nil
+end
+
+-- Expand path to item
+function DB.ExpandPathToItem(itemId)
+    local path, item = DB.FindItemInTree(itemId)
+    if not path then return false end
+    
+    -- Expand all nodes in path
+    local parts = {}
+    for part in string.gmatch(path, "[^>]+") do
+        table.insert(parts, part)
+    end
+    
+    local currentPath = ""
+    for i, part in ipairs(parts) do
+        if i == 1 then
+            currentPath = part
+        else
+            currentPath = currentPath .. ">" .. part
+        end
+        DB.TreeExpandedState[currentPath] = true
+    end
+    
+    return true, path
+end
+

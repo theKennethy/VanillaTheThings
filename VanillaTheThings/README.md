@@ -140,14 +140,71 @@ The always-visible tracker shows:
 | `/vtt tracker` | Toggle always-visible tracker |
 | `/vtt mounts` | Toggle mount collection window |
 | `/vtt pets` | Toggle pet collection window |
+| `/vtt tree` | Toggle hierarchical tree browser |
+| `/vtt filter` | Open advanced search/filter panel |
+| `/vtt preset <name>` | Load a filter preset by name |
+| `/vtt search <text>` | Search the database |
 | `/vtt settings` | Open settings panel |
 | `/vtt refresh` | Refresh all collection data |
 | `/vtt reset` | Reset window positions to default |
-| `/vtt search <text>` | Search the database |
 | `/vtt stats` | Display statistics summary |
 | `/vtt debug` | Toggle debug mode |
 
 **Alternative command:** `/vanillathethings`
+
+---
+
+## 🌳 Hierarchical Tree Browser (NEW!)
+
+The tree browser provides ATT-style nested navigation of all content:
+
+### Navigation Structure
+- **Continent** → **Zone** → **Subzone/Instance** → **NPC/Boss** → **Items**
+- Click nodes to expand/collapse
+- Icons indicate content type (zone, dungeon, raid, boss, vendor, etc.)
+
+### Features
+- Real-time search filtering
+- Expand All / Collapse All buttons
+- Item counts at each level
+- Quality-colored item names
+- Tooltips with drop rates and costs
+
+---
+
+## 🔍 Advanced Search & Filters (NEW!)
+
+### Filter Options
+| Filter | Description |
+|--------|-------------|
+| **Quality** | Filter by item quality (Poor → Legendary) |
+| **Level Range** | Filter by item/zone level (1-60) |
+| **Source Type** | Drop, Quest, Vendor, Crafted, Raid, etc. |
+| **Faction** | Alliance, Horde, or Both |
+| **Collection Status** | Show collected, uncollected, or both |
+
+### Filter Presets
+Pre-configured filter combinations for quick access:
+- **All Items** - No filters, shows everything
+- **Rare+ Only** - Quality: Rare and above
+- **Epic+ Only** - Quality: Epic and above
+- **Legendaries** - Only legendary items
+- **Raid Loot** - Items from raid content only
+- **Dungeon Loot** - Items from dungeon content only
+- **World Bosses** - World boss drops only
+- **Rare Spawns** - Rare mob drops only
+- **Vendor Items** - Purchasable items only
+- **Quest Rewards** - Quest reward items only
+- **Low/Mid/High Level** - Level range presets
+- **Alliance/Horde Only** - Faction-specific items
+- **Uncollected Only** - Hide collected items
+
+### Custom Presets
+Create your own filter presets:
+1. Set your desired filters
+2. Click "Save Current Filters" in the preset menu
+3. Enter a name for your preset
+4. Access it anytime from the preset dropdown
 
 ---
 
