@@ -2593,12 +2593,37 @@ function VTT:BuildTrackerData()
         end
     end
     
-    -- Summary line
+    -- Show collection summary with more detail
     local stats = VTT.GetStatistics and VTT.GetStatistics() or {}
+    
+    -- Separator
     table.insert(data, {
         isHeader = true,
-        text = "|cFF15ABFFTotal:|r |cFFFFFFFF" .. (stats.itemsCollected or 0) .. "|r collected",
-        icon = DB.Icons.Logo,
+        text = "|cFF888888───────────────|r",
+    })
+    
+    -- Items collected
+    table.insert(data, {
+        text = "  |cFF00FF00Items:|r " .. (stats.itemsCollected or 0),
+        icon = DB.Icons.Loot,
+    })
+    
+    -- Quests completed  
+    table.insert(data, {
+        text = "  |cFFFFFF00Quests:|r " .. (stats.questsCompleted or 0),
+        icon = DB.Icons.Quest,
+    })
+    
+    -- Flight paths
+    table.insert(data, {
+        text = "  |cFF00CCFFFlights:|r " .. (stats.flightPathsKnown or 0),
+        icon = DB.Icons.FlightPath,
+    })
+    
+    -- Areas explored
+    table.insert(data, {
+        text = "  |cFF00FFFFExplored:|r " .. (stats.areasExplored or 0),
+        icon = DB.Icons.Exploration,
     })
     
     self.TrackerData = data
