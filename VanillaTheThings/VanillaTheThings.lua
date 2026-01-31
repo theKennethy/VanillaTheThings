@@ -844,7 +844,7 @@ SlashCmdList["VTT"] = function(msg)
     local cmd, arg = strsplit(" ", msg)
     
     if cmd == "" or cmd == nil then
-        VTT:ToggleMiniWindow()  -- Collection window
+        -- No action - use minimap button to toggle window
     elseif cmd == "help" then
         Print("Commands:")
         for _, line in ipairs(L.SLASH_HELP) do

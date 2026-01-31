@@ -150,13 +150,10 @@ VanillaTheThings_L = {
     
     -- Slash Commands
     SLASH_HELP = {
-        "/vtt - Toggle collection window",
         "/vtt tracker - Toggle always-visible tracker",
         "/vtt settings - Open settings",
         "/vtt refresh - Refresh data",
         "/vtt reset - Reset window positions",
-        "/vtt search <text> - Search database",
-        "/vtt stats - Show statistics",
         "/vtt debug - Toggle debug mode",
     },
     
