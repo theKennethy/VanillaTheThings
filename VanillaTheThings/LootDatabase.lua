@@ -10100,7 +10100,7 @@ function DB.ExpandPathToItem(itemId)
     
     -- Expand all nodes in path
     local parts = {}
-    for part in string.gmatch(path, "[^>]+") do
+    for part in string.gfind(path, "[^>]+") do
         table.insert(parts, part)
     end
     

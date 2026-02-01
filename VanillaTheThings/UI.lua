@@ -3095,23 +3095,9 @@ function VTT:BuildPetCollectionData()
     local charDB = VanillaTheThingsCharDB
     local playerFaction = UnitFactionGroup("player") or "Alliance"
     
-    if not DB then
-        VTT.Print("|cFFFF0000DB not loaded for pets!|r")
+    if not DB or not DB.Pets then
         return data
     end
-    
-    if not DB.Pets then
-        VTT.Print("|cFFFF0000DB.Pets table missing!|r")
-        return data
-    end
-    
-    -- Count pet categories
-    local catCount = 0
-    if DB.Pets.Vendor then catCount = catCount + 1 end
-    if DB.Pets.Quest then catCount = catCount + 1 end
-    if DB.Pets.Drop then catCount = catCount + 1 end
-    if DB.Pets.Event then catCount = catCount + 1 end
-    VTT.Print("|cFFFFFF00Pet categories found: " .. catCount .. "|r")
     
     local function addPets(category, source)
         if not category then return end
@@ -4067,9 +4053,6 @@ initFrame:SetScript("OnEvent", function()
             
             -- Initialize tracker
             VTT:InitTracker()
-            
-            -- Set initial view mode
-            VTT:SetViewMode("all")
             
             -- Initialize raid list data
             VTT:BuildRaidListData()
