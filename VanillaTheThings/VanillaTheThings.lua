@@ -868,8 +868,10 @@ SLASH_VTT2 = "/vanillathethings"
 
 SlashCmdList["VTT"] = function(msg)
     msg = msg or ""
-    local cmd, arg = string.match(msg, "^(%S*)%s*(.*)$")
-    cmd = string.lower(cmd or "")
+    local cmd, arg = "", ""
+    local _, _, c, a = string.find(msg, "^(%S*)%s*(.*)$")
+    if c then cmd = string.lower(c) end
+    if a then arg = a end
     
     if cmd == "" or cmd == "show" then
         -- Toggle tracker
