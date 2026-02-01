@@ -862,10 +862,157 @@ EventFrame:RegisterEvent("TAXIMAP_OPENED")
 EventFrame:RegisterEvent("BAG_UPDATE")
 EventFrame:RegisterEvent("LOOT_OPENED")
 
+-- Slash Commands
+SLASH_ATT1 = "/att"
+SLASH_ATT2 = "/vtt"
+SLASH_ATT3 = "/vanillathethings"
+
+SlashCmdList["ATT"] = function(msg)
+    msg = msg or ""
+    local cmd, arg = string.match(msg, "^(%S*)%s*(.*)$")
+    cmd = string.lower(cmd or "")
+    
+    if cmd == "" or cmd == "show" then
+        -- Toggle main window
+        if VTT.ToggleMainWindow then
+            VTT:ToggleMainWindow()
+        else
+            Print("Main window not available")
+        end
+    elseif cmd == "mini" then
+        -- Toggle mini list
+        if VTT.ToggleMiniList then
+            VTT:ToggleMiniList()
+        else
+            Print("Mini list not available")
+        end
+    elseif cmd == "mounts" then
+        -- Toggle mount collection
+        if VTT.ToggleMountWindow then
+            VTT:ToggleMountWindow()
+        else
+            Print("Mount window not available")
+        end
+    elseif cmd == "pets" then
+        -- Toggle pet collection
+        if VTT.TogglePetWindow then
+            VTT:TogglePetWindow()
+        else
+            Print("Pet window not available")
+        end
+    elseif cmd == "tree" then
+        -- Toggle tree browser
+        if VTT.ToggleTreeBrowser then
+            VTT:ToggleTreeBrowser()
+        else
+            Print("Tree browser not available")
+        end
+    elseif cmd == "search" then
+        -- Search database
+        if arg and arg ~= "" then
+            if VTT.SearchDatabase then
+                VTT:SearchDatabase(arg)
+            else
+                Print("Search: " .. arg)
+            end
+        else
+            Print("Usage: /att search <text>")
+        end
+    elseif cmd == "filter" then
+        -- Open advanced search
+        if VTT.ToggleAdvancedSearch then
+            VTT:ToggleAdvancedSearch()
+        else
+            Print("Advanced search not available")
+        end
+    elseif cmd == "preset" then
+        -- Load filter preset
+        if arg and arg ~= "" then
+            if VTT.LoadFilterPreset then
+                VTT:LoadFilterPreset(arg)
+            else
+                Print("Preset: " .. arg)
+            end
+        else
+            Print("Usage: /att preset <name>")
+        end
+    elseif cmd == "settings" or cmd == "options" or cmd == "config" then
+        -- Open settings
+        if VTT.ToggleSettings then
+            VTT:ToggleSettings()
+        else
+            Print("Settings not available")
+        end
+    elseif cmd == "refresh" then
+        -- Refresh all data
+        GetProfessionData()
+        GetReputationData()
+        if VTT.RefreshTracker then
+            VTT:RefreshTracker()
+        end
+        Print("Data refreshed!")
+    elseif cmd == "reset" then
+        -- Reset window positions
+        if VTT.ResetWindowPositions then
+            VTT:ResetWindowPositions()
+        else
+            Print("Resetting positions...")
+            if VTT.settings then
+                VTT.settings.tracker = nil
+                VTT.settings.mainWindow = nil
+            end
+        end
+        Print("Window positions reset. /reload to apply.")
+    elseif cmd == "stats" then
+        -- Show statistics
+        local stats = VTT.GetStatistics and VTT.GetStatistics() or {}
+        Print("|cFFFFD700=== Collection Statistics ===|r")
+        Print("Items Collected: |cFF00FF00" .. (stats.itemsCollected or 0) .. "|r")
+        Print("Quests Completed: |cFFFFFF00" .. (stats.questsCompleted or 0) .. "|r")
+        Print("Flight Paths: |cFF00CCFF" .. (stats.flightPathsKnown or 0) .. "|r")
+        Print("Areas Explored: |cFF00FFFF" .. (stats.areasExplored or 0) .. "|r")
+        Print("Recipes Known: |cFFFF8000" .. (stats.recipesKnown or 0) .. "|r")
+    elseif cmd == "debug" then
+        -- Toggle debug mode
+        VTT.Debug = not VTT.Debug
+        Print("Debug mode: " .. (VTT.Debug and "|cFF00FF00ON|r" or "|cFFFF0000OFF|r"))
+    elseif cmd == "tracker" then
+        -- Toggle tracker
+        if VTT.ToggleTracker then
+            VTT:ToggleTracker()
+        elseif VTT.TrackerFrame then
+            if VTT.TrackerFrame:IsShown() then
+                VTT.TrackerFrame:Hide()
+            else
+                VTT.TrackerFrame:Show()
+            end
+        end
+    elseif cmd == "help" then
+        -- Show help
+        Print("|cFFFFD700=== VanillaTheThings Commands ===|r")
+        Print("|cFF00FF00/att|r - Toggle main window")
+        Print("|cFF00FF00/att mini|r - Toggle mini list")
+        Print("|cFF00FF00/att tracker|r - Toggle tracker")
+        Print("|cFF00FF00/att mounts|r - Mount collection")
+        Print("|cFF00FF00/att pets|r - Pet collection")
+        Print("|cFF00FF00/att tree|r - Tree browser")
+        Print("|cFF00FF00/att search <text>|r - Search")
+        Print("|cFF00FF00/att filter|r - Advanced search")
+        Print("|cFF00FF00/att settings|r - Settings")
+        Print("|cFF00FF00/att refresh|r - Refresh data")
+        Print("|cFF00FF00/att stats|r - Statistics")
+        Print("|cFF00FF00/att debug|r - Toggle debug")
+        Print("|cFF00FF00/att help|r - This help")
+    else
+        Print("Unknown command: " .. cmd .. ". Type /att help for commands.")
+    end
+end
+
 EventHandlers["ADDON_LOADED"] = function(addon)
     if addon == ADDON_NAME then
         InitializeDB()
         Print(L.MSG_ADDON_LOADED)
+        Print("Type |cFF00FF00/att help|r for commands.")
     end
 end
 
