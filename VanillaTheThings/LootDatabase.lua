@@ -9253,7 +9253,7 @@ function DB.PassesLevelFilter(level)
     -- Handle level ranges like "1-10"
     local minLvl, maxLvl = level, level
     if type(level) == "string" then
-        local l1, l2 = string.match(level, "(%d+)%-(%d+)")
+        local _, _, l1, l2 = string.find(level, "(%d+)%-(%d+)")
         if l1 and l2 then
             minLvl = tonumber(l1)
             maxLvl = tonumber(l2)
