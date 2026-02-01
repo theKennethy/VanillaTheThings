@@ -108,6 +108,82 @@ VTT.GetProgressColor = GetProgressColor
 VTT.GetProgressColorText = GetProgressColorText
 
 --------------------------------------------------------------------------------
+-- Bag Scanning for Collectibles
+--------------------------------------------------------------------------------
+
+-- Scan all bags for mount/pet items and mark as collected
+function VTT.ScanBagsForCollectibles()
+    local charDB = VanillaTheThingsCharDB
+    if not charDB then return 0, 0 end
+    
+    local mountsFound = 0
+    local petsFound = 0
+    
+    -- Scan all bags (0 = backpack, 1-4 = additional bags)
+    for bag = 0, 4 do
+        local numSlots = GetContainerNumSlots(bag)
+        for slot = 1, numSlots do
+            local link = GetContainerItemLink(bag, slot)
+            if link then
+                local itemID = GetItemIDFromLink(link)
+                if itemID then
+                    local _, _, itemName = string.find(link, "%[(.+)%]")
+                    
+                    -- Check if it's a mount
+                    if DB and DB.Mounts then
+                        for category, mounts in pairs(DB.Mounts) do
+                            if mounts[itemID] then
+                                if not charDB.collectedMounts then charDB.collectedMounts = {} end
+                                if not charDB.collectedMounts[itemID] then
+                                    charDB.collectedMounts[itemID] = true
+                                    mountsFound = mountsFound + 1
+                                    Print("|cFF00FF00Mount found in bags:|r " .. (itemName or mounts[itemID].name or "Unknown"))
+                                end
+                                break
+                            end
+                        end
+                    end
+                    
+                    -- Check if it's a pet
+                    if DB and DB.Pets then
+                        for category, pets in pairs(DB.Pets) do
+                            if pets[itemID] then
+                                if not charDB.collectedPets then charDB.collectedPets = {} end
+                                if not charDB.collectedPets[itemID] then
+                                    charDB.collectedPets[itemID] = true
+                                    petsFound = petsFound + 1
+                                    Print("|cFF00FF00Pet found in bags:|r " .. (itemName or pets[itemID].name or "Unknown"))
+                                end
+                                break
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+    
+    return mountsFound, petsFound
+end
+
+-- Check if a specific item is in bags
+function VTT.IsItemInBags(itemID)
+    for bag = 0, 4 do
+        local numSlots = GetContainerNumSlots(bag)
+        for slot = 1, numSlots do
+            local link = GetContainerItemLink(bag, slot)
+            if link then
+                local bagItemID = GetItemIDFromLink(link)
+                if bagItemID and bagItemID == itemID then
+                    return true, bag, slot
+                end
+            end
+        end
+    end
+    return false
+end
+
+--------------------------------------------------------------------------------
 -- Saved Variables Initialization
 --------------------------------------------------------------------------------
 
@@ -974,6 +1050,17 @@ SlashCmdList["VTT"] = function(msg)
         -- Toggle debug mode
         VTT.Debug = not VTT.Debug
         Print("Debug mode: " .. (VTT.Debug and "|cFF00FF00ON|r" or "|cFFFF0000OFF|r"))
+    elseif cmd == "scan" then
+        -- Scan bags for mounts/pets
+        Print("|cFFFFD700Scanning bags for collectibles...|r")
+        local mounts, pets = VTT.ScanBagsForCollectibles()
+        if mounts > 0 or pets > 0 then
+            Print("|cFF00FF00Found:|r " .. mounts .. " mounts, " .. pets .. " pets")
+            if VTT.RefreshMountWindow then VTT:RefreshMountWindow() end
+            if VTT.RefreshPetWindow then VTT:RefreshPetWindow() end
+        else
+            Print("No new mounts or pets found in bags.")
+        end
     elseif cmd == "help" then
         -- Show help
         Print("|cFFFFD700=== VanillaTheThings Commands ===|r")
@@ -985,6 +1072,7 @@ SlashCmdList["VTT"] = function(msg)
         Print("|cFF00FF00/vtt filter|r - Advanced search")
         Print("|cFF00FF00/vtt settings|r - Settings")
         Print("|cFF00FF00/vtt refresh|r - Refresh data")
+        Print("|cFF00FF00/vtt scan|r - Scan bags for collectibles")
         Print("|cFF00FF00/vtt stats|r - Statistics")
         Print("|cFF00FF00/vtt debug|r - Toggle debug")
         Print("|cFF00FF00/vtt help|r - This help")

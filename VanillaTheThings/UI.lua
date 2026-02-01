@@ -2890,7 +2890,31 @@ function VTT:CreateCollectionRow(parent, name, index, width)
     
     row:SetScript("OnClick", function()
         if row.data and arg1 == "LeftButton" then
-            VTT:ToggleCollectionItem(row.data)
+            if IsShiftKeyDown() then
+                -- Shift-click: Check if item is in bags and mark collected
+                local inBags = VTT.IsItemInBags(row.data.itemID)
+                if inBags then
+                    local charDB = VanillaTheThingsCharDB
+                    if charDB then
+                        if row.data.type == "mount" then
+                            if not charDB.collectedMounts then charDB.collectedMounts = {} end
+                            charDB.collectedMounts[row.data.itemID] = true
+                            VTT.Print("|cFF00FF00Collected from bags:|r " .. (row.data.name or "Unknown"))
+                            VTT:RefreshMountWindow()
+                        elseif row.data.type == "pet" then
+                            if not charDB.collectedPets then charDB.collectedPets = {} end
+                            charDB.collectedPets[row.data.itemID] = true
+                            VTT.Print("|cFF00FF00Collected from bags:|r " .. (row.data.name or "Unknown"))
+                            VTT:RefreshPetWindow()
+                        end
+                    end
+                else
+                    VTT.Print("|cFFFF6666" .. (row.data.name or "Item") .. " not found in bags.|r")
+                end
+            else
+                -- Normal click: Toggle collected status
+                VTT:ToggleCollectionItem(row.data)
+            end
         end
     end)
     
@@ -2984,10 +3008,23 @@ function VTT:ShowCollectionTooltip(data)
     -- Collection status
     local charDB = VanillaTheThingsCharDB
     local isCollected = charDB and charDB.collectedMounts and charDB.collectedMounts[data.itemID]
+    if data.type == "pet" then
+        isCollected = charDB and charDB.collectedPets and charDB.collectedPets[data.itemID]
+    end
+    
     if isCollected then
         GameTooltip:AddLine("|cFF00FF00✓ Collected|r")
+        GameTooltip:AddLine("|cFF888888Click to remove from collection|r")
     else
-        GameTooltip:AddLine("|cFF888888Click to mark as collected|r")
+        -- Check if in bags
+        local inBags = VTT.IsItemInBags and VTT.IsItemInBags(data.itemID)
+        if inBags then
+            GameTooltip:AddLine("|cFFFFFF00✓ In your bags!|r")
+            GameTooltip:AddLine("|cFF00FF00Shift-click to mark collected|r")
+        else
+            GameTooltip:AddLine("|cFFFF6666✗ Not collected|r")
+        end
+        GameTooltip:AddLine("|cFF888888Click to toggle collected|r")
     end
 end
 
