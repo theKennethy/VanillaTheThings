@@ -2593,6 +2593,7 @@ function VTT:BuildTrackerData()
         })
         
         local shown = 0
+        local remainingAreas = {}
         for _, area in ipairs(explorationAreas) do
             if VTT.db.exploredAreas and not VTT.db.exploredAreas[area] then
                 shown = shown + 1
@@ -2604,12 +2605,21 @@ function VTT:BuildTrackerData()
                             tip:AddLine("Undiscovered", 1, 0.3, 0.3)
                         end,
                     })
+                else
+                    table.insert(remainingAreas, area)
                 end
             end
         end
         if shown > 4 then
+            local moreAreas = remainingAreas  -- Capture for closure
             table.insert(data, {
                 text = "  |cFF888888+" .. (shown - 4) .. " more...|r",
+                tooltip = function(tip)
+                    tip:AddLine("Remaining Areas to Discover:", 1, 0.82, 0)
+                    for _, areaName in ipairs(moreAreas) do
+                        tip:AddLine("  " .. areaName, 1, 0.3, 0.3)
+                    end
+                end,
             })
         end
     end
