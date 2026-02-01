@@ -1188,6 +1188,9 @@ EventHandlers["BAG_UPDATE"] = function(bagID)
     if now - VTT.lastBagScan < 5 then return end
     VTT.lastBagScan = now
     
+    local charDB = VanillaTheThingsCharDB
+    if not charDB then return end
+    
     -- Scan all bags for trackable items
     for bag = 0, 4 do
         local numSlots = GetContainerNumSlots(bag)
@@ -1195,10 +1198,44 @@ EventHandlers["BAG_UPDATE"] = function(bagID)
             local link = GetContainerItemLink(bag, slot)
             if link then
                 local itemID = GetItemIDFromLink(link)
-                if itemID and DB.Items and DB.Items[itemID] then
+                if itemID then
                     local _, _, itemName = string.find(link, "%[(.+)%]")
-                    if not VTT.db.collectedItems[itemID] then
-                        VTT.MarkItemCollected(itemID, itemName or "Unknown")
+                    
+                    -- Track regular items
+                    if DB.Items and DB.Items[itemID] then
+                        if not VTT.db.collectedItems[itemID] then
+                            VTT.MarkItemCollected(itemID, itemName or "Unknown")
+                        end
+                    end
+                    
+                    -- Track mounts
+                    if DB.Mounts then
+                        local isMountItem = false
+                        for category, mounts in pairs(DB.Mounts) do
+                            if mounts[itemID] then
+                                isMountItem = true
+                                if not charDB.collectedMounts then charDB.collectedMounts = {} end
+                                if not charDB.collectedMounts[itemID] then
+                                    charDB.collectedMounts[itemID] = true
+                                    Print("|cFF00FF00Mount collected:|r " .. (itemName or mounts[itemID].name or "Unknown"))
+                                end
+                                break
+                            end
+                        end
+                    end
+                    
+                    -- Track pets
+                    if DB.Pets then
+                        for category, pets in pairs(DB.Pets) do
+                            if pets[itemID] then
+                                if not charDB.collectedPets then charDB.collectedPets = {} end
+                                if not charDB.collectedPets[itemID] then
+                                    charDB.collectedPets[itemID] = true
+                                    Print("|cFF00FF00Pet collected:|r " .. (itemName or pets[itemID].name or "Unknown"))
+                                end
+                                break
+                            end
+                        end
                     end
                 end
             end
