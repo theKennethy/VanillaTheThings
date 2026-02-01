@@ -4056,8 +4056,6 @@ initFrame:SetScript("OnEvent", function()
             
             -- Initialize raid list data
             VTT:BuildRaidListData()
-            
-            VTT.Print("|cFF00FF00UI initialized!|r Type |cFFFFD700/att|r to open.")
         end
     end)
 end)
