@@ -863,11 +863,10 @@ EventFrame:RegisterEvent("BAG_UPDATE")
 EventFrame:RegisterEvent("LOOT_OPENED")
 
 -- Slash Commands
-SLASH_ATT1 = "/att"
-SLASH_ATT2 = "/vtt"
-SLASH_ATT3 = "/vanillathethings"
+SLASH_VTT1 = "/vtt"
+SLASH_VTT2 = "/vanillathethings"
 
-SlashCmdList["ATT"] = function(msg)
+SlashCmdList["VTT"] = function(msg)
     msg = msg or ""
     local cmd, arg = string.match(msg, "^(%S*)%s*(.*)$")
     cmd = string.lower(cmd or "")
@@ -916,7 +915,7 @@ SlashCmdList["ATT"] = function(msg)
                 Print("Search: " .. arg)
             end
         else
-            Print("Usage: /att search <text>")
+            Print("Usage: /vtt search <text>")
         end
     elseif cmd == "filter" then
         -- Open advanced search
@@ -934,7 +933,7 @@ SlashCmdList["ATT"] = function(msg)
                 Print("Preset: " .. arg)
             end
         else
-            Print("Usage: /att preset <name>")
+            Print("Usage: /vtt preset <name>")
         end
     elseif cmd == "settings" or cmd == "options" or cmd == "config" then
         -- Open settings
@@ -990,21 +989,21 @@ SlashCmdList["ATT"] = function(msg)
     elseif cmd == "help" then
         -- Show help
         Print("|cFFFFD700=== VanillaTheThings Commands ===|r")
-        Print("|cFF00FF00/att|r - Toggle main window")
-        Print("|cFF00FF00/att mini|r - Toggle mini list")
-        Print("|cFF00FF00/att tracker|r - Toggle tracker")
-        Print("|cFF00FF00/att mounts|r - Mount collection")
-        Print("|cFF00FF00/att pets|r - Pet collection")
-        Print("|cFF00FF00/att tree|r - Tree browser")
-        Print("|cFF00FF00/att search <text>|r - Search")
-        Print("|cFF00FF00/att filter|r - Advanced search")
-        Print("|cFF00FF00/att settings|r - Settings")
-        Print("|cFF00FF00/att refresh|r - Refresh data")
-        Print("|cFF00FF00/att stats|r - Statistics")
-        Print("|cFF00FF00/att debug|r - Toggle debug")
-        Print("|cFF00FF00/att help|r - This help")
+        Print("|cFF00FF00/vtt|r - Toggle main window")
+        Print("|cFF00FF00/vtt mini|r - Toggle mini list")
+        Print("|cFF00FF00/vtt tracker|r - Toggle tracker")
+        Print("|cFF00FF00/vtt mounts|r - Mount collection")
+        Print("|cFF00FF00/vtt pets|r - Pet collection")
+        Print("|cFF00FF00/vtt tree|r - Tree browser")
+        Print("|cFF00FF00/vtt search <text>|r - Search")
+        Print("|cFF00FF00/vtt filter|r - Advanced search")
+        Print("|cFF00FF00/vtt settings|r - Settings")
+        Print("|cFF00FF00/vtt refresh|r - Refresh data")
+        Print("|cFF00FF00/vtt stats|r - Statistics")
+        Print("|cFF00FF00/vtt debug|r - Toggle debug")
+        Print("|cFF00FF00/vtt help|r - This help")
     else
-        Print("Unknown command: " .. cmd .. ". Type /att help for commands.")
+        Print("Unknown command: " .. cmd .. ". Type /vtt help for commands.")
     end
 end
 
@@ -1012,7 +1011,7 @@ EventHandlers["ADDON_LOADED"] = function(addon)
     if addon == ADDON_NAME then
         InitializeDB()
         Print(L.MSG_ADDON_LOADED)
-        Print("Type |cFF00FF00/att help|r for commands.")
+        Print("Type |cFF00FF00/vtt help|r for commands.")
     end
 end
 
