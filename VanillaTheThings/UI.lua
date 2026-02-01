@@ -3025,27 +3025,9 @@ function VTT:BuildMountCollectionData()
     local charDB = VanillaTheThingsCharDB
     local playerFaction = UnitFactionGroup("player") or "Alliance"
     
-    VTT.Print("|cFFFFFF00Faction: " .. playerFaction .. "|r")
-    
-    if not DB then
-        VTT.Print("|cFFFF0000DB not loaded!|r")
+    if not DB or not DB.Mounts then
         return data
     end
-    
-    if not DB.Mounts then
-        VTT.Print("|cFFFF0000DB.Mounts not loaded!|r")
-        return data
-    end
-    
-    -- Debug: check what categories exist
-    local catCount = 0
-    for k, v in pairs(DB.Mounts) do
-        catCount = catCount + 1
-        local itemCount = 0
-        for _ in pairs(v) do itemCount = itemCount + 1 end
-        VTT.Print("|cFFFFFF00Mount category: " .. k .. " (" .. itemCount .. " items)|r")
-    end
-    VTT.Print("|cFFFFFF00Total mount categories: " .. catCount .. "|r")
     
     -- Helper to add mounts from a category
     local function addMounts(category, source)
@@ -3114,7 +3096,6 @@ function VTT:BuildPetCollectionData()
     local playerFaction = UnitFactionGroup("player") or "Alliance"
     
     if not DB or not DB.Pets then
-        VTT.Print("|cFFFF0000DB.Pets not loaded!|r")
         return data
     end
     
@@ -3207,17 +3188,12 @@ end
 
 function VTT:RefreshMountWindow()
     local content = getglobal("ATTMountFrameContent")
-    if not content then 
-        VTT.Print("|cFFFF0000Mount content frame not found!|r")
-        return 
-    end
+    if not content then return end
     
     -- Build data
     VTT.CollectionFilter = "all"
     local data = self:BuildMountCollectionData()
     local charDB = VanillaTheThingsCharDB
-    
-    VTT.Print("|cFF00CCFFMounts found: " .. table.getn(data) .. "|r")
     
     -- Update header stats
     local totalMounts = table.getn(data)
@@ -3236,13 +3212,10 @@ function VTT:RefreshMountWindow()
     
     -- Create rows if needed
     if not mountRows[1] then
-        VTT.Print("|cFF00CCFFCreating mount rows...|r")
         for i = 1, MAX_COLLECTION_ROWS do
             mountRows[i] = VTT:CreateCollectionRow(content, "ATTMountRow" .. i, i, 276)
         end
     end
-    
-    VTT.Print("|cFF00CCFFPopulating " .. math.min(table.getn(data), MAX_COLLECTION_ROWS) .. " rows...|r")
     
     -- Populate rows
     for i = 1, MAX_COLLECTION_ROWS do
@@ -3272,9 +3245,6 @@ function VTT:RefreshMountWindow()
             end
             
             row:Show()
-            if i == 1 then
-                VTT.Print("|cFF00FF00First mount: " .. (item.name or "nil") .. "|r")
-            end
         elseif row then
             row:Hide()
         end
@@ -3283,16 +3253,11 @@ end
 
 function VTT:RefreshPetWindow()
     local content = getglobal("ATTPetFrameContent")
-    if not content then 
-        VTT.Print("|cFFFF0000Pet content frame not found!|r")
-        return 
-    end
+    if not content then return end
     
     VTT.CollectionFilter = "all"
     local data = self:BuildPetCollectionData()
     local charDB = VanillaTheThingsCharDB
-    
-    VTT.Print("|cFF00CCFFPets found: " .. table.getn(data) .. "|r")
     
     -- Count stats
     local totalPets = table.getn(data)
@@ -3311,7 +3276,6 @@ function VTT:RefreshPetWindow()
     
     -- Create rows if needed
     if not petRows[1] then
-        VTT.Print("|cFF00CCFFCreating pet rows...|r")
         for i = 1, MAX_COLLECTION_ROWS do
             petRows[i] = VTT:CreateCollectionRow(content, "ATTPetRow" .. i, i, 280)
         end
