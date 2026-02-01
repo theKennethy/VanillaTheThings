@@ -2626,18 +2626,38 @@ function VTT:BuildTrackerData()
     
     -- Missing flight paths
     if missingFPs > 0 and flightPaths then
+        -- Collect all missing flight paths for tooltip
+        local missingFPList = {}
+        for _, fp in ipairs(flightPaths) do
+            if fp.zone == zone and VTT.db.knownFlightPaths and not VTT.db.knownFlightPaths[fp.name] then
+                table.insert(missingFPList, fp)
+            end
+        end
+        
         table.insert(data, {
             isHeader = true,
             text = "|cFF00FF00Flight Paths|r |cFFFFFFFF(" .. missingFPs .. ")|r",
             icon = DB.Icons.FlightPath,
+            tooltip = function(tip)
+                tip:AddLine("Missing Flight Paths in " .. zone, 1, 0.82, 0)
+                for _, fp in ipairs(missingFPList) do
+                    tip:AddLine("  " .. fp.name, 1, 0.3, 0.3)
+                end
+            end,
         })
         
-        for _, fp in ipairs(flightPaths) do
-            if fp.zone == zone and VTT.db.knownFlightPaths and not VTT.db.knownFlightPaths[fp.name] then
+        for i, fp in ipairs(missingFPList) do
+            if i == 1 then  -- Just show first one in tracker
+                local fpData = fp
                 table.insert(data, {
                     text = "  |cFFFF6666✗|r " .. fp.name,
+                    tooltip = function(tip)
+                        tip:AddLine(fpData.name, 1, 1, 0)
+                        tip:AddLine("Flight Master not discovered", 1, 0.3, 0.3)
+                        tip:AddLine("Zone: " .. fpData.zone, 0.7, 0.7, 0.7)
+                    end,
                 })
-                break  -- Just show first one in tracker
+                break
             end
         end
     end
@@ -2655,10 +2675,27 @@ function VTT:BuildTrackerData()
             isHeader = true,
             text = "|cFF00CCFFDungeons|r",
             icon = DB.Icons.Dungeon,
+            tooltip = function(tip)
+                tip:AddLine("Dungeons in " .. zone, 1, 0.82, 0)
+                for _, d in ipairs(zoneDungeons) do
+                    tip:AddLine("  " .. d.name .. " (" .. d.minLevel .. "-" .. d.maxLevel .. ")", 0.7, 0.7, 1)
+                end
+            end,
         })
         for _, d in ipairs(zoneDungeons) do
+            local dungeonData = d
             table.insert(data, {
                 text = "  " .. d.name .. " |cFF888888(" .. d.minLevel .. "-" .. d.maxLevel .. ")|r",
+                tooltip = function(tip)
+                    tip:AddLine(dungeonData.name, 1, 1, 0)
+                    tip:AddLine("Level Range: " .. dungeonData.minLevel .. " - " .. dungeonData.maxLevel, 0.7, 0.7, 0.7)
+                    if dungeonData.players then
+                        tip:AddLine("Players: " .. dungeonData.players, 0.7, 0.7, 0.7)
+                    end
+                    if dungeonData.location then
+                        tip:AddLine("Location: " .. dungeonData.location, 0.7, 0.7, 0.7)
+                    end
+                end,
             })
         end
     end
@@ -2676,24 +2713,41 @@ function VTT:BuildTrackerData()
     table.insert(data, {
         text = "  |cFF00FF00Items:|r " .. (stats.itemsCollected or 0),
         icon = DB.Icons.Loot,
+        tooltip = function(tip)
+            tip:AddLine("Items Collected", 1, 0.82, 0)
+            tip:AddLine("Total unique items looted: " .. (stats.itemsCollected or 0), 0.7, 1, 0.7)
+            tip:AddLine("Loot any item to track it!", 0.5, 0.5, 0.5)
+        end,
     })
     
     -- Quests completed  
     table.insert(data, {
         text = "  |cFFFFFF00Quests:|r " .. (stats.questsCompleted or 0),
         icon = DB.Icons.Quest,
+        tooltip = function(tip)
+            tip:AddLine("Quests Completed", 1, 0.82, 0)
+            tip:AddLine("Total quests turned in: " .. (stats.questsCompleted or 0), 1, 1, 0.7)
+        end,
     })
     
     -- Flight paths
     table.insert(data, {
         text = "  |cFF00CCFFFlights:|r " .. (stats.flightPathsKnown or 0),
         icon = DB.Icons.FlightPath,
+        tooltip = function(tip)
+            tip:AddLine("Flight Paths Known", 1, 0.82, 0)
+            tip:AddLine("Discovered flight masters: " .. (stats.flightPathsKnown or 0), 0.7, 1, 0.7)
+        end,
     })
     
     -- Areas explored
     table.insert(data, {
         text = "  |cFF00FFFFExplored:|r " .. (stats.areasExplored or 0),
         icon = DB.Icons.Exploration,
+        tooltip = function(tip)
+            tip:AddLine("Areas Explored", 1, 0.82, 0)
+            tip:AddLine("Discovered subzones: " .. (stats.areasExplored or 0), 0.7, 1, 1)
+        end,
     })
     
     self.TrackerData = data
