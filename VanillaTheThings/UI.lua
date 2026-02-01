@@ -3025,10 +3025,27 @@ function VTT:BuildMountCollectionData()
     local charDB = VanillaTheThingsCharDB
     local playerFaction = UnitFactionGroup("player") or "Alliance"
     
-    if not DB or not DB.Mounts then
+    VTT.Print("|cFFFFFF00Faction: " .. playerFaction .. "|r")
+    
+    if not DB then
+        VTT.Print("|cFFFF0000DB not loaded!|r")
+        return data
+    end
+    
+    if not DB.Mounts then
         VTT.Print("|cFFFF0000DB.Mounts not loaded!|r")
         return data
     end
+    
+    -- Debug: check what categories exist
+    local catCount = 0
+    for k, v in pairs(DB.Mounts) do
+        catCount = catCount + 1
+        local itemCount = 0
+        for _ in pairs(v) do itemCount = itemCount + 1 end
+        VTT.Print("|cFFFFFF00Mount category: " .. k .. " (" .. itemCount .. " items)|r")
+    end
+    VTT.Print("|cFFFFFF00Total mount categories: " .. catCount .. "|r")
     
     -- Helper to add mounts from a category
     local function addMounts(category, source)
