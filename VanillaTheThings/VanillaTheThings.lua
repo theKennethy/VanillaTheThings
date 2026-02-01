@@ -872,11 +872,15 @@ SlashCmdList["VTT"] = function(msg)
     cmd = string.lower(cmd or "")
     
     if cmd == "" or cmd == "show" then
-        -- Toggle main window
-        if VTT.ToggleMainWindow then
-            VTT:ToggleMainWindow()
+        -- Toggle tracker
+        if VTT.TrackerFrame then
+            if VTT.TrackerFrame:IsShown() then
+                VTT.TrackerFrame:Hide()
+            else
+                VTT.TrackerFrame:Show()
+            end
         else
-            Print("Main window not available")
+            Print("Tracker not available")
         end
     elseif cmd == "mounts" then
         -- Toggle mount collection
@@ -971,7 +975,7 @@ SlashCmdList["VTT"] = function(msg)
     elseif cmd == "help" then
         -- Show help
         Print("|cFFFFD700=== VanillaTheThings Commands ===|r")
-        Print("|cFF00FF00/vtt|r - Toggle main window")
+        Print("|cFF00FF00/vtt|r - Toggle tracker")
         Print("|cFF00FF00/vtt mounts|r - Mount collection")
         Print("|cFF00FF00/vtt pets|r - Pet collection")
         Print("|cFF00FF00/vtt tree|r - Tree browser")
