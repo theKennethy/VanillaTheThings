@@ -3025,9 +3025,15 @@ function VTT:BuildMountCollectionData()
     local charDB = VanillaTheThingsCharDB
     local playerFaction = UnitFactionGroup("player") or "Alliance"
     
+    if not DB or not DB.Mounts then
+        VTT.Print("|cFFFF0000DB.Mounts not loaded!|r")
+        return data
+    end
+    
     -- Helper to add mounts from a category
     local function addMounts(category, source)
-        for itemID, mount in pairs(category or {}) do
+        if not category then return end
+        for itemID, mount in pairs(category) do
             -- Filter by faction
             local factionOK = not mount.faction or mount.faction == "Both" or mount.faction == playerFaction
             
@@ -3066,13 +3072,11 @@ function VTT:BuildMountCollectionData()
     end
     
     -- Add all mount categories
-    if DB.Mounts then
-        addMounts(DB.Mounts.Epic60Alliance, "Vendor (60%)")
-        addMounts(DB.Mounts.Epic100Alliance, "Vendor (100%)")
-        addMounts(DB.Mounts.Epic60Horde, "Vendor (60%)")
-        addMounts(DB.Mounts.Epic100Horde, "Vendor (100%)")
-        addMounts(DB.Mounts.Special, "Special")
-    end
+    addMounts(DB.Mounts.Epic60Alliance, "Vendor (60%)")
+    addMounts(DB.Mounts.Epic100Alliance, "Vendor (100%)")
+    addMounts(DB.Mounts.Epic60Horde, "Vendor (60%)")
+    addMounts(DB.Mounts.Epic100Horde, "Vendor (100%)")
+    addMounts(DB.Mounts.Special, "Special")
     
     -- Sort
     if VTT.CollectionSort == "name" then
@@ -3092,8 +3096,14 @@ function VTT:BuildPetCollectionData()
     local charDB = VanillaTheThingsCharDB
     local playerFaction = UnitFactionGroup("player") or "Alliance"
     
+    if not DB or not DB.Pets then
+        VTT.Print("|cFFFF0000DB.Pets not loaded!|r")
+        return data
+    end
+    
     local function addPets(category, source)
-        for itemID, pet in pairs(category or {}) do
+        if not category then return end
+        for itemID, pet in pairs(category) do
             local factionOK = not pet.faction or pet.faction == "Both" or pet.faction == playerFaction
             
             if factionOK then
@@ -3180,21 +3190,23 @@ end
 
 function VTT:RefreshMountWindow()
     local content = getglobal("ATTMountFrameContent")
-    if not content then return end
+    if not content then 
+        VTT.Print("|cFFFF0000Mount content frame not found!|r")
+        return 
+    end
     
     -- Build data
+    VTT.CollectionFilter = "all"
     local data = self:BuildMountCollectionData()
     local charDB = VanillaTheThingsCharDB
     
+    VTT.Print("|cFF00CCFFMounts found: " .. table.getn(data) .. "|r")
+    
     -- Update header stats
-    local totalMounts = 0
+    local totalMounts = table.getn(data)
     local collectedMounts = 0
     
-    -- Count all mounts regardless of filter
-    VTT.CollectionFilter = "all"
-    local allData = self:BuildMountCollectionData()
-    for _, mount in ipairs(allData) do
-        totalMounts = totalMounts + 1
+    for _, mount in ipairs(data) do
         if charDB and charDB.collectedMounts and charDB.collectedMounts[mount.itemID] then
             collectedMounts = collectedMounts + 1
         end
@@ -3207,6 +3219,7 @@ function VTT:RefreshMountWindow()
     
     -- Create rows if needed
     if not mountRows[1] then
+        VTT.Print("|cFF00CCFFCreating mount rows...|r")
         for i = 1, MAX_COLLECTION_ROWS do
             mountRows[i] = VTT:CreateCollectionRow(content, "ATTMountRow" .. i, i, 280)
         end
@@ -3248,19 +3261,22 @@ end
 
 function VTT:RefreshPetWindow()
     local content = getglobal("ATTPetFrameContent")
-    if not content then return end
+    if not content then 
+        VTT.Print("|cFFFF0000Pet content frame not found!|r")
+        return 
+    end
     
+    VTT.CollectionFilter = "all"
     local data = self:BuildPetCollectionData()
     local charDB = VanillaTheThingsCharDB
     
+    VTT.Print("|cFF00CCFFPets found: " .. table.getn(data) .. "|r")
+    
     -- Count stats
-    local totalPets = 0
+    local totalPets = table.getn(data)
     local collectedPets = 0
     
-    VTT.CollectionFilter = "all"
-    local allData = self:BuildPetCollectionData()
-    for _, pet in ipairs(allData) do
-        totalPets = totalPets + 1
+    for _, pet in ipairs(data) do
         if charDB and charDB.collectedPets and charDB.collectedPets[pet.itemID] then
             collectedPets = collectedPets + 1
         end
@@ -3273,6 +3289,7 @@ function VTT:RefreshPetWindow()
     
     -- Create rows if needed
     if not petRows[1] then
+        VTT.Print("|cFF00CCFFCreating pet rows...|r")
         for i = 1, MAX_COLLECTION_ROWS do
             petRows[i] = VTT:CreateCollectionRow(content, "ATTPetRow" .. i, i, 280)
         end
