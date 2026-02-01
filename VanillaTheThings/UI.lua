@@ -3221,9 +3221,11 @@ function VTT:RefreshMountWindow()
     if not mountRows[1] then
         VTT.Print("|cFF00CCFFCreating mount rows...|r")
         for i = 1, MAX_COLLECTION_ROWS do
-            mountRows[i] = VTT:CreateCollectionRow(content, "ATTMountRow" .. i, i, 280)
+            mountRows[i] = VTT:CreateCollectionRow(content, "ATTMountRow" .. i, i, 276)
         end
     end
+    
+    VTT.Print("|cFF00CCFFPopulating " .. math.min(table.getn(data), MAX_COLLECTION_ROWS) .. " rows...|r")
     
     -- Populate rows
     for i = 1, MAX_COLLECTION_ROWS do
@@ -3253,6 +3255,9 @@ function VTT:RefreshMountWindow()
             end
             
             row:Show()
+            if i == 1 then
+                VTT.Print("|cFF00FF00First mount: " .. (item.name or "nil") .. "|r")
+            end
         elseif row then
             row:Hide()
         end
