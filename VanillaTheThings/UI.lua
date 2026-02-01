@@ -2365,6 +2365,8 @@ end
 --------------------------------------------------------------------------------
 
 function VTT:InitTracker()
+    VTT.Print("|cFF00FF00Initializing tracker...|r")
+    
     local tracker = getglobal("ATTTrackerFrame")
     if not tracker then 
         VTT.Print("|cFFFF0000Tracker frame not found!|r")
@@ -2378,7 +2380,10 @@ function VTT:InitTracker()
         return 
     end
     
+    VTT.Print("|cFF00FF00Creating " .. MAX_TRACKER_ROWS .. " tracker rows...|r")
+    
     -- Create tracker rows PROGRAMMATICALLY (not using template)
+    self.TrackerRows = {}  -- Reset to ensure clean state
     for i = 1, MAX_TRACKER_ROWS do
         local rowName = "ATTTrackerRow" .. i
         local row = CreateFrame("Button", rowName, content)
@@ -2442,9 +2447,14 @@ function VTT:InitTracker()
         end
     end
     
+    VTT.Print("|cFF00FF00Tracker rows created: " .. table.getn(self.TrackerRows) .. "|r")
+    
     -- Initial refresh
     self:RefreshTracker()
+    
+    VTT.Print("|cFF00FF00Tracker initialized!|r")
 end
+
 function VTT:SaveTrackerPosition()
     local tracker = self.TrackerFrame
     if not tracker then return end
@@ -2524,8 +2534,11 @@ end
 function VTT:BuildTrackerData()
     local data = {}
     
-    -- Early return if db not loaded yet
+    -- Always show something even if db not loaded
     if not VTT.db then
+        table.insert(data, {
+            text = "|cFFFF0000Database not loaded|r",
+        })
         self.TrackerData = data
         return data
     end
@@ -2679,15 +2692,22 @@ end
 
 function VTT:RefreshTracker()
     if self.TrackerMinimized then return end
-    if not VTT.db then return end  -- Not loaded yet
     
     local tracker = self.TrackerFrame or getglobal("ATTTrackerFrame")
-    if not tracker or not tracker:IsVisible() then return end
+    if not tracker then return end
     
-    -- Build data
+    -- Build data (handles db not loaded case internally)
     self:BuildTrackerData()
     local data = self.TrackerData
-    if not data then return end
+    local dataCount = data and table.getn(data) or 0
+    
+    VTT.Print("|cFF00CCFFRefreshTracker: " .. dataCount .. " data items, " .. table.getn(self.TrackerRows) .. " rows|r")
+    
+    if dataCount == 0 then 
+        -- Show fallback message if no data
+        data = {{ text = "|cFF888888No data available|r" }}
+        self.TrackerData = data
+    end
     
     -- Update zone display
     local zoneText = getglobal("ATTTrackerFrameZone")
