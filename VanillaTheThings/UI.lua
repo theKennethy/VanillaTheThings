@@ -3025,24 +3025,9 @@ function VTT:BuildMountCollectionData()
     local charDB = VanillaTheThingsCharDB
     local playerFaction = UnitFactionGroup("player") or "Alliance"
     
-    -- Debug: Check DB loading
-    if not DB then
-        DEFAULT_CHAT_FRAME:AddMessage("|cFFFF0000[VTT DEBUG] DB is nil!|r")
+    if not DB or not DB.Mounts then
         return data
     end
-    if not DB.Mounts then
-        DEFAULT_CHAT_FRAME:AddMessage("|cFFFF0000[VTT DEBUG] DB.Mounts is nil!|r")
-        return data
-    end
-    
-    -- Debug: Count categories
-    local catCount = 0
-    if DB.Mounts.Epic60Alliance then catCount = catCount + 1 end
-    if DB.Mounts.Epic100Alliance then catCount = catCount + 1 end
-    if DB.Mounts.Epic60Horde then catCount = catCount + 1 end
-    if DB.Mounts.Epic100Horde then catCount = catCount + 1 end
-    if DB.Mounts.Special then catCount = catCount + 1 end
-    DEFAULT_CHAT_FRAME:AddMessage("|cFFFFFF00[VTT DEBUG] Mount categories: " .. catCount .. ", Faction: " .. playerFaction .. "|r")
     
     -- Helper to add mounts from a category
     local function addMounts(category, source)
