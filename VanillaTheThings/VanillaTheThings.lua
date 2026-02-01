@@ -878,13 +878,6 @@ SlashCmdList["VTT"] = function(msg)
         else
             Print("Main window not available")
         end
-    elseif cmd == "mini" then
-        -- Toggle mini list
-        if VTT.ToggleMiniList then
-            VTT:ToggleMiniList()
-        else
-            Print("Mini list not available")
-        end
     elseif cmd == "mounts" then
         -- Toggle mount collection
         if VTT.ToggleMountWindow then
@@ -975,23 +968,10 @@ SlashCmdList["VTT"] = function(msg)
         -- Toggle debug mode
         VTT.Debug = not VTT.Debug
         Print("Debug mode: " .. (VTT.Debug and "|cFF00FF00ON|r" or "|cFFFF0000OFF|r"))
-    elseif cmd == "tracker" then
-        -- Toggle tracker
-        if VTT.ToggleTracker then
-            VTT:ToggleTracker()
-        elseif VTT.TrackerFrame then
-            if VTT.TrackerFrame:IsShown() then
-                VTT.TrackerFrame:Hide()
-            else
-                VTT.TrackerFrame:Show()
-            end
-        end
     elseif cmd == "help" then
         -- Show help
         Print("|cFFFFD700=== VanillaTheThings Commands ===|r")
         Print("|cFF00FF00/vtt|r - Toggle main window")
-        Print("|cFF00FF00/vtt mini|r - Toggle mini list")
-        Print("|cFF00FF00/vtt tracker|r - Toggle tracker")
         Print("|cFF00FF00/vtt mounts|r - Mount collection")
         Print("|cFF00FF00/vtt pets|r - Pet collection")
         Print("|cFF00FF00/vtt tree|r - Tree browser")
