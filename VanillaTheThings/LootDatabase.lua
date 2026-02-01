@@ -8,6 +8,11 @@
 
 local DB = VanillaTheThings_DB
 
+-- DEBUG: Track file loading
+if DEFAULT_CHAT_FRAME then
+    DEFAULT_CHAT_FRAME:AddMessage("|cFF00FF00[VTT] LootDatabase.lua START loading...|r")
+end
+
 --------------------------------------------------------------------------------
 -- Item Database (itemID -> item info)
 --------------------------------------------------------------------------------
@@ -9909,7 +9914,7 @@ function DB.GetFilterSummary()
         table.insert(parts, "Faction: " .. DB.SearchFilters.faction)
     end
     
-    if #parts == 0 then
+    if table.getn(parts) == 0 then
         return "No filters active"
     end
     
@@ -10117,3 +10122,15 @@ function DB.ExpandPathToItem(itemId)
     return true, path
 end
 
+-- DEBUG: Track file loading completion
+if DEFAULT_CHAT_FRAME then
+    local mountCats = 0
+    if DB.Mounts then
+        if DB.Mounts.Epic60Alliance then mountCats = mountCats + 1 end
+        if DB.Mounts.Epic100Alliance then mountCats = mountCats + 1 end
+        if DB.Mounts.Epic60Horde then mountCats = mountCats + 1 end
+        if DB.Mounts.Epic100Horde then mountCats = mountCats + 1 end
+        if DB.Mounts.Special then mountCats = mountCats + 1 end
+    end
+    DEFAULT_CHAT_FRAME:AddMessage("|cFF00FF00[VTT] LootDatabase.lua FINISHED! Mount categories: " .. mountCats .. "|r")
+end
