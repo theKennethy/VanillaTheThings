@@ -8277,8 +8277,8 @@ function DB.FormatCost(costs)
     for _, cost in ipairs(costs) do
         if cost.type == "GOLD" then
             local gold = math.floor(cost.amount / 10000)
-            local silver = math.floor((cost.amount % 10000) / 100)
-            local copper = cost.amount % 100
+            local silver = math.floor(math.mod(cost.amount, 10000) / 100)
+            local copper = math.mod(cost.amount, 100)
             if gold > 0 then
                 table.insert(parts, string.format("%dg %ds %dc", gold, silver, copper))
             elseif silver > 0 then
