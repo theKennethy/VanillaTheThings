@@ -616,14 +616,16 @@ function VTT:BuildMainListData()
     })
     
     if self:IsCategoryExpanded("exploration") then
-        for key, area in pairs(VTT.db.exploredAreas) do
-            table.insert(data, {
-                isHeader = false,
-                label = "  " .. area.name,
-                count = "",
-                indent = 1,
-                data = area,
-            })
+        if VTT.db and VTT.db.exploredAreas then
+            for key, area in pairs(VTT.db.exploredAreas) do
+                table.insert(data, {
+                    isHeader = false,
+                    label = "  " .. area.name,
+                    count = "",
+                    indent = 1,
+                    data = area,
+                })
+            end
         end
     end
     
@@ -639,14 +641,16 @@ function VTT:BuildMainListData()
     })
     
     if self:IsCategoryExpanded("flightpaths") then
-        for key, fp in pairs(VTT.db.knownFlightPaths) do
-            table.insert(data, {
-                isHeader = false,
-                label = "  " .. fp.name,
-                count = "",
-                indent = 1,
-                data = fp,
-            })
+        if VTT.db and VTT.db.knownFlightPaths then
+            for key, fp in pairs(VTT.db.knownFlightPaths) do
+                table.insert(data, {
+                    isHeader = false,
+                    label = "  " .. fp.name,
+                    count = "",
+                    indent = 1,
+                    data = fp,
+                })
+            end
         end
     end
     
@@ -918,16 +922,18 @@ function VTT:BuildMainListData()
     })
     
     if self:IsCategoryExpanded("items") then
-        for id, item in pairs(VTT.db.collectedItems) do
-            -- Filter: items in collectedItems are always collected
-            if self:ShouldShowItem(id, true) then
-                table.insert(data, {
-                    isHeader = false,
-                    label = "  |cFF00FF00✓|r " .. item.name,
-                    count = "|cFF00FF00Collected|r",
-                    indent = 1,
-                    data = item,
-                })
+        if VTT.db and VTT.db.collectedItems then
+            for id, item in pairs(VTT.db.collectedItems) do
+                -- Filter: items in collectedItems are always collected
+                if self:ShouldShowItem(id, true) then
+                    table.insert(data, {
+                        isHeader = false,
+                        label = "  |cFF00FF00✓|r " .. item.name,
+                        count = "|cFF00FF00Collected|r",
+                        indent = 1,
+                        data = item,
+                    })
+                end
             end
         end
     end
@@ -944,16 +950,18 @@ function VTT:BuildMainListData()
     })
     
     if self:IsCategoryExpanded("recipes") then
-        for id, recipe in pairs(VTT.db.learnedRecipes) do
-            -- Filter: recipes in learnedRecipes are always collected/learned
-            if self:ShouldShowItem(id, true) then
-                table.insert(data, {
-                    isHeader = false,
-                    label = "  |cFF00FF00✓|r " .. recipe.name,
-                    count = recipe.profession or "",
-                    indent = 1,
-                    data = recipe,
-                })
+        if VTT.db and VTT.db.learnedRecipes then
+            for id, recipe in pairs(VTT.db.learnedRecipes) do
+                -- Filter: recipes in learnedRecipes are always collected/learned
+                if self:ShouldShowItem(id, true) then
+                    table.insert(data, {
+                        isHeader = false,
+                        label = "  |cFF00FF00✓|r " .. recipe.name,
+                        count = recipe.profession or "",
+                        indent = 1,
+                        data = recipe,
+                    })
+                end
             end
         end
     end
@@ -1405,7 +1413,7 @@ function VTT:BuildMiniListData()
     if explorationAreas then
         zoneTotal = tlen(explorationAreas)
         for _, area in ipairs(explorationAreas) do
-            if VTT.db.exploredAreas[area] then
+            if VTT.db and VTT.db.exploredAreas and VTT.db.exploredAreas[area] then
                 zoneExplored = zoneExplored + 1
             end
         end
@@ -1439,7 +1447,7 @@ function VTT:BuildMiniListData()
         
         if self:IsCategoryExpanded("mini_exploration") or true then  -- Always expanded in mini
             for _, area in ipairs(explorationAreas) do
-                if not VTT.db.exploredAreas[area] then
+                if not (VTT.db and VTT.db.exploredAreas and VTT.db.exploredAreas[area]) then
                     table.insert(data, {
                         isHeader = false,
                         label = "  |cFFFF6666✗|r " .. area,
@@ -1463,7 +1471,7 @@ function VTT:BuildMiniListData()
     
     if flightPaths then
         for _, fp in ipairs(flightPaths) do
-            if fp.zone == zone and not VTT.db.knownFlightPaths[fp.name] then
+            if fp.zone == zone and not (VTT.db and VTT.db.knownFlightPaths and VTT.db.knownFlightPaths[fp.name]) then
                 table.insert(missingFPs, fp)
             end
         end
@@ -1473,7 +1481,7 @@ function VTT:BuildMiniListData()
     local neutralFPs = DB.FlightPaths and DB.FlightPaths.Neutral
     if neutralFPs then
         for _, fp in ipairs(neutralFPs) do
-            if fp.zone == zone and not VTT.db.knownFlightPaths[fp.name] then
+            if fp.zone == zone and not (VTT.db and VTT.db.knownFlightPaths and VTT.db.knownFlightPaths[fp.name]) then
                 table.insert(missingFPs, fp)
             end
         end

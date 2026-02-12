@@ -388,6 +388,7 @@ end
 
 local function MarkQuestCompleted(questName)
     if not questName then return end
+    if not VTT.db or not VTT.db.completedQuests then return end
     
     -- Create hash from quest name
     local hash = 0
@@ -401,10 +402,14 @@ local function MarkQuestCompleted(questName)
             completedAt = time(),
             completedBy = VTT.PlayerID,
         }
-        VTT.chardb.completedQuests[hash] = time()
-        VTT.db.statistics.questsCompleted = (VTT.db.statistics.questsCompleted or 0) + 1
+        if VTT.chardb and VTT.chardb.completedQuests then
+            VTT.chardb.completedQuests[hash] = time()
+        end
+        if VTT.db.statistics then
+            VTT.db.statistics.questsCompleted = (VTT.db.statistics.questsCompleted or 0) + 1
+        end
         
-        if VTT.settings.tooltips.enable then
+        if VTT.settings and VTT.settings.tooltips and VTT.settings.tooltips.enable then
             Print(string.format(L.MSG_QUEST_COMPLETED, questName))
         end
         return true
@@ -418,10 +423,12 @@ local function IsQuestCompleted(questName)
     for i = 1, string.len(questName) do
         hash = hash + string.byte(questName, i)
     end
+    if not VTT.db or not VTT.db.completedQuests then return false end
     return VTT.db.completedQuests[hash] ~= nil
 end
 
 local function CountCompletedQuests()
+    if not VTT.db or not VTT.db.completedQuests then return 0 end
     return tcount(VTT.db.completedQuests)
 end
 
@@ -460,14 +467,16 @@ local function GetReputationData()
             })
             
             -- Track reputation
-            if not VTT.db.earnedReputations[name] then
-                VTT.db.earnedReputations[name] = {}
+            if VTT.db and VTT.db.earnedReputations then
+                if not VTT.db.earnedReputations[name] then
+                    VTT.db.earnedReputations[name] = {}
+                end
+                VTT.db.earnedReputations[name][VTT.PlayerID] = {
+                    standingID = standingID,
+                    current = current,
+                    max = max,
+                }
             end
-            VTT.db.earnedReputations[name][VTT.PlayerID] = {
-                standingID = standingID,
-                current = current,
-                max = max,
-            }
         end
     end
     
@@ -565,6 +574,7 @@ VTT.GetAllSkillData = GetAllSkillData
 
 local function MarkRecipeLearned(recipeID, recipeName, profession)
     if not recipeID or not recipeName then return end
+    if not VTT.db or not VTT.db.learnedRecipes then return end
     
     if not VTT.db.learnedRecipes[recipeID] then
         VTT.db.learnedRecipes[recipeID] = {
@@ -580,10 +590,12 @@ local function MarkRecipeLearned(recipeID, recipeName, profession)
 end
 
 local function IsRecipeLearned(recipeID)
+    if not VTT.db or not VTT.db.learnedRecipes then return false end
     return VTT.db.learnedRecipes[recipeID] ~= nil
 end
 
 local function CountLearnedRecipes()
+    if not VTT.db or not VTT.db.learnedRecipes then return 0 end
     return tcount(VTT.db.learnedRecipes)
 end
 
@@ -597,6 +609,7 @@ VTT.CountLearnedRecipes = CountLearnedRecipes
 
 local function MarkItemCollected(itemID, itemName)
     if not itemID then return end
+    if not VTT.db or not VTT.db.collectedItems then return end
     
     if not VTT.db.collectedItems[itemID] then
         VTT.db.collectedItems[itemID] = {
@@ -613,10 +626,12 @@ local function MarkItemCollected(itemID, itemName)
 end
 
 local function IsItemCollected(itemID)
+    if not VTT.db or not VTT.db.collectedItems then return false end
     return VTT.db.collectedItems[itemID] ~= nil
 end
 
 local function CountCollectedItems()
+    if not VTT.db or not VTT.db.collectedItems then return 0 end
     return tcount(VTT.db.collectedItems)
 end
 
@@ -630,6 +645,7 @@ VTT.CountCollectedItems = CountCollectedItems
 
 local function MarkFlightPathKnown(nodeName, nodeID)
     if not nodeName then return end
+    if not VTT.db or not VTT.db.knownFlightPaths then return end
     
     local key = nodeID or nodeName
     if not VTT.db.knownFlightPaths[key] then
@@ -645,6 +661,7 @@ local function MarkFlightPathKnown(nodeName, nodeID)
 end
 
 local function CountKnownFlightPaths()
+    if not VTT.db or not VTT.db.knownFlightPaths then return 0 end
     return tcount(VTT.db.knownFlightPaths)
 end
 
@@ -657,6 +674,7 @@ VTT.CountKnownFlightPaths = CountKnownFlightPaths
 
 local function MarkAreaExplored(areaName, zoneID)
     if not areaName then return end
+    if not VTT.db or not VTT.db.exploredAreas then return end
     
     local key = zoneID or areaName
     if not VTT.db.exploredAreas[key] then
@@ -672,6 +690,7 @@ local function MarkAreaExplored(areaName, zoneID)
 end
 
 local function CountExploredAreas()
+    if not VTT.db or not VTT.db.exploredAreas then return 0 end
     return tcount(VTT.db.exploredAreas)
 end
 
@@ -683,11 +702,15 @@ VTT.CountExploredAreas = CountExploredAreas
 --------------------------------------------------------------------------------
 
 local function RecordDeath()
+    if not VTT.db or not VTT.db.statistics then return end
     VTT.db.statistics.deaths = (VTT.db.statistics.deaths or 0) + 1
-    VTT.chardb.deaths = (VTT.chardb.deaths or 0) + 1
+    if VTT.chardb then
+        VTT.chardb.deaths = (VTT.chardb.deaths or 0) + 1
+    end
 end
 
 local function GetDeathCount()
+    if not VTT.db or not VTT.db.statistics then return 0 end
     return VTT.db.statistics.deaths or 0
 end
 
@@ -699,6 +722,10 @@ VTT.GetDeathCount = GetDeathCount
 --------------------------------------------------------------------------------
 
 local function GetStatistics()
+    local charCount = 0
+    if VTT.db and VTT.db.characters then
+        charCount = tcount(VTT.db.characters)
+    end
     return {
         questsCompleted = CountCompletedQuests(),
         reputationsMaxed = CountMaxedReputations(),
@@ -707,7 +734,7 @@ local function GetStatistics()
         flightPathsKnown = CountKnownFlightPaths(),
         areasExplored = CountExploredAreas(),
         deaths = GetDeathCount(),
-        characters = tcount(VTT.db.characters),
+        characters = charCount,
     }
 end
 
@@ -737,42 +764,49 @@ VTT.RefreshAllData = RefreshAllData
 
 local function SearchDatabase(query)
     if not query or query == "" then return {} end
+    if not VTT.db then return {} end
     
     query = string.lower(query)
     local results = {}
     
     -- Search completed quests
-    for hash, data in pairs(VTT.db.completedQuests) do
-        if data.name and string.find(string.lower(data.name), query) then
-            tinsert(results, {
-                type = "quest",
-                name = data.name,
-                data = data,
-            })
+    if VTT.db.completedQuests then
+        for hash, data in pairs(VTT.db.completedQuests) do
+            if data.name and string.find(string.lower(data.name), query) then
+                tinsert(results, {
+                    type = "quest",
+                    name = data.name,
+                    data = data,
+                })
+            end
         end
     end
     
     -- Search collected items
-    for id, data in pairs(VTT.db.collectedItems) do
-        if data.name and string.find(string.lower(data.name), query) then
-            tinsert(results, {
-                type = "item",
-                id = id,
-                name = data.name,
-                data = data,
-            })
+    if VTT.db.collectedItems then
+        for id, data in pairs(VTT.db.collectedItems) do
+            if data.name and string.find(string.lower(data.name), query) then
+                tinsert(results, {
+                    type = "item",
+                    id = id,
+                    name = data.name,
+                    data = data,
+                })
+            end
         end
     end
     
     -- Search learned recipes
-    for id, data in pairs(VTT.db.learnedRecipes) do
-        if data.name and string.find(string.lower(data.name), query) then
-            tinsert(results, {
-                type = "recipe",
-                id = id,
-                name = data.name,
-                data = data,
-            })
+    if VTT.db.learnedRecipes then
+        for id, data in pairs(VTT.db.learnedRecipes) do
+            if data.name and string.find(string.lower(data.name), query) then
+                tinsert(results, {
+                    type = "recipe",
+                    id = id,
+                    name = data.name,
+                    data = data,
+                })
+            end
         end
     end
     
