@@ -2022,7 +2022,7 @@
             </Layers>
         </Frame>
         <!-- Tree Content Area -->
-        <ScrollFrame name="ATTTreeBrowserScrollFrame">
+        <ScrollFrame name="ATTTreeBrowserScrollFrame" inherits="FauxScrollFrameTemplate">
             <Size>
                 <AbsDimension x="358" y="400"/>
             </Size>
@@ -2051,17 +2051,6 @@
                 </OnVerticalScroll>
             </Scripts>
         </ScrollFrame>
-        <!-- Scroll Bar -->
-        <Slider name="ATTTreeBrowserScrollFrameScrollBar" inherits="FauxScrollFrameTemplate">
-            <Size>
-                <AbsDimension x="16" y="400"/>
-            </Size>
-            <Anchors>
-                <Anchor point="TOPRIGHT">
-                    <Offset><AbsDimension x="-2" y="-78"/></Offset>
-                </Anchor>
-            </Anchors>
-        </Slider>
     </Frames>
     <Scripts>
         <OnLoad>
