@@ -751,7 +751,7 @@
             </Anchors>
             <Scripts>
                 <OnVerticalScroll>
-                    FauxScrollFrame_OnVerticalScroll(18, VanillaTheThings.UpdateMiniList)
+                    FauxScrollFrame_OnVerticalScroll(self, offset, 18, VanillaTheThings.UpdateMiniList)
                 </OnVerticalScroll>
             </Scripts>
         </ScrollFrame>
@@ -955,7 +955,7 @@
             </Anchors>
             <Scripts>
                 <OnVerticalScroll>
-                    FauxScrollFrame_OnVerticalScroll(22, VanillaTheThings.UpdateRaidList)
+                    FauxScrollFrame_OnVerticalScroll(self, offset, 22, VanillaTheThings.UpdateRaidList)
                 </OnVerticalScroll>
             </Scripts>
         </ScrollFrame>
@@ -2043,7 +2043,7 @@
             </Frames>
             <Scripts>
                 <OnVerticalScroll>
-                    FauxScrollFrame_OnVerticalScroll(16, function()
+                    FauxScrollFrame_OnVerticalScroll(self, offset, 16, function()
                         if VanillaTheThings and VanillaTheThings.RefreshTreeBrowser then
                             VanillaTheThings:RefreshTreeBrowser()
                         end
