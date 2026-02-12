@@ -1,9 +1,0 @@
-## Interface: 11200
-## Title: VanillaTheThings |cFFFFFFFF1.12.1|r
-## Notes: Track your collections in World of Warcraft 1.12.1 - Quests, Reputations, Recipes, Exploration, Items, and more!
-## Author: Crieve-Sargeras (1.12.1 port)
-## Version: 1.0.0
-## SavedVariables: VanillaTheThingsDB
-## SavedVariablesPerCharacter: VanillaTheThingsCharDB
-
-VanillaTheThings.xml

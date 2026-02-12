@@ -3582,7 +3582,7 @@ function VTT:RefreshTreeBrowser()
         FauxScrollFrame_Update(scrollFrame, table.getn(flatData), self.TreeBrowserState.maxVisibleRows, self.TreeBrowserState.rowHeight)
     end
     
-    local offset = FauxScrollFrame_GetOffset(scrollFrame) or 0
+    local offset = scrollFrame and FauxScrollFrame_GetOffset(scrollFrame) or 0
     
     -- Update count text
     local countText = getglobal("ATTTreeBrowserCount")
